@@ -26,6 +26,31 @@ script "ArgentMonitor" enter {
 }
 
 /*
+ * For the pistol, give it bars to indicate its' charge status.
+ */
+script "PistolChargeCircle" enter {
+    int ChargeAmount;
+    
+    if(!CheckWeapon("ArgPistol") || !CheckInventory ("ArgPistolCharge"))
+    {
+        Delay(1);
+        Restart;
+    }
+    
+    ChargeAmount = CheckInventory ("ArgPistolCharge") * 64 / 45;
+    
+    SetHudSize (640, 480, 1);
+    SetHudClipRect (288, 208 + (64 - ChargeAmount), 64, ChargeAmount);
+    SetFont("PCHARGE");
+	HudMessage(s:"A"; HUDMSG_PLAIN | HUDMSG_ALPHA, 250, CR_UNTRANSLATED, 320.0, 240.0, 0, 0.5);
+	
+	Delay(1);
+    
+    HudMessage(s:""; HUDMSG_PLAIN, 250, CR_UNTRANSLATED, 0, 0, 0);
+	Restart;
+}
+
+/*
  * Swaps the player's active weapon mod. This script just swaps the tokens;
  * the base ArgWeaponMod definition handles the state jumps and the initiation
  * of the swap animation.

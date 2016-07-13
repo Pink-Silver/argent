@@ -10,8 +10,7 @@ ACTOR ArgHealthBonus : Health replaces HealthBonus
 	+RANDOMIZE
 	+COUNTITEM
 	+INVENTORY.ALWAYSPICKUP
-	Inventory.Amount 1
-	Inventory.MaxAmount 200
+	Inventory.Amount 5
 	Inventory.PickupSound "items/health"
 	Inventory.PickupMessage "$GOTHTHBONUS"
 	States
@@ -69,9 +68,26 @@ ACTOR SphereMega : CustomInventory replaces Megasphere
 		MEGA A 5 BRIGHT
 		Loop
 	Pickup:
-		TNT1 A 0 A_GiveInventory("ArgArmorBlue", 1)
+		TNT1 A 0 ACS_NamedExecuteWithResult("Orange_GiveArmor", 150)
 		TNT1 A 0 A_GiveInventory("MegasphereHealth", 1)
 		TNT1 A 0 A_ChangeFlag("ACTLIKEBRIDGE",0)
 		Stop
 	}
+}
+
+ACTOR SphereSoul : Health replaces SoulSphere
+{
+    +COUNTITEM
+    +INVENTORY.AUTOACTIVATE
+    +INVENTORY.ALWAYSPICKUP
+    +INVENTORY.FANCYPICKUPSOUND
+    Inventory.Amount 100
+    Inventory.PickupMessage "$GOTSUPER"
+    Inventory.PickupSound "misc/p_pkup"
+    States
+    {
+    Spawn:
+        SOUL ABCDCB 6 Bright
+        Loop
+    }
 }

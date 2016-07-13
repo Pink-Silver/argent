@@ -197,3 +197,27 @@ ACTOR ArgBackpack : Backpack replaces Backpack
 {
 	Inventory.PickupSound "items/ammo"
 }
+
+// --------------------------------------------------------------------------
+//
+// ARGENT ORANGE: Additional Powerups
+//
+// --------------------------------------------------------------------------
+
+// -- Argent Cell --
+
+ACTOR ArgArgentCell : ArgPowerup replaces Backpack
+{
+	Inventory.PickupMessage "$ARG_GOT_ARGENTCELL"
+	Inventory.PickupSound "items/powerup"
+    
+	States
+	{
+	Spawn:
+		ARGN ABCD 6 Bright
+		Loop
+	Pickup:
+		TNT1 A 0 ACS_NamedExecuteWithResult("Orange_ArgentCell")
+		Stop
+	}
+}

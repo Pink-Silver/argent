@@ -4,17 +4,21 @@
 //
 // --------------------------------------------------------------------------
 
-ACTOR ArgArmorBonus : BasicArmorBonus replaces ArmorBonus
+ACTOR ArgArmor : BasicArmorBonus
+{
+	Inventory.Icon "BON2B0"
+	Armor.Savepercent 100
+	Armor.Saveamount 1
+	Armor.Maxsaveamount 150
+}
+
+ACTOR ArgArmorBonus : CustomInventory replaces ArmorBonus
 {
 	Radius 20
 	Height 16
 	Scale 0.66
 	Inventory.PickupSound "items/shard"
 	Inventory.Pickupmessage "$GOTARMBONUS"
-	Inventory.Icon "BON2B0"
-	Armor.Savepercent 33.33333
-	Armor.Saveamount 1
-	Armor.Maxsaveamount 200
 	+RANDOMIZE
 	+COUNTITEM
 	+INVENTORY.ALWAYSPICKUP
@@ -24,10 +28,13 @@ ACTOR ArgArmorBonus : BasicArmorBonus replaces ArmorBonus
 		BON2 A 30
 		BON2 A 5 BRIGHT
 		loop
+	Pickup:
+	    TNT1 A 0 ACS_NamedExecuteWithResult("Orange_GiveArmor", 5)
+	    Stop
 	}
 }
 
-ACTOR ArgArmorGreen : BasicArmorPickup replaces GreenArmor
+ACTOR ArgArmorGreen : CustomInventory replaces GreenArmor
 {
 	Radius 20
 	Height 16
@@ -35,19 +42,19 @@ ACTOR ArgArmorGreen : BasicArmorPickup replaces GreenArmor
 	+RANDOMIZE
 	Inventory.PickupSound "items/armor"
 	Inventory.Pickupmessage "$GOTARMOR"
-	Inventory.Icon "BON2B0"
-	Armor.SavePercent 33.33333
-	Armor.SaveAmount 100
 	States
 	{
 	Spawn:
 		ARM1 A 30
 		ARM1 A 5 bright
 		loop
+	Pickup:
+	    TNT1 A 0 ACS_NamedExecuteWithResult("Orange_GiveArmor", 50)
+	    Stop
 	}
 }
 
-ACTOR ArgArmorBlue : BasicArmorPickup replaces BlueArmor
+ACTOR ArgArmorBlue : CustomInventory replaces BlueArmor
 {
 	Radius 20
 	Height 16
@@ -55,14 +62,14 @@ ACTOR ArgArmorBlue : BasicArmorPickup replaces BlueArmor
 	+RANDOMIZE
 	Inventory.PickupSound "items/armor"
 	Inventory.Pickupmessage "$GOTMEGA"
-	Inventory.Icon "BON2C0"
-	Armor.Savepercent 50
-	Armor.Saveamount 200
 	States
 	{
 	Spawn:
 		ARM2 A 30
 		ARM2 A 5 bright
 		loop
+	Pickup:
+	    TNT1 A 0 ACS_NamedExecuteWithResult("Orange_GiveArmor", 100)
+	    Stop
 	}
 }

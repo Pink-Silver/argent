@@ -287,7 +287,6 @@ script "Orange_TaggedMonster" (void)
                 if (ACS_NamedExecuteWithResult ("Orange_CheckForLudicrousHealth"))
                     HealthDrops *= 3;
                 
-                TakeInventory ("ArgPistolTag", 350);
                 SetActorState (0, "XDeath");
                 
                 // DROOOOOPSSSS
@@ -303,6 +302,8 @@ script "Orange_TaggedMonster" (void)
                 if (!Random (0, 15)) DropItem (0, "ArgRocketAmmo", -1, 256);
                 if (!Random (0, 15)) DropItem (0, "ArgCell", -1, 256);
             }
+            
+            TakeInventory ("ArgPistolTag", 350);
         }
         
         Delay (1);

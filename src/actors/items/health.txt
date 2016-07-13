@@ -22,6 +22,11 @@ ACTOR ArgHealthBonus : Health replaces HealthBonus
 	}
 }
 
+ACTOR ArgHealthBonusDropped : ArgHealthBonus
+{
+    -COUNTITEM
+}
+
 ACTOR ArgStimpack : Health replaces Stimpack
 {
 	Scale 0.5

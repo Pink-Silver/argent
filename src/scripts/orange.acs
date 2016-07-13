@@ -243,3 +243,95 @@ script "Orange_GiveArmor" (int amount)
     
     SetResultValue (TRUE);
 }
+
+script "Orange_TagPlayerXPos" (void) { SetActivator (0, AAPTR_TARGET); SetResultValue (GetActorX (0)); }
+script "Orange_TagPlayerYPos" (void) { SetActivator (0, AAPTR_TARGET); SetResultValue (GetActorY (0)); }
+script "Orange_TagMonsterXPos" (void) { SetActivator (0, AAPTR_MASTER); SetResultValue (GetActorX (0)); }
+script "Orange_TagMonsterYPos" (void) { SetActivator (0, AAPTR_MASTER); SetResultValue (GetActorY (0)); }
+
+script "Orange_TagMonster" (void)
+{
+    int PlayerX = GetActorX (0);
+    int PlayerY = GetActorY (0);
+    if (!Random (0, 9) && VectorLength (ACS_NamedExecuteWithResult ("Orange_TagMonsterXPos") - ACS_NamedExecuteWithResult ("Orange_TagPlayerXPos"), ACS_NamedExecuteWithResult ("Orange_TagMonsterYPos") - ACS_NamedExecuteWithResult ("Orange_TagPlayerYPos")) <= 384.0) ACS_NamedExecuteWithResult ("Orange_TaggedMonster");
+}
+
+script "Orange_TaggedMonster" (void)
+{
+    SetActivator (0, AAPTR_MASTER);
+    
+    if (CheckInventory ("ArgPistolTag"))
+    {
+        GiveInventory ("ArgPistolTag", 70);
+        Terminate;
+    }
+    
+    GiveInventory ("ArgPistolTag", 175);
+    if (CheckFlag (1, "BOSS")) TakeInventory ("ArgPistolTag", 70);
+    
+    while (CheckInventory ("ArgPistolTag"))
+    {
+        int Radius = GetActorProperty (0, APROP_Radius);
+        int Height = GetActorProperty (0, APROP_Height);
+        if (!Random (0, 3)) SpawnParticle (0x0000FF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+        if (!Random (0, 3)) SpawnParticle (0x4040FF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+        if (!Random (0, 3)) SpawnParticle (0x8080FF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+        if (!Random (0, 3)) SpawnParticle (0xC0C0FF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+        if (!Random (0, 3)) SpawnParticle (0xFFFFFF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+        
+        if (!(ClassifyActor (0) & ACTOR_ALIVE))
+        {
+            if (!ACS_NamedExecuteWithResult ("Orange_CheckForPistolKill"))
+            {
+                int HealthDrops = Random (1, 3);
+                if (ACS_NamedExecuteWithResult ("Orange_CheckForLudicrousHealth"))
+                    HealthDrops *= 3;
+                
+                TakeInventory ("ArgPistolTag", 350);
+                SetActorState (0, "XDeath");
+                
+                // DROOOOOPSSSS
+                while (HealthDrops > 0)
+                {
+                    DropItem (0, "ArgHealthBonusDropped", -1, 256);
+                    HealthDrops--;
+                }
+                
+                // Occasionally drop a few ammo pickups even if we haven't used the chainsaw
+                if (!Random (0, 15)) DropItem (0, "ArgClip", -1, 256);
+                if (!Random (0, 15)) DropItem (0, "ArgShell", -1, 256);
+                if (!Random (0, 15)) DropItem (0, "ArgRocketAmmo", -1, 256);
+                if (!Random (0, 15)) DropItem (0, "ArgCell", -1, 256);
+            }
+        }
+        
+        Delay (1);
+        TakeInventory ("ArgPistolTag", 1);
+    }
+}
+
+script "Orange_CheckForPistolKill" (void)
+{
+    SetActivator (0, AAPTR_TARGET);
+    
+    if (CheckWeapon ("ArgPistol"))
+    {
+        SetResultValue (TRUE);
+        Terminate;
+    }
+    
+    SetResultValue (FALSE);
+}
+
+script "Orange_CheckForLudicrousHealth" (void)
+{
+    SetActivator (0, AAPTR_TARGET);
+    
+    if (GetActorProperty (0, APROP_Health) <= 25)
+    {
+        SetResultValue (TRUE);
+        Terminate;
+    }
+    
+    SetResultValue (FALSE);
+}

@@ -402,6 +402,9 @@ ACTOR ArgCyberDAMN : Cyberdemon replaces Cyberdemon
 	DropItem "ArgGaussCannon"
 	States
 	{
+	Pain:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_DropAmmoIfTagged")
+	    Goto Super::Pain
 	Death:
 	XDeath:
 		CYBR H 5
@@ -435,6 +438,9 @@ ACTOR ArgSPIDARS_AAAH_KILL_IT_WITH_FIRE : SpiderMastermind replaces SpiderMaster
 	DropItem "ArgChaingun"
 	States
 	{
+	Pain:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_DropAmmoIfTagged")
+	    Goto Super::Pain
 	Death:
 	XDeath:
 		SPID J 20 A_Scream

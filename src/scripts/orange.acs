@@ -245,6 +245,19 @@ script "Orange_TagMonster" (void)
     ACS_NamedExecuteWithResult ("Orange_TaggedMonster");
 }
 
+script "Orange_DropAmmoIfTagged" (void)
+{
+    str AmmoTypes[4] = {
+        "ArgClip",
+        "ArgShell",
+        "ArgRocketAmmo",
+        "ArgCell"
+    };
+    
+    if (CheckInventory ("ArgPistolTag"))
+        DropItem (0, AmmoTypes[Random (0, 3)], -1, 256);
+}
+
 script "Orange_TaggedMonster" (void)
 {
     SetActivator (0, AAPTR_MASTER);

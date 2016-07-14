@@ -6,9 +6,11 @@
 
 ACTOR ArgZombieman : Zombieman replaces Zombieman
 {
+    DropItem ""
 	States
 	{
 	Death:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_DropWeaponsAppropriately")
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")
 		Goto Super::Death
 	XDeath:
@@ -32,9 +34,11 @@ ACTOR ArgZombieman : Zombieman replaces Zombieman
 
 ACTOR ArgShotgunGuy : ShotgunGuy replaces ShotgunGuy
 {
+    DropItem ""
 	States
 	{
 	Death:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_DropWeaponsAppropriately")
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")
 		Goto Super::Death
 	XDeath:
@@ -58,9 +62,11 @@ ACTOR ArgShotgunGuy : ShotgunGuy replaces ShotgunGuy
 
 ACTOR ArgChaingunGuy : ChaingunGuy replaces ChaingunGuy
 {
+    DropItem ""
 	States
 	{
 	Death:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_DropWeaponsAppropriately")
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")
 		Goto Super::Death
 	XDeath:
@@ -460,9 +466,11 @@ ACTOR ArgSPIDARS_AAAH_KILL_IT_WITH_FIRE : SpiderMastermind replaces SpiderMaster
 
 ACTOR ArgNazi : WolfensteinSS replaces WolfensteinSS
 {
+    DropItem ""
 	States
 	{
 	Death:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_DropWeaponsAppropriately")
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")
 		Goto Super::Death
 	XDeath:

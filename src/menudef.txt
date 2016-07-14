@@ -70,4 +70,7 @@ OptionMenu "ArgentMenu"
 	Control		"Use Equipment"                , "invuse"
 	Control		"Next Equipment"               , "invnext"
 	Control		"Previous Equipment"           , "invprev"
+	StaticText 	""
+	StaticText 	"Orange Options"               , 1
+	Option      "Weapon Drops Require Tags"    , "arg_tagweapons"    , "DisabledEnabled"
 }

@@ -8,3 +8,23 @@ ACTOR ArgBarrel : ExplosiveBarrel replaces ExplosiveBarrel
 {
 	+EXTREMEDEATH
 }
+
+ACTOR ArgMakeFaster : CustomInventory
+{
+    States
+    {
+    Pickup:
+        TNT1 A 0 A_ChangeFlag ("ALWAYSFAST", 1)
+        Stop
+    }
+}
+
+ACTOR ArgMakeSlower : CustomInventory
+{
+    States
+    {
+    Pickup:
+        TNT1 A 0 A_ChangeFlag ("ALWAYSFAST", 0)
+        Stop
+    }
+}

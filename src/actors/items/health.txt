@@ -79,20 +79,3 @@ ACTOR SphereMega : CustomInventory replaces Megasphere
 		Stop
 	}
 }
-
-ACTOR SphereSoul : Health replaces SoulSphere
-{
-    +COUNTITEM
-    +INVENTORY.AUTOACTIVATE
-    +INVENTORY.ALWAYSPICKUP
-    +INVENTORY.FANCYPICKUPSOUND
-    Inventory.Amount 100
-    Inventory.PickupMessage "$GOTSUPER"
-    Inventory.PickupSound "misc/p_pkup"
-    States
-    {
-    Spawn:
-        SOUL ABCDCB 6 Bright
-        Loop
-    }
-}

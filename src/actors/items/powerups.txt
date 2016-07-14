@@ -171,6 +171,7 @@ ACTOR ArgInfrared : Infrared replaces Infrared
 
 ACTOR ArgSoulsphere : Soulsphere replaces Soulsphere
 {
+    Inventory.MaxAmount 0
 	Inventory.PickupSound "items/megahealth"
 	States
 	{

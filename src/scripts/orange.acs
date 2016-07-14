@@ -262,7 +262,7 @@ script "Orange_TaggedMonster" (void)
 {
     SetActivator (0, AAPTR_MASTER);
     
-    if ((GetActorProperty (0, APROP_SpawnHealth) >= 100 && Random (0, 9)) && !CheckInventory ("ArgPistolTag"))
+    if (Random (0, 9) && !CheckInventory ("ArgPistolTag"))
         Terminate;
     
     if (!Random (0, 15) && !CheckFlag (0, "ALWAYSFAST"))

@@ -65,11 +65,11 @@ script "Orange_HUD" enter
                 SetFont ("SREDBAR1");
                 if (i > upgrades) SetFont ("SREDBAR0");
                 
-                HudMessage (s:"A"; HUDMSG_PLAIN, 252 + (6 * (bar - 1)) + i, CR_UNTRANSLATED, 32.0 + (8.0 * (i - 1)), 400.0 + (20.0 * (bar - 1)), 0);
+                HudMessage (s:"A"; HUDMSG_PLAIN, 252 + (6 * (bar - 1)) + i, CR_UNTRANSLATED, 32.0 + (8.0 * (i - 1)), 355.0 + (20.0 * (bar - 1)), 0);
             }
             
             SetFont ("SmallFont");
-            HudMessage (s:barlabel; HUDMSG_PLAIN, 252 + (6 * (bar - 1)), CR_RED, 72.1, 400.0 + (20.0 * (bar - 1)), 0);
+            HudMessage (s:barlabel; HUDMSG_PLAIN, 252 + (6 * (bar - 1)), CR_RED, 72.1, 355.0 + (20.0 * (bar - 1)), 0);
         }
         
         Delay (1);
@@ -262,7 +262,10 @@ script "Orange_TaggedMonster" (void)
 {
     SetActivator (0, AAPTR_MASTER);
     
-    if (Random (0, 9) && !CheckInventory ("ArgPistolTag"))
+    int Chance = 9;
+    if (GetActorProperty (0, APROP_SpawnHealth) < 100) Chance = 4;
+    
+    if (Random (0, Chance) && !CheckInventory ("ArgPistolTag"))
         Terminate;
     
     if (!Random (0, 15) && !CheckFlag (0, "ALWAYSFAST"))
@@ -290,19 +293,19 @@ script "Orange_TaggedMonster" (void)
         int Height = GetActorProperty (0, APROP_Height);
         if (!CheckFlag (0, "ALWAYSFAST"))
         {
-            if (!Random (0, 3)) SpawnParticle (0x0000FF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-            if (!Random (0, 3)) SpawnParticle (0x4040FF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-            if (!Random (0, 3)) SpawnParticle (0x8080FF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+            if (!Random (0, 3)) SpawnParticle (0x0000FF, TRUE, 20, 4, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+            if (!Random (0, 3)) SpawnParticle (0x4040FF, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+            if (!Random (0, 3)) SpawnParticle (0x8080FF, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
             if (!Random (0, 3)) SpawnParticle (0xC0C0FF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
             if (!Random (0, 3)) SpawnParticle (0xFFFFFF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
         }
         else
         {
-            if (!Random (0, 3)) SpawnParticle (0xFF0000, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-            if (!Random (0, 3)) SpawnParticle (0xFF4000, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-            if (!Random (0, 3)) SpawnParticle (0xFF8000, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-            if (!Random (0, 3)) SpawnParticle (0xFFC000, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-            if (!Random (0, 3)) SpawnParticle (0xFFFF00, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+            if (!Random (0, 3)) SpawnParticle (0xFF0000, TRUE, 20, 4, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+            if (!Random (0, 3)) SpawnParticle (0xFF4040, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+            if (!Random (0, 3)) SpawnParticle (0xFF8080, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+            if (!Random (0, 3)) SpawnParticle (0xFFC0C0, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+            if (!Random (0, 3)) SpawnParticle (0xFFFFFF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
         }
         
         if (!(ClassifyActor (0) & ACTOR_ALIVE))
@@ -331,16 +334,16 @@ script "Orange_TaggedMonster" (void)
                     DropItem (0, drop, -1, 256);
                 }
                 // Drop ammo (At least one) if we're low on ammo
-                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 0)) { DropItem (0, "ArgClip", -1, 256); DropItem (0, "ArgClip", -1, 85); DropItem (0, "ArgClip", -1, 85); }
-                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 1)) { DropItem (0, "ArgShell", -1, 256); DropItem (0, "ArgShell", -1, 85); DropItem (0, "ArgShell", -1, 85); }
-                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 2)) { DropItem (0, "ArgRocketAmmo", -1, 256); DropItem (0, "ArgRocketAmmo", -1, 85); DropItem (0, "ArgRocketAmmo", -1, 85); }
-                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 3)) { DropItem (0, "ArgCell", -1, 256); DropItem (0, "ArgCell", -1, 85); DropItem (0, "ArgCell", -1, 85); }
+                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 0)) { DropItem (0, "ArgClipDropped", -1, 256); DropItem (0, "ArgClipDropped", -1, 85); DropItem (0, "ArgClipDropped", -1, 85); }
+                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 1)) { DropItem (0, "ArgShellDropped", -1, 256); DropItem (0, "ArgShellDropped", -1, 85); DropItem (0, "ArgShellDropped", -1, 85); }
+                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 2)) { DropItem (0, "ArgRocketAmmoDropped", -1, 256); DropItem (0, "ArgRocketAmmoDropped", -1, 85); DropItem (0, "ArgRocketAmmoDropped", -1, 85); }
+                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 3)) { DropItem (0, "ArgCellDropped", -1, 256); DropItem (0, "ArgCellDropped", -1, 85); DropItem (0, "ArgCellDropped", -1, 85); }
                 
                 // Occasionally drop a few random ammo pickups even if we haven't used the chainsaw
-                DropItem (0, "ArgClip", -1, 32);
-                DropItem (0, "ArgShell", -1, 32);
-                DropItem (0, "ArgRocketAmmo", -1, 32);
-                DropItem (0, "ArgCell", -1, 32);
+                DropItem (0, "ArgClipDropped", -1, 32);
+                DropItem (0, "ArgShellDropped", -1, 32);
+                DropItem (0, "ArgRocketAmmoDropped", -1, 32);
+                DropItem (0, "ArgCellDropped", -1, 32);
             }
             
             TakeInventory ("ArgPistolTag", 350);
@@ -412,4 +415,41 @@ script "Orange_DropWeaponsAppropriately" (void)
     
     if (!GetCVar ("arg_tagweapons"))
         DropItem (0, drop, -1, 256);
+}
+
+script "Orange_TemporaryItem" (void)
+{
+    int Radius = GetActorProperty (0, APROP_Radius);
+    int Height = GetActorProperty (0, APROP_Height);
+    
+    int Counter = 35 * 7;
+    while (Counter)
+    {
+        if (!Random (0, 15)) SpawnParticle (0xFFFF00, TRUE, 20, 4, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+        if (!Random (0, 15)) SpawnParticle (0xFFFF40, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+        if (!Random (0, 15)) SpawnParticle (0xFFFF80, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+        if (!Random (0, 15)) SpawnParticle (0xFFFFC0, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+        if (!Random (0, 15)) SpawnParticle (0xFFFFFF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+        
+        Delay (1);
+        Counter--;
+    }
+    
+    SetActorProperty (0, APROP_RenderStyle, STYLE_Add);
+    SetActorProperty (0, APROP_Alpha, 0.5);
+    
+    Counter = 35 * 3;
+    while (Counter)
+    {
+        if (!Random (0, 15)) SpawnParticle (0xFFFF00, TRUE, 20, 4, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+        if (!Random (0, 15)) SpawnParticle (0xFFFF40, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+        if (!Random (0, 15)) SpawnParticle (0xFFFF80, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+        if (!Random (0, 15)) SpawnParticle (0xFFFFC0, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+        if (!Random (0, 15)) SpawnParticle (0xFFFFFF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
+        
+        Delay (1);
+        Counter--;
+    }
+    
+    Thing_Remove (0);
 }

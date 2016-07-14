@@ -12,3 +12,43 @@ ACTOR ArgRocketAmmo : RocketAmmo replaces RocketAmmo { Inventory.PickupSound "it
 ACTOR ArgRocketBox  : RocketBox  replaces RocketBox  { Inventory.PickupSound "items/ammo" Scale 0.66 }
 ACTOR ArgCell       : Cell       replaces Cell       { Inventory.PickupSound "items/ammo" Scale 0.75 }
 ACTOR ArgCellPack   : CellPack   replaces CellPack   { Inventory.PickupSound "items/ammo" Scale 0.75 }
+
+ACTOR ArgClipDropped : ArgClip
+{
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
+        Goto Super::Spawn
+    }
+}
+
+ACTOR ArgShellDropped : ArgShell
+{
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
+        Goto Super::Spawn
+    }
+}
+
+ACTOR ArgRocketAmmoDropped : ArgRocketAmmo
+{
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
+        Goto Super::Spawn
+    }
+}
+
+ACTOR ArgCellDropped : ArgCell
+{
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
+        Goto Super::Spawn
+    }
+}

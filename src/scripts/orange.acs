@@ -254,8 +254,14 @@ script "Orange_DropAmmoIfTagged" (void)
         "ArgCell"
     };
     
+    int Height = GetActorProperty (0, APROP_Height);
+    int TID = UniqueTID ();
+    
     if (CheckInventory ("ArgPistolTag"))
-        DropItem (0, AmmoTypes[Random (0, 3)], -1, 256);
+    {
+        Spawn (AmmoTypes[Random (0, 3)], GetActorX (0), GetActorY (0), GetActorZ (0) + (Height / 2), TID);
+        SetActorVelocity (TID, Random (-6.0, 6.0), Random (-6.0, 6.0), Random (0.0, 6.0), FALSE, FALSE);
+    }
 }
 
 script "Orange_TaggedMonster" (void)
@@ -334,16 +340,16 @@ script "Orange_TaggedMonster" (void)
                     DropItem (0, drop, -1, 256);
                 }
                 // Drop ammo (At least one) if we're low on ammo
-                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 0)) { DropItem (0, "ArgClipDropped", -1, 256); DropItem (0, "ArgClipDropped", -1, 85); DropItem (0, "ArgClipDropped", -1, 85); }
-                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 1)) { DropItem (0, "ArgShellDropped", -1, 256); DropItem (0, "ArgShellDropped", -1, 85); DropItem (0, "ArgShellDropped", -1, 85); }
-                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 2)) { DropItem (0, "ArgRocketAmmoDropped", -1, 256); DropItem (0, "ArgRocketAmmoDropped", -1, 85); DropItem (0, "ArgRocketAmmoDropped", -1, 85); }
-                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 3)) { DropItem (0, "ArgCellDropped", -1, 256); DropItem (0, "ArgCellDropped", -1, 85); DropItem (0, "ArgCellDropped", -1, 85); }
+                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 0)) { DropItem (0, "ArgClipDropped", 10, 256); DropItem (0, "ArgClipDropped", 10, 85); DropItem (0, "ArgClipDropped", 10, 85); }
+                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 1)) { DropItem (0, "ArgShellDropped", 4, 256); DropItem (0, "ArgShellDropped", 4, 85); DropItem (0, "ArgShellDropped", 4, 85); }
+                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 2)) { DropItem (0, "ArgRocketAmmoDropped", 1, 256); DropItem (0, "ArgRocketAmmoDropped", 1, 85); DropItem (0, "ArgRocketAmmoDropped", 1, 85); }
+                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 3)) { DropItem (0, "ArgCellDropped", 20, 256); DropItem (0, "ArgCellDropped", 20, 85); DropItem (0, "ArgCellDropped", 20, 85); }
                 
                 // Occasionally drop a few random ammo pickups even if we haven't used the chainsaw
-                DropItem (0, "ArgClipDropped", -1, 32);
-                DropItem (0, "ArgShellDropped", -1, 32);
-                DropItem (0, "ArgRocketAmmoDropped", -1, 32);
-                DropItem (0, "ArgCellDropped", -1, 32);
+                DropItem (0, "ArgClipDropped", 10, 32);
+                DropItem (0, "ArgShellDropped", 4, 32);
+                DropItem (0, "ArgRocketAmmoDropped", 1, 32);
+                DropItem (0, "ArgCellDropped", 20, 32);
             }
             
             TakeInventory ("ArgPistolTag", 350);

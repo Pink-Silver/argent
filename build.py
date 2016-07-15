@@ -8,7 +8,7 @@ from glob import iglob
 GDCC_DIR = "gdcc"
 SRC_DIR = "src"
 DIST_DIR = "dist"
-DIST_FNAME = "xaks-argent-orange"
+DIST_FNAME = "xa-argen"
 
 def compileacs ():
     print ("-- Compiling ACS files --")

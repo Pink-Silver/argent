@@ -51,6 +51,37 @@ script "Orange_HUD" enter
     
     while (TRUE)
     {
+        /* BFG Cells & Chainsaw Fuel */
+        
+        if (CheckInventory ("ArgChainsaw"))
+        {
+            SetFont ("RLITE");
+            for (int ammo = 1; ammo <= 7; ammo++)
+            {
+                int Alpha = 0.25;
+                if (CheckInventory ("ChainsawFuel") >= ammo) Alpha = 1.0;
+                if (ammo > GetAmmoCapacity ("ChainsawFuel")) Alpha = 0.0;
+                HudMessage (s:"A"; HUDMSG_PLAIN | HUDMSG_ALPHA, 200 + ammo, CR_UNTRANSLATED, 28.1 + (22.0 * (ammo - 1)), 401.0, 0.03, Alpha);
+            }
+        }
+        
+        if (CheckInventory ("ArgBFG9000"))
+        {
+            SetFont ("GLITE");
+            for (int ammo = 1; ammo <= 7; ammo++)
+            {
+                int Alpha = 0.25;
+                if (CheckInventory ("BFGCell") >= ammo) Alpha = 1.0;
+                if (ammo > GetAmmoCapacity ("BFGCell")) Alpha = 0.0;
+                HudMessage (s:"A"; HUDMSG_PLAIN | HUDMSG_ALPHA, 207 + ammo, CR_UNTRANSLATED, 28.1 + (22.0 * (ammo - 1)), 411.0, 0.03, Alpha);
+            }
+        }
+        
+        /* Argent Cell Stats */
+        
+        SetFont ("REDBASE");
+        HudMessage (s:"A"; HUDMSG_PLAIN, 270, CR_UNTRANSLATED, 28.1, 360.0, 0);
+        
         for (int bar = 1; bar <= 3; bar++)
         {
             str barlabel = "Health";
@@ -62,14 +93,15 @@ script "Orange_HUD" enter
             
             for (int i = 1; i <= 5; i++)
             {
+                int Alpha = 1.0;
                 SetFont ("SREDBAR1");
-                if (i > upgrades) SetFont ("SREDBAR0");
+                if (i > upgrades) Alpha = 0.25;
                 
-                HudMessage (s:"A"; HUDMSG_PLAIN, 252 + (6 * (bar - 1)) + i, CR_UNTRANSLATED, 32.0 + (8.0 * (i - 1)), 355.0 + (20.0 * (bar - 1)), 0);
+                HudMessage (s:"A"; HUDMSG_PLAIN | HUDMSG_ALPHA, 252 + (6 * (bar - 1)) + i, CR_UNTRANSLATED, 32.1 + (8.0 * (i - 1)), 340.0 + (20.0 * (bar - 1)), 0, Alpha);
             }
             
-            SetFont ("SmallFont");
-            HudMessage (s:barlabel; HUDMSG_PLAIN, 252 + (6 * (bar - 1)), CR_RED, 72.1, 355.0 + (20.0 * (bar - 1)), 0);
+            SetFont ("ArgFont");
+            HudMessage (s:barlabel; HUDMSG_PLAIN, 252 + (6 * (bar - 1)), CR_ORANGE, 76.1, 340.0 + (20.0 * (bar - 1)), 0);
         }
         
         Delay (1);
@@ -118,7 +150,7 @@ script "Orange_ArgentCell" (void)
     int Choice = 0;
     
     SetFont ("BigFont");
-    HudMessage (s:"Collected Argent Energy\n\nSelect a system to upgrade"; HUDMSG_TYPEON, 220, CR_ORANGE, 320.4, 160.0, 32767.0, 0.03, 0);
+    HudMessage (s:"Collected Argent Energy\n\nSelect a system to upgrade"; HUDMSG_TYPEON, 220, CR_WHITE, 320.4, 160.0, 32767.0, 0.03, 0);
     
     while (!Chosen)
     {
@@ -135,11 +167,12 @@ script "Orange_ArgentCell" (void)
             
             for (int i = 1; i <= 5; i++)
             {
+                int Alpha = 1.0;
                 SetFont ("REDBAR1");
-                if (i > upgrades) SetFont ("REDBAR0");
-                if (Choice + 1 == bar && Timer() & 16 && i == upgrades + 1) SetFont ("REDBAR1");
+                if (i > upgrades) Alpha = 0.33;
+                if (Choice + 1 == bar && Timer() & 16 && i == upgrades + 1) Alpha = 1.0;
                 
-                HudMessage (s:"A"; HUDMSG_PLAIN, 222 + (6 * (bar - 1)) + i, CR_UNTRANSLATED, 240.0 + (16.0 * (i - 1)), 320.0 + (40.0 * (bar - 1)), 0.03);
+                HudMessage (s:"A"; HUDMSG_PLAIN | HUDMSG_ALPHA, 222 + (6 * (bar - 1)) + i, CR_UNTRANSLATED, 240.0 + (16.0 * (i - 1)), 320.0 + (40.0 * (bar - 1)), 0.03, Alpha);
             }
             
             SetFont ("BigFont");
@@ -178,7 +211,7 @@ script "Orange_ArgentCell" (void)
         forwardlast = forwardmove;
     }
     
-    HudMessage (s:"Collected Argent Energy\n\nSelect a system to upgrade"; HUDMSG_FADEOUT, 220, CR_ORANGE, 320.4, 160.0, 0.0, 1.0);
+    HudMessage (s:"Collected Argent Energy\n\nSelect a system to upgrade"; HUDMSG_FADEOUT, 220, CR_WHITE, 320.4, 160.0, 0.0, 1.0);
     switch (Choice)
     {
         case 0:
@@ -217,8 +250,8 @@ script "Orange_SetArgentMaxes" enter
     SetAmmoCapacity ("RocketAmmo", 10 + (5 * ArgentAmmo[Player]));
     SetAmmoCapacity ("Cell", 100 + (50 * ArgentAmmo[Player]));
     
-    //SetAmmoCapacity ("BFGAmmo", 2 + ArgentAmmo[Player]);
-    //SetAmmoCapacity ("ChainsawFuel", 2 + ArgentAmmo[Player]);
+    SetAmmoCapacity ("BFGCell", 2 + ArgentAmmo[Player]);
+    SetAmmoCapacity ("ChainsawFuel", 2 + ArgentAmmo[Player]);
 }
 
 script "Orange_GiveArmor" (int amount)
@@ -284,17 +317,16 @@ script "Orange_TaggedMonster" (void)
     
     if (CheckInventory ("ArgPistolTag"))
     {
-        GiveInventory ("ArgPistolTag", 70);
+        GiveInventory ("ArgPistolTag", 35);
         Terminate;
     }
     
+    GiveInventory ("PowerArgExecution", 1);
     GiveInventory ("ArgPistolTag", 175);
     if (CheckFlag (1, "BOSS")) TakeInventory ("ArgPistolTag", 70);
     
     while (CheckInventory ("ArgPistolTag"))
     {
-        SetActorProperty (0, APROP_DamageFactor, 2.0);
-        SetActorProperty (0, APROP_DamageMultiplier, 2.0);
         int Radius = GetActorProperty (0, APROP_Radius);
         int Height = GetActorProperty (0, APROP_Height);
         if (!CheckFlag (0, "ALWAYSFAST"))
@@ -346,15 +378,17 @@ script "Orange_TaggedMonster" (void)
                 if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 3)) { DropItem (0, "ArgCellDropped", 20, 256); DropItem (0, "ArgCellDropped", 20, 85); DropItem (0, "ArgCellDropped", 20, 85); }
                 
                 // Occasionally drop a few random ammo pickups even if we haven't used the chainsaw
-                DropItem (0, "ArgClipDropped", 10, 32);
-                DropItem (0, "ArgShellDropped", 4, 32);
-                DropItem (0, "ArgRocketAmmoDropped", 1, 32);
-                DropItem (0, "ArgCellDropped", 20, 32);
+                DropItem (0, "ArgClipDropped", 10, 64);
+                DropItem (0, "ArgShellDropped", 4, 64);
+                DropItem (0, "ArgRocketAmmoDropped", 1, 64);
+                DropItem (0, "ArgCellDropped", 20, 64);
+                    
+                if (ACS_NamedExecuteWithResult ("Orange_CheckForWeapon", 0)) DropItem (0, "ArgChainsawFuelDropped", 1, 16);
+                if (ACS_NamedExecuteWithResult ("Orange_CheckForWeapon", 1)) DropItem (0, "ArgBFGCellDropped", 1, 16);
             }
             
+            TakeInventory ("PowerArgExecution", 1);
             TakeInventory ("ArgPistolTag", 350);
-            SetActorProperty (0, APROP_DamageFactor, 1.0);
-            SetActorProperty (0, APROP_DamageMultiplier, 1.0);
             GiveInventory ("ArgMakeSlower", 1);
             Terminate;
         }
@@ -363,8 +397,7 @@ script "Orange_TaggedMonster" (void)
         TakeInventory ("ArgPistolTag", 1);
     }
     
-    SetActorProperty (0, APROP_DamageFactor, 1.0);
-    SetActorProperty (0, APROP_DamageMultiplier, 1.0);
+    TakeInventory ("PowerArgExecution", 1);
     GiveInventory ("ArgMakeSlower", 1);
 }
 
@@ -381,16 +414,36 @@ script "Orange_CheckForPistolKill" (void)
     SetResultValue (FALSE);
 }
 
+script "Orange_CheckForWeapon" (int weapontype)
+{
+    SetActivator (0, AAPTR_TARGET);
+    
+    str weapon[2] = {
+        "ArgChainsaw",
+        "ArgBFG9000"
+    };
+
+    if (CheckInventory (weapon[weapontype]))
+    {
+        SetResultValue (TRUE);
+        Terminate;
+    }
+    
+    SetResultValue (FALSE);
+}
+
 script "Orange_CheckForLowAmmo" (int ammotype)
 {
     SetActivator (0, AAPTR_TARGET);
     
-    str ammo = "Clip";
-    if (ammotype == 1) ammo = "Shell";
-    if (ammotype == 2) ammo = "RocketAmmo";
-    if (ammotype == 3) ammo = "Cell";
+    str ammo[4] = {
+        "Clip",
+        "Shell",
+        "RocketAmmo",
+        "Cell"
+    };
     
-    if (CheckInventory (ammo) < GetAmmoCapacity(ammo) / 4)
+    if (CheckInventory (ammo[ammotype]) < GetAmmoCapacity(ammo[ammotype]) / 4)
     {
         SetResultValue (TRUE);
         Terminate;

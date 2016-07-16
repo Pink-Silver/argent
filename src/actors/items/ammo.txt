@@ -4,6 +4,26 @@
 //
 // --------------------------------------------------------------------------
 
+/* Base Items */
+ACTOR BFGCell : Ammo
+{
+    Inventory.Amount 1
+    Inventory.MaxAmount 3
+    Ammo.BackpackAmount 0
+    Ammo.BackpackMaxAmount 3
+    Inventory.Icon "BFGCELL"
+}
+
+ACTOR ChainsawFuel : Ammo
+{
+    Inventory.Amount 1
+    Inventory.MaxAmount 3
+    Ammo.BackpackAmount 0
+    Ammo.BackpackMaxAmount 3
+    Inventory.Icon "CSAWFUEL"
+}
+
+/* Pickups */
 ACTOR ArgClip       : Clip       replaces Clip       { Inventory.PickupSound "items/ammo" Scale 0.66 }
 ACTOR ArgClipBox    : ClipBox    replaces ClipBox    { Inventory.PickupSound "items/ammo" Scale 0.66 }
 ACTOR ArgShell      : Shell      replaces Shell      { Inventory.PickupSound "items/ammo" }
@@ -12,6 +32,35 @@ ACTOR ArgRocketAmmo : RocketAmmo replaces RocketAmmo { Inventory.PickupSound "it
 ACTOR ArgRocketBox  : RocketBox  replaces RocketBox  { Inventory.PickupSound "items/ammo" Scale 0.66 }
 ACTOR ArgCell       : Cell       replaces Cell       { Inventory.PickupSound "items/ammo" Scale 0.75 }
 ACTOR ArgCellPack   : CellPack   replaces CellPack   { Inventory.PickupSound "items/ammo" Scale 0.75 }
+
+ACTOR ArgBFGCell : BFGCell
+{
+    Translation "0:255=%[0.08,0.18,0.06]:[1.0,2.0,0.8]"
+    Inventory.PickupMessage "$ARG_GOT_BFGCELL"
+    Inventory.PickupSound "items/ammo"
+    Scale 0.75
+    States
+    {
+    Spawn:
+        CELP A -1
+        Stop
+    }
+}
+
+ACTOR ArgChainsawFuel : ChainsawFuel
+{
+    Inventory.PickupMessage "$ARG_GOT_CSAWFUEL"
+    Inventory.PickupSound "items/ammo"
+    Scale 0.75
+    States
+    {
+    Spawn:
+        FUEL A -1
+        Stop
+    }
+}
+
+/* Temporary dropped versions for tagged monsters */
 
 ACTOR ArgClipDropped : ArgClip
 {
@@ -44,6 +93,26 @@ ACTOR ArgRocketAmmoDropped : ArgRocketAmmo
 }
 
 ACTOR ArgCellDropped : ArgCell
+{
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
+        Goto Super::Spawn
+    }
+}
+
+ACTOR ArgBFGCellDropped : ArgBFGCell
+{
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
+        Goto Super::Spawn
+    }
+}
+
+ACTOR ArgChainsawFuelDropped : ArgChainsawFuel
 {
     States
     {

@@ -68,6 +68,7 @@ ACTOR ArgPuffSmoke
 
 ACTOR ArgFistPuff : ArgBulletPuff
 {
+    DamageType "ArgFist"
 	Scale 0.5
 	States
 	{

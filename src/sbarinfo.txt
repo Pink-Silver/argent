@@ -43,7 +43,7 @@ statusbar fullscreen, forcescaled
     // keys
     GameMode singleplayer, cooperative, teamgame
     {
-        DrawKeyBar 6, horizontal, auto, 28, 409;
+        DrawKeyBar 6, horizontal, auto, 176, 421;
     }
     // [TODO] frag counter; somewhat pointless now because DM isn't a thing yet.
 }
@@ -89,7 +89,7 @@ statusbar normal, forcescaled
     // keys
     GameMode singleplayer, cooperative, teamgame
     {
-        DrawKeyBar 6, horizontal, auto, 28, 409;
+        DrawKeyBar 6, horizontal, auto, 176, 421;
     }
     // [TODO] frag counter; somewhat pointless now because DM isn't a thing yet.
 }

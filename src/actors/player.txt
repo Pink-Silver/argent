@@ -41,5 +41,3 @@ ACTOR ArgPlayer : DoomPlayer
 		Stop
 	}
 }
-
-ACTOR ArgClassicHudToken : ArgToken {}

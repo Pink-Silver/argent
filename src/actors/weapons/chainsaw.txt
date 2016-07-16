@@ -10,6 +10,9 @@ ACTOR ArgChainsaw : ArgWeapon replaces Chainsaw
 	Weapon.SelectionOrder 10
 	Inventory.Icon "graphics/hud/weapon-chainsaw.png"
 	Inventory.PickupMessage "$ARG_GOT_CHAINSAW"
+	Weapon.AmmoType2 "ChainsawFuel"
+	Weapon.AmmoUse2 1
+	Weapon.AmmoGive2 1
 	Obituary "$ARG_OB_CHAINSAW"
 	Tag "$ARG_TAG_CHAINSAW"
 	DamageType "ArgChainsaw"

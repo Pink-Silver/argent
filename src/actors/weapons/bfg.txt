@@ -8,9 +8,9 @@ ACTOR ArgBFG9000 : ArgWeapon replaces BFG9000
 {
 	Weapon.UpSound "weapons/bfg/equip"
 	Weapon.SelectionOrder 1
-	Weapon.AmmoUse 40
-	Weapon.AmmoGive 40
-	Weapon.AmmoType "Cell" // [TODO] give this its own ammotype
+	Weapon.AmmoUse 1
+	Weapon.AmmoGive 1
+	Weapon.AmmoType "BFGCell"
 	Inventory.Icon "graphics/hud/weapon-bfg.png"
 	Inventory.PickupMessage "$ARG_GOT_BFG"
 	Tag "$ARG_TAG_BFG"
@@ -49,11 +49,7 @@ ACTOR ArgBFG9000 : ArgWeapon replaces BFG9000
 		BFGF A 1 Bright   A_WeaponOffset(frandom(-1.0, 1.0), frandom(-1.0, 1.0) + 32) 
 		BFGF B 1 Bright   A_WeaponOffset(0, 32)
 		BFGF C 0 Bright {
-			if(GetCvar("arg_classicbfg") == true) {
-				A_FireCustomMissile("ArgThatDamnDragonAteMyBalls", 0, 1);
-			} else {
-				A_FireCustomMissile("ArgIveGotBallsOfSteel", 0, 1);
-			}
+			A_FireCustomMissile("ArgIveGotBallsOfSteel", 0, 1);
 			return A_Jump(64, "Fire2");
 		}
 		BFGF C 1 Bright

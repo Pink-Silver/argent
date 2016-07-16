@@ -28,3 +28,9 @@ ACTOR ArgMakeSlower : CustomInventory
         Stop
     }
 }
+
+ACTOR PowerArgExecution : PowerProtection
+{
+    Powerup.Duration 0x7FFFFFFF
+    DamageFactor "ArgFist", 10.0
+}

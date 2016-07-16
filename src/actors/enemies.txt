@@ -9,6 +9,10 @@ ACTOR ArgZombieman : Zombieman replaces Zombieman
     DropItem ""
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Death:
 	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_DropWeaponsAppropriately")
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")
@@ -37,6 +41,10 @@ ACTOR ArgShotgunGuy : ShotgunGuy replaces ShotgunGuy
     DropItem ""
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Death:
 	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_DropWeaponsAppropriately")
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")
@@ -65,6 +73,10 @@ ACTOR ArgChaingunGuy : ChaingunGuy replaces ChaingunGuy
     DropItem ""
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Death:
 	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_DropWeaponsAppropriately")
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")
@@ -92,6 +104,10 @@ ACTOR ArgImp : DoomImp replaces DoomImp
 {
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Death:
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")
 		Goto Super::Death
@@ -119,6 +135,10 @@ ACTOR ArgDemon : Demon replaces Demon
 {
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Death:
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")
 		Goto Super::Death
@@ -159,6 +179,10 @@ ACTOR ArgSoul : LostSoul replaces LostSoul
 {
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Death:
 	XDeath:
 		SKUL F 3 BRIGHT
@@ -186,6 +210,10 @@ ACTOR ArgCaco : Cacodemon replaces Cacodemon
 	Bloodcolor "Blue"
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Death:
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")
 		Goto Super::Death
@@ -216,6 +244,10 @@ ACTOR ArgKnight : HellKnight replaces HellKnight
 	Bloodcolor "00 A0 00"
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Death:
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")
 		Goto Super::Death
@@ -243,6 +275,10 @@ ACTOR ArgBaron : BaronOfHell replaces BaronOfHell
 	Bloodcolor "00 A0 00"
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Death:
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")
 		Goto Super::Death
@@ -269,6 +305,10 @@ ACTOR ArgRevenant : Revenant replaces Revenant
 {
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Death:
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")
 		Goto Super::Death
@@ -296,6 +336,10 @@ ACTOR ArgMancubus : Fatso replaces Fatso
 {
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Death:
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")
 		Goto Super::Death
@@ -324,6 +368,10 @@ ACTOR ArgArachnotron : Arachnotron replaces Arachnotron
 {
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Death:
 	XDeath:
 		BSPI J 20 A_Scream
@@ -349,6 +397,10 @@ ACTOR ArgElemental : PainElemental replaces PainElemental
 {
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Death:
 	XDeath:
 		PAIN H 8 BRIGHT
@@ -374,6 +426,10 @@ ACTOR ArgVile : Archvile replaces Archvile
 {
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Death:
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")
 		Goto Super::Death
@@ -402,6 +458,10 @@ ACTOR ArgCyberDAMN : Cyberdemon replaces Cyberdemon
 	DropItem "ArgGaussCannon"
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Pain:
 	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_DropAmmoIfTagged")
 	    Goto Super::Pain
@@ -438,6 +498,10 @@ ACTOR ArgSPIDARS_AAAH_KILL_IT_WITH_FIRE : SpiderMastermind replaces SpiderMaster
 	DropItem "ArgChaingun"
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Pain:
 	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_DropAmmoIfTagged")
 	    Goto Super::Pain
@@ -475,6 +539,10 @@ ACTOR ArgNazi : WolfensteinSS replaces WolfensteinSS
     DropItem ""
 	States
 	{
+	Death.ArgChainsawSuperKill:
+	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_MakeItRaaaaaaaiiiin")
+	    "####" "#" 0 A_Jump(256, "XDeath")
+	    Stop
 	Death:
 	    "####" "#" 0 ACS_NamedExecuteWithResult ("Orange_DropWeaponsAppropriately")
 		"####" "#" 0 A_JumpIf(GetCvar("arg_alwaysgib"), "XDeath")

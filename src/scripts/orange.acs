@@ -281,10 +281,11 @@ script "Orange_TagMonster" (void)
 script "Orange_DropAmmoIfTagged" (void)
 {
     str AmmoTypes[4] = {
-        "ArgClip",
-        "ArgShell",
-        "ArgRocketAmmo",
-        "ArgCell"
+        "ArgClipDropped",
+        "ArgShellDropped",
+        "ArgRocketAmmoDropped",
+        "ArgCellDropped",
+        "ArgBFGCellDropped"
     };
     
     int Height = GetActorProperty (0, APROP_Height);
@@ -294,6 +295,32 @@ script "Orange_DropAmmoIfTagged" (void)
     {
         Spawn (AmmoTypes[Random (0, 3)], GetActorX (0), GetActorY (0), GetActorZ (0) + (Height / 2), TID);
         SetActorVelocity (TID, Random (-6.0, 6.0), Random (-6.0, 6.0), Random (0.0, 6.0), FALSE, FALSE);
+    }
+}
+
+script "Orange_MakeItRaaaaaaaiiiin" (void)
+{
+    str AmmoTypes[4] = {
+        "ArgClipDropped",
+        "ArgShellDropped",
+        "ArgRocketAmmoDropped",
+        "ArgCellDropped"
+    };
+    
+    int Height = GetActorProperty (0, APROP_Height);
+    
+    for (int i = 40; i > 0; i--)
+    {
+        int TID = UniqueTID ();
+        Spawn (AmmoTypes[i % 5], GetActorX (0), GetActorY (0), GetActorZ (0) + (Height / 2), TID);
+        SetActorVelocity (TID, Random (-3.0, 3.0), Random (-3.0, 3.0), Random (0.0, 3.0), FALSE, FALSE);
+        Delay (1);
+    }
+    if (ACS_NamedExecuteWithResult ("Orange_CheckForWeapon", 1))
+    {
+        int TID = UniqueTID ();
+        Spawn ("ArgBFGCellDropped", GetActorX (0), GetActorY (0), GetActorZ (0) + (Height / 2), TID);
+        SetActorVelocity (TID, Random (-3.0, 3.0), Random (-3.0, 3.0), Random (0.0, 3.0), FALSE, FALSE);
     }
 }
 
@@ -371,12 +398,7 @@ script "Orange_TaggedMonster" (void)
                     if (CheckActorClass (0, "ArgChaingunGuy")) drop = "ArgHeavyAR";
                     DropItem (0, drop, -1, 256);
                 }
-                // Drop ammo (At least one) if we're low on ammo
-                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 0)) { DropItem (0, "ArgClipDropped", 10, 256); DropItem (0, "ArgClipDropped", 10, 85); DropItem (0, "ArgClipDropped", 10, 85); }
-                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 1)) { DropItem (0, "ArgShellDropped", 4, 256); DropItem (0, "ArgShellDropped", 4, 85); DropItem (0, "ArgShellDropped", 4, 85); }
-                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 2)) { DropItem (0, "ArgRocketAmmoDropped", 1, 256); DropItem (0, "ArgRocketAmmoDropped", 1, 85); DropItem (0, "ArgRocketAmmoDropped", 1, 85); }
-                if (ACS_NamedExecuteWithResult ("Orange_CheckForLowAmmo", 3)) { DropItem (0, "ArgCellDropped", 20, 256); DropItem (0, "ArgCellDropped", 20, 85); DropItem (0, "ArgCellDropped", 20, 85); }
-                
+
                 // Occasionally drop a few random ammo pickups even if we haven't used the chainsaw
                 DropItem (0, "ArgClipDropped", 10, 64);
                 DropItem (0, "ArgShellDropped", 4, 64);
@@ -432,26 +454,6 @@ script "Orange_CheckForWeapon" (int weapontype)
     SetResultValue (FALSE);
 }
 
-script "Orange_CheckForLowAmmo" (int ammotype)
-{
-    SetActivator (0, AAPTR_TARGET);
-    
-    str ammo[4] = {
-        "Clip",
-        "Shell",
-        "RocketAmmo",
-        "Cell"
-    };
-    
-    if (CheckInventory (ammo[ammotype]) < GetAmmoCapacity(ammo[ammotype]) / 4)
-    {
-        SetResultValue (TRUE);
-        Terminate;
-    }
-    
-    SetResultValue (FALSE);
-}
-
 script "Orange_CheckForLudicrousHealth" (void)
 {
     SetActivator (0, AAPTR_TARGET);
@@ -472,7 +474,7 @@ script "Orange_DropWeaponsAppropriately" (void)
     if (CheckActorClass (0, "ArgShotgunGuy")) drop = "ArgShotgun";
     if (CheckActorClass (0, "ArgChaingunGuy")) drop = "ArgHeavyAR";
     
-    if (!GetCVar ("arg_tagweapons"))
+    if (!GetCVar ("arg_tagweapons") || !Random(0, 7))
         DropItem (0, drop, -1, 256);
 }
 

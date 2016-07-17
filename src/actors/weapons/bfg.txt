@@ -7,7 +7,7 @@
 ACTOR ArgBFG9000 : ArgWeapon replaces BFG9000
 {
 	Weapon.UpSound "weapons/bfg/equip"
-	Weapon.SelectionOrder 1
+	Weapon.SelectionOrder 11
 	Weapon.AmmoUse 1
 	Weapon.AmmoGive 1
 	Weapon.AmmoType "BFGCell"

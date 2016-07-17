@@ -6,14 +6,16 @@
 
 ACTOR ArgRocketLauncher : ArgWeapon replaces RocketLauncher
 {
-	Weapon.SelectionOrder 11
+	Weapon.SelectionOrder 7
 	Weapon.AmmoUse 1
 	Weapon.AmmoGive 2
-	Weapon.AmmoType "RocketAmmo"
+	Weapon.AmmoType "ArgRocketAmmo"
 	Inventory.Icon "graphics/hud/weapon-rocket.png"
 	Inventory.PickupMessage "$ARG_GOT_ROCKET"
 	Tag "$ARG_TAG_ROCKET"
-	
+
+	+WEAPON.NOAUTOFIRE
+
 	States
 	{
 	Spawn:
@@ -51,7 +53,8 @@ ACTOR ArgRocketLauncher : ArgWeapon replaces RocketLauncher
 		RKLF B 1 A_WeaponOffset( 6.5, 35.5)
 		RKLF B 1 A_WeaponOffset( 2.0, 33.5)
 		RKLG A 1 A_WeaponOffset( 0.0, 32.0)
-		RKLG ABCDEFGHIJ 1
+		RKLG A 1 A_CheckReload
+		RKLG BCDEFGHIJ 1
 		RKLG K 3
 		RKLG LMNOP 1
 		RKLG A 0 A_Refire

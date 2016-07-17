@@ -10,9 +10,9 @@ ACTOR ArgChainsaw : ArgWeapon replaces Chainsaw
 	Weapon.SelectionOrder 10
 	Inventory.Icon "graphics/hud/weapon-chainsaw.png"
 	Inventory.PickupMessage "$ARG_GOT_CHAINSAW"
-	Weapon.AmmoType2 "ChainsawFuel"
-	Weapon.AmmoUse2 1
-	Weapon.AmmoGive2 1
+	Weapon.AmmoType1 "ChainsawFuel"
+	Weapon.AmmoUse1 1
+	Weapon.AmmoGive1 1
 	Obituary "$ARG_OB_CHAINSAW"
 	Tag "$ARG_TAG_CHAINSAW"
 	DamageType "ArgChainsaw"
@@ -48,9 +48,8 @@ ACTOR ArgChainsaw : ArgWeapon replaces Chainsaw
 		SAWG D 1   A_WeaponOffset(-1.0, 32.0 + 16)
 		SAWG D 1   A_WeaponOffset( 0.0, 32.0 +  8)
 	Hold:
-		SAWG C 0 A_Saw("", "effects/gibs", 0, "ArgChainsawPuff")
+		SAWG C 0 A_Saw("", "effects/gibs", 1000000, "ArgChainsawSuperKillPuff", SF_NORANDOM | SF_NOUSEAMMOMISS)
 		SAWG CC 1 A_WeaponOffset(frandom(-1.0, 1.0), 32.0 + frandom(-1.0, 1.0))
-		SAWG D 0 A_Saw("", "effects/gibs", 0, "ArgChainsawPuff", SF_NOPULLIN | SF_NOTURN)
 		SAWG DD 1 A_WeaponOffset(frandom(-2.0, 2.0), 32.0 + frandom(-2.0, 2.0))
 		SAWG D 0 {
 			A_GiveInventory("ArgChainsawStabbyToken");
@@ -77,30 +76,6 @@ ACTOR ArgChainsaw : ArgWeapon replaces Chainsaw
 		SAWG AABBAABBAABBAABBAABBAABBAABBAABBAABB 1 A_WeaponReady
 		SAWG A 0 A_PlaySound("weapons/chainsaw/idle", CHAN_5, 1.0, 1)
 		Goto Ready
-	AltFire:
-		SAWF A 1 { A_WeaponOffset( 0.0, 32.0 +  8); A_PlaySound("weapons/chainsaw/up", CHAN_5); }
-		SAWF B 1   A_WeaponOffset(-1.0, 32.0 + 16)
-		SAWF C 1   A_WeaponOffset(-2.0, 32.0 + 24)
-		SAWF D 1   A_WeaponOffset(-3.0, 32.0 + 32)
-		SAWF E 1   A_WeaponOffset(-4.0, 32.0 + 40)
-		SAWG D 1   A_WeaponOffset(-5.0, 32.0 + 48)
-		SAWG D 1   A_WeaponOffset(-4.0, 32.0 + 40)
-		SAWG C 1   A_WeaponOffset(-3.0, 32.0 + 32)
-		SAWG C 1   A_WeaponOffset(-2.0, 32.0 + 24)
-		SAWG D 1   A_WeaponOffset(-1.0, 32.0 + 16)
-		SAWG D 1   A_WeaponOffset( 0.0, 32.0 +  8)
-	AltHold:
-		SAWG C 0 A_Saw("", "effects/gibs", 1000000, "ArgChainsawSuperKillPuff", SF_NORANDOM | SF_NOUSEAMMOMISS)
-		SAWG CC 1 A_WeaponOffset(frandom(-1.0, 1.0), 32.0 + frandom(-1.0, 1.0))
-		SAWG DD 1 A_WeaponOffset(frandom(-2.0, 2.0), 32.0 + frandom(-2.0, 2.0))
-		SAWG D 0 {
-			A_GiveInventory("ArgChainsawStabbyToken");
-			if(CountInv("ArgChainsawStabbyToken") == 13) {
-				A_PlaySound("weapons/chainsaw/loop", CHAN_5, 1.0, 1);
-			}
-			return A_ReFire;
-		}
-		Goto Down
 	}
 }
 ACTOR ArgChainsawStabbyToken : ArgToken { Inventory.MaxAmount 20 } // extra token for sound control

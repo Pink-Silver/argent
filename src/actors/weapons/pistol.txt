@@ -143,7 +143,6 @@ ACTOR ArgPistolPuff : ArgBulletPuff
 	States
 	{
 	XDeath:
-	    TNT1 A 0
 		TNT1 A 0 ACS_NamedExecuteWithResult ("Orange_TagMonster")
 	Spawn:
 		XPUF Q 0 BRIGHT

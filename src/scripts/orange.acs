@@ -298,8 +298,13 @@ script "Orange_DropAmmoIfTagged" (void)
     }
 }
 
-script "Orange_MakeItRaaaaaaaiiiin" (void)
+script "Orange_AmmoShower" (void)
 {
+    SetActivator (0, AAPTR_MASTER);
+    Delay(1);
+    
+    if (!(ClassifyActor(0) & ACTOR_DEAD)) Terminate;
+    
     str AmmoTypes[4] = {
         "ArgClipDropped",
         "ArgShellDropped",
@@ -314,7 +319,6 @@ script "Orange_MakeItRaaaaaaaiiiin" (void)
         int TID = UniqueTID ();
         Spawn (AmmoTypes[i % 5], GetActorX (0), GetActorY (0), GetActorZ (0) + (Height / 2), TID);
         SetActorVelocity (TID, Random (-3.0, 3.0), Random (-3.0, 3.0), Random (0.0, 3.0), FALSE, FALSE);
-        Delay (1);
     }
     if (ACS_NamedExecuteWithResult ("Orange_CheckForWeapon", 1))
     {

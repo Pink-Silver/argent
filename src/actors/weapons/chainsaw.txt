@@ -47,8 +47,8 @@ ACTOR ArgChainsaw : ArgWeapon replaces Chainsaw
 		SAWG C 1   A_WeaponOffset(-2.0, 32.0 + 24)
 		SAWG D 1   A_WeaponOffset(-1.0, 32.0 + 16)
 		SAWG D 1   A_WeaponOffset( 0.0, 32.0 +  8)
-	Hold:
-		SAWG C 0 A_Saw("", "effects/gibs", 1000000, "ArgChainsawSuperKillPuff", SF_NORANDOM | SF_NOUSEAMMOMISS)
+	Firing:
+		SAWG C 0 A_Saw("", "effects/gibs", 500, "ArgChainsawPuff", SF_NORANDOM | SF_NOUSEAMMOMISS)
 		SAWG CC 1 A_WeaponOffset(frandom(-1.0, 1.0), 32.0 + frandom(-1.0, 1.0))
 		SAWG DD 1 A_WeaponOffset(frandom(-2.0, 2.0), 32.0 + frandom(-2.0, 2.0))
 		SAWG D 0 {
@@ -56,7 +56,12 @@ ACTOR ArgChainsaw : ArgWeapon replaces Chainsaw
 			if(CountInv("ArgChainsawStabbyToken") == 13) {
 				A_PlaySound("weapons/chainsaw/loop", CHAN_5, 1.0, 1);
 			}
-			return A_ReFire;
+			if(CountInv("ArgChainsawRecoilToken") > 0) {
+			    A_TakeInventory("ArgChainsawRecoilToken", 1);
+			    A_Jump(256, "Down");
+			    return;
+			}
+			A_ReFire("Firing");
 		}
 	Down:
 		SAWG A 0 {
@@ -79,11 +84,27 @@ ACTOR ArgChainsaw : ArgWeapon replaces Chainsaw
 	}
 }
 ACTOR ArgChainsawStabbyToken : ArgToken { Inventory.MaxAmount 20 } // extra token for sound control
+ACTOR ArgChainsawRecoilToken : ArgToken { Inventory.MaxAmount 1 } // For extra oomph when you hit an enemy with it
 
 ACTOR ArgChainsawPuff : ArgBulletPuff
 {
 	DamageType "ArgChainsaw"
 	+EXTREMEDEATH
+    +HITMASTER
+    +PUFFGETSOWNER
+    +PUFFONACTORS
+    +ALWAYSPUFF
+	
+	States
+	{
+	XDeath:
+		TNT1 A 0 ACS_NamedExecuteWithResult ("Orange_AmmoShower")
+		TNT1 A 0 A_GiveToTarget ("ArgChainsawRecoilToken", 1)
+		Stop
+	Spawn:
+	    TNT1 A 0
+	    Stop
+    Death:
+        Goto Super::Spawn
+	}
 }
-
-ACTOR ArgChainsawSuperKillPuff : ArgChainsawPuff { DamageType "ArgChainsawSuperKill" }

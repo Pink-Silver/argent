@@ -32,5 +32,5 @@ ACTOR ArgMakeSlower : CustomInventory
 ACTOR PowerArgExecution : PowerProtection
 {
     Powerup.Duration 0x7FFFFFFF
-    DamageFactor "ArgFist", 10.0
+    DamageFactor "ArgFist", 4.0
 }

@@ -10,7 +10,7 @@ ACTOR ArgPlayer : DoomPlayer
 	Player.StartItem "ArgPistol"
 	Player.StartItem "ArgFist"
 	Player.StartItem "Clip", 50
-	Player.WeaponSlot 1, ArgFist, ArgChainsaw
+	Player.WeaponSlot 1, ArgChainsaw, ArgFist
 	Player.WeaponSlot 2, ArgPistol
 	Player.WeaponSlot 3, ArgShotgun, ArgSuperShotgun
 	Player.WeaponSlot 4, ArgHeavyAR, ArgChaingun

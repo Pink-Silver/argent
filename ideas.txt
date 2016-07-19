@@ -20,7 +20,7 @@ Power Armor
   3 levels:
     1. 50% damage absorbtion at 50+ armor
     2. 66% damage absorbtion at 75+ armor
-    3. Armor halves damage from bullet enemies
+    3. Armor further reduces health damage from Possessed (Troopers, Sergeants, Heavy Weapons)
 
 Field Combat Specialist
   3 levels:

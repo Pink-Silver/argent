@@ -1,0 +1,41 @@
+Elite enemies
+
+Elites are typically faster and stronger than their cannon-fodder
+counterparts and can quickly turn the tide of a battle against your
+favor if priority isn't focused on them when they appear.
+
+Upgrades
+
+Chainsaw Enthusiast
+  3 levels:
+    1. 20% more ammo drops on chainsaw kill
+       +200 damage for a total of 700 on impact
+    2. 40% more ammo drops on chainsaw kill
+       +400 damage for a total of 900 on impact
+    3. 50% more ammo drops on chainsaw kill
+       +500 damage for a total of 1000 on impact
+       Enemies killed by the chainsaw drop a BFG cell if you have a BFG
+
+Power Armor
+  3 levels:
+    1. 50% damage absorbtion at 50+ armor
+    2. 66% damage absorbtion at 75+ armor
+    3. Armor halves damage from bullet enemies
+
+Field Combat Specialist
+  3 levels:
+    1. Tagged enemies drop ammo twice as often
+    2. Tagged enemies stay tagged for twice as long
+    3. Tagged enemies draw plasma fire to them
+
+Firestarter
+  3 levels:
+    1. Reduced environmental damage from barrels
+    2. Reduced self-damage from rockets
+    3. Reduced damage from fire-based attacks
+
+Supercomputer
+  3 levels:
+    1. The Supercomputer locates Elite enemies and tells you what type they are
+    2. The Supercomputer notifies you of the presence of Field Drones and Energy Upgrades
+    3. ???

@@ -7,7 +7,7 @@
 ACTOR ArgArmor : BasicArmorBonus
 {
 	Inventory.Icon "BON2B0"
-	Armor.Savepercent 100
+	Armor.Savepercent 50
 	Armor.Saveamount 1
 	Armor.Maxsaveamount 150
 }

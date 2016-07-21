@@ -320,7 +320,7 @@ script "Orange_AmmoShower" (void)
         Spawn (AmmoTypes[i % 5], GetActorX (0), GetActorY (0), GetActorZ (0) + (Height / 2), TID);
         SetActorVelocity (TID, Random (-3.0, 3.0), Random (-3.0, 3.0), Random (0.0, 3.0), FALSE, FALSE);
     }
-    if (ACS_NamedExecuteWithResult ("Orange_CheckForWeapon", 1))
+    if (ACS_NamedExecuteWithResult ("Orange_CheckForWeapon", 1) && Random (0, 256) < 32)
     {
         int TID = UniqueTID ();
         Spawn ("ArgBFGCellDropped", GetActorX (0), GetActorY (0), GetActorZ (0) + (Height / 2), TID);

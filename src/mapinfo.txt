@@ -6,6 +6,12 @@ gameinfo
 	titlemusic = "music/title.mid"
 }
 
+DoomEdNums
+{
+	15000 = ArgBFGCell
+	15001 = ArgChainsawFuel
+}
+
 clearskills
 
 skill baby

@@ -65,15 +65,40 @@ ACTOR ArgPlasmaRifle : ArgModWeapon replaces PlasmaRifle
 		PL1S A 0
 		Goto ModSwapUp
 	Mod1Swap:
-		PL1G A 0 A_PlaySound("weapons/plasma/mod1swap", CHAN_AUTO)
+		PL1S A 8 A_PlaySound("weapons/plasma/mod1swap", CHAN_AUTO)
+		PL1S B 1 A_WeaponOffset(  0.0, 32.0)
+		PL1S C 1 A_WeaponOffset(- 1.0, 32.0)
+		PL1S D 1 A_WeaponOffset(- 3.0, 32.5)
+		PL1S E 1 A_WeaponOffset(- 5.0, 33.0)
+		PL1S F 1 A_WeaponOffset(- 6.0, 34.0)
+		PL1S GH 1
+		PL1S I 6
+		PL1S I 1 A_WeaponOffset(- 7.0, 35.0)
+		PL1S J 1 A_WeaponOffset(- 8.0, 36.0)
+		PL1S J 1 A_WeaponOffset(-10.0, 38.0)
+		PL1S K 1 A_WeaponOffset(-12.0, 40.0)
+		PL1S K 1 A_WeaponOffset(-13.0, 41.0)
+		PL1S K 1 A_WeaponOffset(-13.0, 41.0)
+		PL1S K 1 A_WeaponOffset(-12.0, 40.0)
+		PL1S K 1 A_WeaponOffset(-10.0, 38.0)
+		PL1S K 1 A_WeaponOffset(- 8.0, 36.0)
+		PL1S K 1 A_WeaponOffset(- 6.0, 35.0)
+		PL1S K 1 A_WeaponOffset(- 4.0, 34.0)
+		PL1S K 1 A_WeaponOffset(- 2.0, 33.0)
+		PL1S K 1 A_WeaponOffset(- 1.0, 32.0)
+		PL1S K 6 A_WeaponOffset(  0.0, 32.0)
+		PL1S LMNO 2
+		PL1G AAAAAAAAAAAA 1 A_WeaponReady(WRF_ALLOWRELOAD)
+		PL1A GGGFFFEEEDDDBBBCCCDDDEEEFFFGGG 1 A_WeaponReady(WRF_ALLOWRELOAD)
 	Mod1Ready:
-		PL1G A 0 {
+		PL1G D 0 {
 			if(CountInv("ArgPlasmaRifleModCharge") >= 120) { return state("Mod1ReadyD"); }
 			if(CountInv("ArgPlasmaRifleModCharge") >=  90) { return state("Mod1ReadyC"); }
 			if(CountInv("ArgPlasmaRifleModCharge") >=  60) { return state("Mod1ReadyB"); }
 			if(CountInv("ArgPlasmaRifleModCharge") >=  30) { return state("Mod1ReadyA"); }
 			return state(0);
 		}
+		PL1G A 0
 		Goto ReadyLoop
 	Mod1ReadyA:
 		PL1A FFFGGG 1 A_WeaponReady(WRF_ALLOWRELOAD)
@@ -90,8 +115,23 @@ ACTOR ArgPlasmaRifle : ArgModWeapon replaces PlasmaRifle
 		PL1G DDDEEEFFFGGGHHH 1 A_WeaponReady(WRF_ALLOWRELOAD)
 		Loop
 	Mod1FirePrimary:
+		// extra special animation stuffs for heatblast's primary fire
+		PL1G K 1 Bright {
+			if(CountInv("ArgPlasmaRifleModCharge") >= 120) { return state("Mod1FirePrimaryB"); }
+			if(CountInv("ArgPlasmaRifleModCharge") >=  30) { return state("Mod1FirePrimaryA"); }
+			return state(0);
+		}
+		PL1G L 1 Bright A_WeaponOffset(2.0 + frandom(-0.25, 1.25), 33.5 + frandom(-0.25, 0.25))
+		PL1G A 1        A_WeaponOffset(1.0 + frandom(-0.25, 2.25), 33.0 + frandom(-0.25, 0.50))
+		Goto Mod1Ready
+	Mod1FirePrimaryA:
 		PL1G B 1 Bright
 		PL1G C 1 Bright A_WeaponOffset(2.0 + frandom(-0.25, 1.25), 33.5 + frandom(-0.25, 0.25))
+		PL1A D 1        A_WeaponOffset(1.0 + frandom(-0.25, 2.25), 33.0 + frandom(-0.25, 0.50))
+		Goto Mod1Ready
+	Mod1FirePrimaryB:
+		PL1G I 1 Bright
+		PL1G J 1 Bright A_WeaponOffset(2.0 + frandom(-0.25, 1.25), 33.5 + frandom(-0.25, 0.25))
 		PL1A D 1        A_WeaponOffset(1.0 + frandom(-0.25, 2.25), 33.0 + frandom(-0.25, 0.50))
 		Goto Mod1Ready
 	Mod1Up:
@@ -105,8 +145,18 @@ ACTOR ArgPlasmaRifle : ArgModWeapon replaces PlasmaRifle
 			A_Explode(CountInv("ArgPlasmaRifleModCharge") * 3, 160, XF_NOTMISSILE, 0, 128);
 			A_Blast(BF_NOIMPACTDAMAGE, CountInv("ArgPlasmaRifleModCharge") * 2, 160, 20, "ArgNothing", "");
 			A_TakeInventory("ArgPlasmaRifleModCharge", 999);
+			
+			// cool heatwave fx
 			A_Quake(2, 8, 0, 8, "");
-			// [TODO] cool heatwave effect
+			A_FireCustomMissile("ArgPlasmaHeatWave", -40, 0, 0, 0, FPF_NOAUTOAIM);
+			A_FireCustomMissile("ArgPlasmaHeatWave", -30, 0, 0, 0, FPF_NOAUTOAIM);
+			A_FireCustomMissile("ArgPlasmaHeatWave", -20, 0, 0, 0, FPF_NOAUTOAIM);
+			A_FireCustomMissile("ArgPlasmaHeatWave", -10, 0, 0, 0, FPF_NOAUTOAIM);
+			A_FireCustomMissile("ArgPlasmaHeatWave",   0, 0, 0, 0, FPF_NOAUTOAIM);
+			A_FireCustomMissile("ArgPlasmaHeatWave",  10, 0, 0, 0, FPF_NOAUTOAIM);
+			A_FireCustomMissile("ArgPlasmaHeatWave",  20, 0, 0, 0, FPF_NOAUTOAIM);
+			A_FireCustomMissile("ArgPlasmaHeatWave",  30, 0, 0, 0, FPF_NOAUTOAIM);
+			A_FireCustomMissile("ArgPlasmaHeatWave",  40, 0, 0, 0, FPF_NOAUTOAIM);
 		}
 		PL1A B 1 A_WeaponOffset( 5.0,  5.0 + 32.0)
 		PL1A B 1 A_WeaponOffset(12.0, 12.0 + 32.0)
@@ -129,7 +179,32 @@ ACTOR ArgPlasmaRifle : ArgModWeapon replaces PlasmaRifle
 		PL2S A 0
 		Goto ModSwapUp
 	Mod2Swap:
-		PL2G A 0 A_PlaySound("weapons/plasma/mod2swap", CHAN_AUTO)
+		PL2S A 1 {
+			A_PlaySound("weapons/plasma/mod2swap", CHAN_AUTO);
+			A_TakeInventory("ArgPlasmaRifleModCharge", 120);
+		}
+		PL2S B 1 A_WeaponOffset(  0.0, 32.0)
+		PL2S C 1 A_WeaponOffset(- 1.0, 32.0)
+		PL2S D 1 A_WeaponOffset(- 3.0, 32.5)
+		PL2S E 1 A_WeaponOffset(- 5.0, 33.0)
+		PL2S F 1 A_WeaponOffset(- 6.0, 34.0)
+		PL2S GHIJ 1
+		PL2S K 6
+		PL2S K 1 A_WeaponOffset(- 7.0, 35.0)
+		PL2S K 1 A_WeaponOffset(- 8.0, 36.0)
+		PL2S L 1 A_WeaponOffset(-10.0, 38.0)
+		PL2S L 1 A_WeaponOffset(-12.0, 40.0)
+		PL2S L 1 A_WeaponOffset(-13.0, 41.0)
+		PL2S L 1 A_WeaponOffset(-13.0, 41.0)
+		PL2S L 1 A_WeaponOffset(-12.0, 40.0)
+		PL2S L 1 A_WeaponOffset(-10.0, 38.0)
+		PL2S L 1 A_WeaponOffset(- 8.0, 36.0)
+		PL2S L 1 A_WeaponOffset(- 6.0, 35.0)
+		PL2S L 1 A_WeaponOffset(- 4.0, 34.0)
+		PL2S L 1 A_WeaponOffset(- 2.0, 33.0)
+		PL2S L 1 A_WeaponOffset(- 1.0, 32.0)
+		PL2S L 6 A_WeaponOffset(  0.0, 32.0)
+		PL2S MNOP 2
 	Mod2Ready:
 		PL2G A 0
 		Goto ReadyLoop
@@ -187,6 +262,35 @@ ACTOR ArgPlasma : PlasmaBall
 	}
 }
 
+ACTOR ArgPlasmaHeatWave
+{
+	Projectile
+	Speed 10
+	Damage 0
+	Alpha 0.5
+	RenderStyle "Add"
+	XScale 0.5
+	YScale 0.1
+
+	+BOUNCEONWALLS
+	+BOUNCEONCEILINGS
+	+THRUACTORS
+
+	States
+	{
+	Spawn:
+		PBOM EEFFFGGGGHHHHHIIIIII 1 Bright {
+			A_SetSpeed(speed * 0.66);
+			A_SetScale(0.5, scaley * 1.1);
+			A_FadeOut(0.025);
+		}
+		Stop
+	Death:
+		TNT1 A 0
+		Stop
+	}
+}
+
 ACTOR ArgStunBomb : ArgPlasma
 {
 	Speed 40
@@ -196,7 +300,8 @@ ACTOR ArgStunBomb : ArgPlasma
 	
 	-NOGRAVITY
 	
-	States {
+	States
+	{
 	Spawn:
 		PBOM ABCD 1 Bright
 		Loop

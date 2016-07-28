@@ -1,0 +1,176 @@
+// --------------------------------------------------------------------------
+//
+// ARGENT ORANGE: Upgrades and related items
+//
+// --------------------------------------------------------------------------
+
+// -- Argent Cell --
+
+ACTOR ArgArgentCell : ArgPowerup replaces Berserk
+{
+	Inventory.PickupMessage "$ARG_GOT_ARGCELL"
+	Inventory.PickupSound "items/powerup"
+    
+	States
+	{
+	Spawn:
+		ARGN ABCD 6 Bright
+		Loop
+	Pickup:
+		TNT1 A 0 ACS_NamedExecuteWithResult("Orange_ArgentCell")
+		Stop
+	}
+}
+
+ACTOR ArgArgentSelector : CustomInventory
+{
+	Inventory.PickupMessage "$ARG_GOT_ARGSEL"
+	Inventory.PickupSound "" // The script this executes plays a sound already
+    
+	States
+	{
+	Spawn:
+		ASEL A 30
+		ASEL A 5 BRIGHT
+		Loop
+	Pickup:
+		TNT1 A 0 ACS_NamedExecuteWithResult("Orange_ArgentSelect")
+		Stop
+	}
+}
+
+ACTOR ArgArgentSelectorDropped : ArgArgentSelector
+{
+    States
+    {
+    Spawn:
+        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
+        Goto Super::Spawn
+    }
+}
+
+// Backpack field drone thing, for giving weapon mods
+
+ACTOR ArgModPack : CustomInventory replaces Backpack
+{
+    Inventory.PickupMessage "A backpack!"
+    Inventory.PickupSound "items/weapon"
+    
+    States
+    {
+    Spawn:
+        BPAK A -1
+        Stop
+    Pickup:
+        TNT1 A 0 {
+            if (CountInv ("ArgShotgun") && (!CountInv ("ArgShotgunMod1Enabled") || !CountInv ("ArgShotgunMod2Enabled")))
+            {
+                if (!CountInv ("ArgShotgunMod1Enabled"))
+                {
+                    A_GiveInventory ("ArgShotgunMod1Enabled", 1);
+                    A_Log ("Acquired Charged Burst!");
+                    return state("Done");
+                }
+                else if (!CountInv ("ArgShotgunMod2Enabled"))
+                {
+                    A_GiveInventory ("ArgShotgunMod2Enabled", 1);
+                    A_Log ("Acquired Explosive Shot!");
+                    return state("Done");
+                }
+            }
+
+            if (CountInv ("ArgHeavyAR") && (!CountInv ("ArgHeavyARMod1Enabled") || !CountInv ("ArgHeavyARMod2Enabled")))
+            {
+                if (!CountInv ("ArgHeavyARMod1Enabled"))
+                {
+                    A_GiveInventory ("ArgHeavyARMod1Enabled", 1);
+                    A_Log ("Acquired Micro Missiles!");
+                    return state("Done");
+                }
+                else if (!CountInv ("ArgHeavyARMod2Enabled"))
+                {
+                    A_GiveInventory ("ArgHeavyARMod2Enabled", 1);
+                    A_Log ("Acquired Tactical Scope!");
+                    return state("Done");
+                }
+            }
+
+            if (CountInv ("ArgChaingun") && (!CountInv ("ArgChaingunMod1Enabled") || !CountInv ("ArgChaingunMod2Enabled")))
+            {
+                if (!CountInv ("ArgChaingunMod1Enabled"))
+                {
+                    A_GiveInventory ("ArgChaingunMod1Enabled", 1);
+                    A_Log ("Acquired Gatling Rotator!");
+                    return state("Done");
+                }
+                else if (!CountInv ("ArgChaingunMod2Enabled"))
+                {
+                    A_GiveInventory ("ArgChaingunMod2Enabled", 1);
+                    A_Log ("Acquired Mobile Turret!");
+                    return state("Done");
+                }
+            }
+
+/*
+            if (CountInv ("ArgRocketLauncher") && (!CountInv ("ArgRocketLauncherMod1Enabled") || !CountInv ("ArgRocketLauncherMod2Enabled")))
+            {
+                if (!CountInv ("ArgRocketLauncherMod1Enabled"))
+                {
+                    A_GiveInventory ("ArgRocketLauncherMod1Enabled", 1);
+                    A_Log ("Acquired Remote Detonator!");
+                    return state("Done");
+                }
+                else if (!CountInv ("ArgRocketLauncherMod2Enabled"))
+                {
+                    A_GiveInventory ("ArgRocketLauncherMod2Enabled", 1);
+                    A_Log ("Acquired Lock-on Burst!");
+                    return state("Done");
+                }
+            }
+*/
+
+            if (CountInv ("ArgPlasmaRifle") && (!CountInv ("ArgPlasmaRifleMod1Enabled") || !CountInv ("ArgPlasmaRifleMod2Enabled")))
+            {
+                if (!CountInv ("ArgPlasmaRifleMod1Enabled"))
+                {
+                    A_GiveInventory ("ArgPlasmaRifleMod1Enabled", 1);
+                    A_Log ("Acquired Heat Blast!");
+                    return state("Done");
+                }
+                else if (!CountInv ("ArgPlasmaRifleMod2Enabled"))
+                {
+                    A_GiveInventory ("ArgPlasmaRifleMod2Enabled", 1);
+                    A_Log ("Acquired Stun Bomb!");
+                    return state("Done");
+                }
+            }
+
+/*
+            if (CountInv ("ArgGaussCannon") && (!CountInv ("ArgGaussCannonMod1Enabled") || !CountInv ("ArgGaussCannonMod2Enabled")))
+            {
+                if (!CountInv ("ArgGaussCannonMod1Enabled"))
+                {
+                    A_GiveInventory ("ArgGaussCannonMod1Enabled", 1);
+                    A_Log ("Acquired Precision Scope!");
+                    return state("Done");
+                }
+                else if (!CountInv ("ArgGaussCannonMod2Enabled"))
+                {
+                    A_GiveInventory ("ArgGaussCannonMod2Enabled", 1);
+                    A_Log ("Acquired Siege Mode!");
+                    return state("Done");
+                }
+            }
+*/
+            return state("HaveAllMods");
+        }
+                
+    HaveAllMods:
+        TNT1 A 0
+        Fail
+    
+    Done:
+        TNT1 A 0 A_ChangeFlag ("ACTLIKEBRIDGE", 0)
+        Stop
+    }
+}

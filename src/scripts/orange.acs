@@ -13,6 +13,7 @@ global bool 1:Initialized;
 global int 1:ArgentHealth[];
 global int 2:ArgentArmor[];
 global int 3:ArgentAmmo[];
+global int 4:ArgentUpgradeSelector[];
 
 /*
  * For the pistol, give it bars to indicate its' charge status.
@@ -80,7 +81,7 @@ script "Orange_HUD" enter
         /* Argent Cell Stats */
         
         SetFont ("REDBASE");
-        HudMessage (s:"A"; HUDMSG_PLAIN, 270, CR_UNTRANSLATED, 28.1, 360.0, 0);
+        HudMessage (s:"A"; HUDMSG_PLAIN, 288, CR_UNTRANSLATED, 28.1, 360.0, 0);
         
         for (int bar = 1; bar <= 3; bar++)
         {
@@ -100,8 +101,13 @@ script "Orange_HUD" enter
                 HudMessage (s:"A"; HUDMSG_PLAIN | HUDMSG_ALPHA, 252 + (6 * (bar - 1)) + i, CR_UNTRANSLATED, 32.1 + (8.0 * (i - 1)), 340.0 + (20.0 * (bar - 1)), 0, Alpha);
             }
             
+            int textcolor = CR_ORANGE;
+            if (ArgentUpgradeSelector[PlayerNumber()] == bar)
+                textcolor = CR_GOLD;
+            
             SetFont ("ArgFont");
-            HudMessage (s:barlabel; HUDMSG_PLAIN, 252 + (6 * (bar - 1)), CR_ORANGE, 76.1, 340.0 + (20.0 * (bar - 1)), 0);
+            HudMessage (s:barlabel; HUDMSG_PLAIN | HUDMSG_ALPHA, 252 + (6 * (bar - 1)), textcolor, 76.1, 340.0 + (20.0 * (bar - 1)), 0, 0.5 + FixedMul(Sin(FixedDiv(Timer() * 1.0, 70.0)), 0.5));
+            HudMessage (s:barlabel; HUDMSG_PLAIN, 270 + (6 * (bar - 1)), CR_ORANGE, 76.1, 340.0 + (20.0 * (bar - 1)), 0);
         }
         
         Delay (1);
@@ -110,6 +116,9 @@ script "Orange_HUD" enter
 
 script "Orange_Initialize" open
 {
+    CreateTranslation(1, 0:255=%[0.0,0.0,0.1]:[0.5,0.5,2.0]);
+    CreateTranslation(2, 0:255=%[0.1,0.0,0.0]:[2.0,0.5,0.5]);
+    
     if (Initialized)
         terminate;
     
@@ -118,10 +127,35 @@ script "Orange_Initialize" open
         ArgentHealth[i] = 1;
         ArgentArmor[i] = 1;
         ArgentAmmo[i] = 1;
+        ArgentUpgradeSelector[i] = Random(1, 3);
     }
     
     Delay (1);
     Initialized = true;
+}
+
+script "Orange_ArgentSelect" (void)
+{
+    int Player = PlayerNumber ();
+    if (ArgentHealth[Player] >= 5 && ArgentArmor[Player] >= 5 && ArgentAmmo[Player] >= 5)
+    {
+        ArgentUpgradeSelector[Player] = 0;
+        Terminate;
+    }
+    
+    ArgentUpgradeSelector[Player]++;
+    
+    if (ArgentUpgradeSelector[Player] == 1 && ArgentHealth[Player] >= 5)
+        ArgentUpgradeSelector[Player]++;
+    if (ArgentUpgradeSelector[Player] == 2 && ArgentArmor[Player] >= 5)
+        ArgentUpgradeSelector[Player]++;
+    if (ArgentUpgradeSelector[Player] == 3 && ArgentAmmo[Player] >= 5)
+        ArgentUpgradeSelector[Player]++;
+    
+    if (ArgentUpgradeSelector[Player] > 3)
+        ArgentUpgradeSelector[Player] = 1;
+    
+    ActivatorSound ("items/automap", 127);
 }
 
 script "Orange_ArgentCell" (void)
@@ -129,104 +163,34 @@ script "Orange_ArgentCell" (void)
     SetHudSize (640, 480, 1);
     int Player = PlayerNumber ();
     
-    ActivatorSound ("items/powerups/haste", 127);
-    SetPlayerProperty (FALSE, TRUE, PROP_TOTALLYFROZEN);
-    
     if (ArgentHealth[Player] >= 5 && ArgentArmor[Player] >= 5 && ArgentAmmo[Player] >= 5)
     {
         GiveInventory ("SphereMega", 1);
         SetPlayerProperty (FALSE, FALSE, PROP_TOTALLYFROZEN);
         ActivatorSound ("items/powerup", 127);
         
-        FadeTo (128, 32, 0, 0.5, 0);
-        FadeTo (128, 32, 0, 0, 1.0);
+        FadeTo (255, 128, 0, 0.5, 0);
+        FadeTo (255, 128, 0, 0, 1.0);
         terminate;
     }
     
-    FadeTo (128, 32, 0, 0.5, 0.5);
-    Delay (18);
-    
-    bool Chosen = FALSE;
-    int Choice = 0;
-    
-    SetFont ("BigFont");
-    HudMessage (s:"Collected Argent Energy\n\nSelect a system to upgrade"; HUDMSG_TYPEON, 220, CR_WHITE, 320.4, 160.0, 32767.0, 0.03, 0);
-    
-    while (!Chosen)
+    switch (ArgentUpgradeSelector[Player])
     {
-        for (int bar = 1; bar <= 3; bar++)
-        {
-            str barlabel = "Health";
-            if (bar == 2) barlabel = "Armor";
-            if (bar == 3) barlabel = "Ammo";
-            int upgrades = ArgentHealth[Player];
-            if (bar == 2) upgrades = ArgentArmor[Player];
-            if (bar == 3) upgrades = ArgentAmmo[Player];
-            int barcolor = CR_RED;
-            if (Choice + 1 == bar) barcolor = CR_GOLD;
-            
-            for (int i = 1; i <= 5; i++)
-            {
-                int Alpha = 1.0;
-                SetFont ("REDBAR1");
-                if (i > upgrades) Alpha = 0.33;
-                if (Choice + 1 == bar && Timer() & 16 && i == upgrades + 1) Alpha = 1.0;
-                
-                HudMessage (s:"A"; HUDMSG_PLAIN | HUDMSG_ALPHA, 222 + (6 * (bar - 1)) + i, CR_UNTRANSLATED, 240.0 + (16.0 * (i - 1)), 320.0 + (40.0 * (bar - 1)), 0.03, Alpha);
-            }
-            
-            SetFont ("BigFont");
-            HudMessage (s:barlabel; HUDMSG_PLAIN, 222 + (6 * (bar - 1)), barcolor, 320.1, 320.0 + (40.0 * (bar - 1)), 0.03);
-        }
-        
-        float forwardmove = GetPlayerInput (-1, INPUT_FORWARDMOVE);
-        float forwardlast;
-        
-        if (forwardmove <= -6400 && forwardlast > -6400)
-        {
-            Choice++;
-            if (Choice > 2) Choice = 0;
-        }
-
-        if (forwardmove >= 6400 && forwardlast < 6400)
-        {
-            Choice--;
-            if (Choice < 0) Choice = 2;
-        }
-        
-        if (GetPlayerInput (-1, INPUT_BUTTONS) & BT_USE)
-        {
-            if (Choice == 0 && ArgentHealth[Player] >= 5)
-                ActivatorSound ("menu/error", 127);
-            else if (Choice == 1 && ArgentArmor[Player] >= 5)
-                ActivatorSound ("menu/error", 127);
-            else if (Choice == 2 && ArgentAmmo[Player] >= 5)
-                ActivatorSound ("menu/error", 127);
-            else
-                Chosen = TRUE;
-        }
-
-        Delay (1);
-        
-        forwardlast = forwardmove;
-    }
-    
-    HudMessage (s:"Collected Argent Energy\n\nSelect a system to upgrade"; HUDMSG_FADEOUT, 220, CR_WHITE, 320.4, 160.0, 0.0, 1.0);
-    switch (Choice)
-    {
-        case 0:
+        case 1:
             ArgentHealth[Player]++;
             break;
-        case 1:
+        case 2:
             ArgentArmor[Player]++;
             break;
-        case 2:
+        case 3:
             ArgentAmmo[Player]++;
             break;
     }
     ActivatorSound ("items/powerup", 127);
-    SetPlayerProperty (FALSE, FALSE, PROP_TOTALLYFROZEN);
     ACS_NamedExecuteWithResult ("Orange_SetArgentMaxes");
+    
+    ArgentUpgradeSelector[Player] = Random(1, 3);
+    ACS_NamedExecuteWithResult ("Orange_ArgentSelect");
     
     FadeTo (128, 32, 0, 0, 1.0);
 }
@@ -273,14 +237,28 @@ script "Orange_GiveArmor" (int amount)
     SetResultValue (TRUE);
 }
 
+script "Orange_MasterIsMonster" (void)
+{
+    SetActivator (0, AAPTR_MASTER);
+    
+    if (ClassifyActor(0) & ACTOR_MONSTER)
+    {
+        SetResultValue (TRUE);
+        Terminate;
+    }
+    
+    SetResultValue (FALSE);
+}
+
 script "Orange_TagMonster" (void)
 {
-    ACS_NamedExecuteWithResult ("Orange_TaggedMonster");
+    if (ACS_NamedExecuteWithResult ("Orange_MasterIsMonster"))
+        ACS_NamedExecuteWithResult ("Orange_TaggedMonster");
 }
 
 script "Orange_DropAmmoIfTagged" (void)
 {
-    str AmmoTypes[4] = {
+    str AmmoTypes[5] = {
         "ArgClipDropped",
         "ArgShellDropped",
         "ArgRocketAmmoDropped",
@@ -293,7 +271,7 @@ script "Orange_DropAmmoIfTagged" (void)
     
     if (CheckInventory ("ArgPistolTag"))
     {
-        Spawn (AmmoTypes[Random (0, 3)], GetActorX (0), GetActorY (0), GetActorZ (0) + (Height / 2), TID);
+        Spawn (AmmoTypes[Random (0, 4)], GetActorX (0), GetActorY (0), GetActorZ (0) + (Height / 2), TID);
         SetActorVelocity (TID, Random (-6.0, 6.0), Random (-6.0, 6.0), Random (0.0, 6.0), FALSE, FALSE);
     }
 }
@@ -362,6 +340,7 @@ script "Orange_TaggedMonster" (void)
         int Height = GetActorProperty (0, APROP_Height);
         if (!CheckFlag (0, "ALWAYSFAST"))
         {
+            Thing_SetTranslation (0, 1);
             if (!Random (0, 3)) SpawnParticle (0x0000FF, TRUE, 20, 4, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
             if (!Random (0, 3)) SpawnParticle (0x4040FF, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
             if (!Random (0, 3)) SpawnParticle (0x8080FF, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
@@ -370,6 +349,7 @@ script "Orange_TaggedMonster" (void)
         }
         else
         {
+            Thing_SetTranslation (0, 2);
             if (!Random (0, 3)) SpawnParticle (0xFF0000, TRUE, 20, 4, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
             if (!Random (0, 3)) SpawnParticle (0xFF4040, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
             if (!Random (0, 3)) SpawnParticle (0xFF8080, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
@@ -379,7 +359,7 @@ script "Orange_TaggedMonster" (void)
         
         if (!(ClassifyActor (0) & ACTOR_ALIVE))
         {
-            if (!ACS_NamedExecuteWithResult ("Orange_CheckForPistolKill"))
+            if (!ACS_NamedExecuteWithResult ("Orange_CheckForPistolKill") && !ACS_NamedExecuteWithResult ("Orange_CheckForInfighting"))
             {
                 int HealthDrops = Random (2, 4);
                 if (ACS_NamedExecuteWithResult ("Orange_CheckForLudicrousHealth"))
@@ -403,6 +383,8 @@ script "Orange_TaggedMonster" (void)
                     DropItem (0, drop, -1, 256);
                 }
 
+                DropItem (0, "ArgArgentSelectorDropped", 10, 85);
+                
                 // Occasionally drop a few random ammo pickups even if we haven't used the chainsaw
                 DropItem (0, "ArgClipDropped", 10, 64);
                 DropItem (0, "ArgShellDropped", 4, 64);
@@ -413,6 +395,7 @@ script "Orange_TaggedMonster" (void)
                 if (ACS_NamedExecuteWithResult ("Orange_CheckForWeapon", 1)) DropItem (0, "ArgBFGCellDropped", 1, 16);
             }
             
+            Thing_SetTranslation (0, 0);
             TakeInventory ("PowerArgExecution", 1);
             TakeInventory ("ArgPistolTag", 350);
             GiveInventory ("ArgMakeSlower", 1);
@@ -423,8 +406,22 @@ script "Orange_TaggedMonster" (void)
         TakeInventory ("ArgPistolTag", 1);
     }
     
+    Thing_SetTranslation (0, 0);
     TakeInventory ("PowerArgExecution", 1);
     GiveInventory ("ArgMakeSlower", 1);
+}
+
+script "Orange_CheckForInfighting" (void)
+{
+    SetActivator (0, AAPTR_TARGET);
+    
+    if (PlayerNumber() == -1)
+    {
+        SetResultValue (TRUE);
+        Terminate;
+    }
+    
+    SetResultValue (FALSE);
 }
 
 script "Orange_CheckForPistolKill" (void)
@@ -490,6 +487,9 @@ script "Orange_TemporaryItem" (void)
     int Counter = 35 * 7;
     while (Counter)
     {
+        if (ClassifyActor (0) == ACTOR_WORLD)
+            Terminate;
+        
         if (!Random (0, 15)) SpawnParticle (0xFFFF00, TRUE, 20, 4, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
         if (!Random (0, 15)) SpawnParticle (0xFFFF40, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
         if (!Random (0, 15)) SpawnParticle (0xFFFF80, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
@@ -506,6 +506,9 @@ script "Orange_TemporaryItem" (void)
     Counter = 35 * 3;
     while (Counter)
     {
+        if (ClassifyActor (0) == ACTOR_WORLD)
+            Terminate;
+        
         if (!Random (0, 15)) SpawnParticle (0xFFFF00, TRUE, 20, 4, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
         if (!Random (0, 15)) SpawnParticle (0xFFFF40, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
         if (!Random (0, 15)) SpawnParticle (0xFFFF80, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);

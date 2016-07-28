@@ -28,6 +28,7 @@ ARG_GOT_BFG      = "You got the BFG 9000! Hail to the chief!";
 
 ARG_GOT_BFGCELL  = "Picked up a BFG cell.";
 ARG_GOT_CSAWFUEL = "Picked up some chainsaw fuel.";
+ARG_GOT_ARGSEL   = "Picked up an Argent Energy Selector.";
 
 ARG_OB_FIST      = "%o was clocked out by %k's bare fists.";
 ARG_OB_CHAINSAW  = "%o was gloriously eviscerated by %k's chainsaw.";

@@ -26,7 +26,10 @@ ACTOR ArgHealthBonusDropped : ArgHealthBonus
     {
     Spawn:
         TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
-        Goto Super::Spawn
+    DroppedSpawn:
+		BON1 B 30
+		BON1 B 5 BRIGHT
+		Loop
     }
 }
 

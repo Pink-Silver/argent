@@ -8,7 +8,7 @@ gameinfo
 
 DoomEdNums
 {
-	15000 = ArgBFGCell
+	15000 = ArgBFGCellSpawner
 	15001 = ArgChainsawFuel
 }
 

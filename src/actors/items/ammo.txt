@@ -33,18 +33,50 @@ ACTOR ArgRocketBox  : RocketBox  replaces RocketBox  { Inventory.PickupSound "it
 ACTOR ArgCell       : Cell       replaces Cell       { Inventory.PickupSound "items/ammo" Scale 0.75 }
 ACTOR ArgCellPack   : CellPack   replaces CellPack   { Inventory.PickupSound "items/ammo" Scale 0.75 }
 
-ACTOR ArgBFGCell : BFGCell
+ACTOR ArgBFGCell : CustomInventory
 {
-    Translation "0:255=%[0.08,0.18,0.06]:[1.0,2.0,0.8]"
-    Inventory.PickupMessage "$ARG_GOT_BFGCELL"
-    Inventory.PickupSound "items/ammo"
-    Scale 0.75
-    States
-    {
-    Spawn:
-        CELP A -1
-        Stop
-    }
+	Inventory.PickupSound "items/ammo"
+	Inventory.PickupMessage "$ARG_GOT_BFGCELL"
+	Scale 0.66
+	+FLOATBOB
+	States
+	{
+	Spawn:
+		BFGC BC 5 Bright 
+		Loop
+	Pickup:
+		TNT1 A 0 {
+			A_GiveInventory("BFGCell", 1);
+			A_RemoveSiblings(true, RMVF_MISC|RMVF_EVERYTHING);
+		}
+		Stop
+	}
+}
+
+ACTOR ArgBFGCellStand
+{
+	Scale 0.66
+	+FORCEYBILLBOARD //:V
+	States
+	{
+	Spawn:
+		BFGC A -1
+		Stop
+	}
+}
+
+ACTOR ArgBFGCellSpawner
+{
+	+NOINTERACTION
+	States
+	{
+	Spawn:
+		TNT1 A -1 NoDelay {
+			A_SpawnItemEx("ArgBFGAmmoStand" ,0,0,0,0,0,0,0,SXF_SETMASTER|SXF_CLIENTSIDE     );
+			A_SpawnItemEx("ArgBFGAmmoPickup",0,0,0,0,0,0,0,SXF_SETMASTER|SXF_TRANSFERSPECIAL); //Juuuust to be sure, in case of mappers doing things.
+		}
+		Stop
+	}
 }
 
 ACTOR ArgChainsawFuel : ChainsawFuel

@@ -39,7 +39,7 @@ ACTOR ArgPistol : ArgWeapon replaces Pistol
 		PISF A 1 Bright {
 			A_GunFlash;
 			A_AlertMonsters;
-			A_FireBullets(1.5, 1, 1, 5, "ArgPistolPuff");
+			A_FireBullets(1.5, 1, 1, 8, "ArgPistolPuff", FBF_NORANDOM);
 			A_WeaponReady(WRF_NOFIRE);
 			
 			if(CountInv("ArgPistolShootyToken") == 0) {

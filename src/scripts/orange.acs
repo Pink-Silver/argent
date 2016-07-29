@@ -45,6 +45,50 @@ script "Orange_PistolChargeBar" enter
 	Restart;
 }
 
+script "Orange_WeaponCooldownBar" enter
+{
+	str CurrentWeapon = GetWeapon();
+    bool OK = FALSE;
+    
+    if (!StrCmp (CurrentWeapon, "ArgShotgun") ||
+        !StrCmp (CurrentWeapon, "ArgHeavyAR") ||
+        !StrCmp (CurrentWeapon, "ArgChaingun") ||
+        !StrCmp (CurrentWeapon, "ArgRocketLauncher") ||
+        !StrCmp (CurrentWeapon, "ArgPlasmaRifle") ||
+        !StrCmp (CurrentWeapon, "ArgGaussCannon"))
+        OK = TRUE;
+    
+    if (!OK)
+    {
+        Delay (1);
+        Restart;
+    }
+    
+	str CooldownItem = StrParam(s:CurrentWeapon, s:"ModCooldown");
+    int CooldownMax = GetMaxInventory (0, CooldownItem);
+    int CooldownPercent = CheckInventory (CooldownItem) * 64 / CooldownMax;
+    
+    if(!CheckInventory (CooldownItem))
+    {
+        Delay (1);
+        Restart;
+    }
+    
+    SetHudSize (640, 480, 1);
+    SetHudClipRect (0, 0, 0, 0);
+    SetFont ("WCBAR");
+	HudMessage (s:"A"; HUDMSG_PLAIN | HUDMSG_ALPHA, 250, CR_UNTRANSLATED, 320.0, 272.0, 0, 0.25);
+    SetHudClipRect (288, 270, CooldownPercent, 4);
+    SetFont ("WCBAR");
+	HudMessage (s:"A"; HUDMSG_PLAIN | HUDMSG_ALPHA, 251, CR_UNTRANSLATED, 320.0, 272.0, 0, 0.5);
+	
+	Delay (1);
+    
+    HudMessage (s:""; HUDMSG_PLAIN, 250, CR_UNTRANSLATED, 0, 0, 0);
+    HudMessage (s:""; HUDMSG_PLAIN, 251, CR_UNTRANSLATED, 0, 0, 0);
+	Restart;
+}
+
 script "Orange_HUD" enter
 {
     SetHudSize (640, 480, 1);
@@ -116,8 +160,8 @@ script "Orange_HUD" enter
 
 script "Orange_Initialize" open
 {
-    CreateTranslation(1, 0:255=%[0.0,0.0,0.1]:[0.5,0.5,2.0]);
-    CreateTranslation(2, 0:255=%[0.1,0.0,0.0]:[2.0,0.5,0.5]);
+    CreateTranslation(1, 0:255=%[0.0,0.0,1.0]:[0.0,0.0,0.0]);
+    CreateTranslation(2, 0:255=%[1.0,0.0,0.0]:[0.0,0.0,0.0]);
     
     if (Initialized)
         terminate;
@@ -310,10 +354,7 @@ script "Orange_TaggedMonster" (void)
 {
     SetActivator (0, AAPTR_MASTER);
     
-    int Chance = 9;
-    if (GetActorProperty (0, APROP_SpawnHealth) < 100) Chance = 4;
-    
-    if (Random (0, Chance) && !CheckInventory ("ArgPistolTag"))
+    if (GetActorProperty (0, APROP_Health) > (GetActorProperty (0, APROP_SpawnHealth) / 4) && !CheckInventory ("ArgPistolTag"))
         Terminate;
     
     if (!Random (0, 15) && !CheckFlag (0, "ALWAYSFAST"))
@@ -331,32 +372,20 @@ script "Orange_TaggedMonster" (void)
     }
     
     GiveInventory ("PowerArgExecution", 1);
+    GiveInventory ("ArgMakeFullbright", 1);
     GiveInventory ("ArgPistolTag", 175);
     if (CheckFlag (1, "BOSS")) TakeInventory ("ArgPistolTag", 70);
     
     while (CheckInventory ("ArgPistolTag"))
     {
-        int Radius = GetActorProperty (0, APROP_Radius);
-        int Height = GetActorProperty (0, APROP_Height);
-        if (!CheckFlag (0, "ALWAYSFAST"))
-        {
-            Thing_SetTranslation (0, 1);
-            if (!Random (0, 3)) SpawnParticle (0x0000FF, TRUE, 20, 4, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-            if (!Random (0, 3)) SpawnParticle (0x4040FF, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-            if (!Random (0, 3)) SpawnParticle (0x8080FF, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-            if (!Random (0, 3)) SpawnParticle (0xC0C0FF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-            if (!Random (0, 3)) SpawnParticle (0xFFFFFF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-        }
-        else
-        {
-            Thing_SetTranslation (0, 2);
-            if (!Random (0, 3)) SpawnParticle (0xFF0000, TRUE, 20, 4, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-            if (!Random (0, 3)) SpawnParticle (0xFF4040, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-            if (!Random (0, 3)) SpawnParticle (0xFF8080, TRUE, 20, 3, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-            if (!Random (0, 3)) SpawnParticle (0xFFC0C0, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-            if (!Random (0, 3)) SpawnParticle (0xFFFFFF, TRUE, 20, 2, GetActorX (0) + Random (-Radius, Radius), GetActorY (0) + Random (-Radius, Radius), GetActorZ (0) + Random (0.0, Height), 0, 0, 0.7, 0, 0, 0, 255, 13);
-        }
-        
+        fixed Radius = GetActorProperty (0, APROP_Radius);
+        fixed Height = GetActorProperty (0, APROP_Height);
+        fixed ParticleSpeed = FixedDiv (GetActorProperty (0, APROP_Radius), 32.0);
+        fixed X = GetActorX (0);
+        fixed Y = GetActorY (0);
+        fixed Z = GetActorZ (0);
+        int ParticleColor = 0x8080FF;
+
         if (!(ClassifyActor (0) & ACTOR_ALIVE))
         {
             if (!ACS_NamedExecuteWithResult ("Orange_CheckForPistolKill") && !ACS_NamedExecuteWithResult ("Orange_CheckForInfighting"))
@@ -397,9 +426,25 @@ script "Orange_TaggedMonster" (void)
             
             Thing_SetTranslation (0, 0);
             TakeInventory ("PowerArgExecution", 1);
+            GiveInventory ("ArgMakeUnFullbright", 1);
             TakeInventory ("ArgPistolTag", 350);
             GiveInventory ("ArgMakeSlower", 1);
             Terminate;
+        }
+        
+        if (!CheckFlag (0, "ALWAYSFAST"))
+        {
+            Thing_SetTranslation (0, 1);
+        }
+        else
+        {
+            Thing_SetTranslation (0, 2);
+            ParticleColor = 0xFF8080;
+        }
+        
+        for (int i = 0; i < 360; i += 11)
+        {
+            SpawnParticle (ParticleColor, TRUE, 20, 3, X + FixedMul (Cos (FixedDiv (i * 1.0, 360.0)), Radius), Y + FixedMul (Sin (FixedDiv (i * 1.0, 360.0)), Radius), Z + (Height / 2) + FixedMul (Sin (FixedDiv (Timer() * 1.0, 35.0)) / 2, Height), FixedMul (Cos (FixedDiv (i * 1.0, 360.0)), ParticleSpeed), FixedMul (Sin (FixedDiv (i * 1.0, 360.0)), ParticleSpeed), 0, 0, 0, 0, 255, 13);        
         }
         
         Delay (1);
@@ -408,6 +453,7 @@ script "Orange_TaggedMonster" (void)
     
     Thing_SetTranslation (0, 0);
     TakeInventory ("PowerArgExecution", 1);
+    GiveInventory ("ArgMakeUnFullbright", 1);
     GiveInventory ("ArgMakeSlower", 1);
 }
 

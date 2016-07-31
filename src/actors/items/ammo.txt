@@ -60,11 +60,11 @@ ACTOR ArgBFGCellSpawner
 	States
 	{
 	Spawn:
-		BFGC A 0 NoDelay A_SpawnItemEx("ArgBFGAmmo",0,0,0,0,0,0,0,SXF_ISTRACER|SXF_TRANSFERSPECIAL)
+		BFGC A 0 NoDelay A_SpawnItemEx("ArgBFGCell",0,0,0,0,0,0,0,SXF_ISTRACER|SXF_TRANSFERSPECIAL)
 	Idle:
 		BFGC A 1
 		BFGC A 1 {
-			if(CheckClass("ArgBFGAmmo", AAPTR_TRACER)) {
+			if(CheckClass("ArgBFGCell", AAPTR_TRACER)) {
 				return state(0);
 			}
 			return state("Vanish");

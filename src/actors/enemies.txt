@@ -435,6 +435,7 @@ ACTOR ArgCyberDAMN : Cyberdemon replaces Cyberdemon
 
 ACTOR ArgSPIDARS_AAAH_KILL_IT_WITH_FIRE : SpiderMastermind replaces SpiderMastermind
 {
+	Radius 80
 	DropItem "ArgChaingun"
 	States
 	{

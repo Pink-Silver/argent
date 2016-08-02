@@ -111,8 +111,8 @@ ACTOR ArgModPack : CustomInventory replaces Backpack
                 }
             }
 
-/*
-            if (CountInv ("ArgRocketLauncher") && (!CountInv ("ArgRocketLauncherMod1Enabled") || !CountInv ("ArgRocketLauncherMod2Enabled")))
+            //if (CountInv ("ArgRocketLauncher") && (!CountInv ("ArgRocketLauncherMod1Enabled") || !CountInv ("ArgRocketLauncherMod2Enabled")))
+            if (CountInv ("ArgRocketLauncher") && !CountInv ("ArgRocketLauncherMod1Enabled"))
             {
                 if (!CountInv ("ArgRocketLauncherMod1Enabled"))
                 {
@@ -120,14 +120,15 @@ ACTOR ArgModPack : CustomInventory replaces Backpack
                     A_Log ("Acquired Remote Detonator!");
                     return state("Done");
                 }
+/*
                 else if (!CountInv ("ArgRocketLauncherMod2Enabled"))
                 {
                     A_GiveInventory ("ArgRocketLauncherMod2Enabled", 1);
                     A_Log ("Acquired Lock-on Burst!");
                     return state("Done");
                 }
-            }
 */
+            }
 
             if (CountInv ("ArgPlasmaRifle") && (!CountInv ("ArgPlasmaRifleMod1Enabled") || !CountInv ("ArgPlasmaRifleMod2Enabled")))
             {

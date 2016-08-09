@@ -10,6 +10,8 @@ DoomEdNums
 {
 	15000 = ArgBFGCellSpawner
 	15001 = ArgChainsawFuel
+	15002 = ArgChaingun
+	15003 = ArgGaussCannon
 }
 
 clearskills

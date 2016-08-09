@@ -7,7 +7,7 @@
 #library "orange"
 #include "zcommon.acs"
 
-#define MAXPLAYERS 8
+#define MAXPLAYERS 64
 
 global bool 1:Initialized;
 global int 1:ArgentHealth[];
@@ -336,10 +336,10 @@ script "Orange_AmmoShower" (void)
     
     int Height = GetActorProperty (0, APROP_Height);
     
-    for (int i = 40; i > 0; i--)
+    for (int i = 20; i > 0; i--)
     {
         int TID = UniqueTID ();
-        Spawn (AmmoTypes[i % 5], GetActorX (0), GetActorY (0), GetActorZ (0) + (Height / 2), TID);
+        Spawn (AmmoTypes[i % 4], GetActorX (0), GetActorY (0), GetActorZ (0) + (Height / 2), TID);
         SetActorVelocity (TID, Random (-3.0, 3.0), Random (-3.0, 3.0), Random (0.0, 3.0), FALSE, FALSE);
     }
     if (ACS_NamedExecuteWithResult ("Orange_CheckForWeapon", 1) && Random (0, 256) < 32)

@@ -146,8 +146,8 @@ ACTOR ArgModPack : CustomInventory replaces Backpack
                 }
             }
 
-/*
-            if (CountInv ("ArgGaussCannon") && (!CountInv ("ArgGaussCannonMod1Enabled") || !CountInv ("ArgGaussCannonMod2Enabled")))
+            if (CountInv ("ArgGaussCannon") && !CountInv ("ArgGaussCannonMod1Enabled"))
+            //if (CountInv ("ArgGaussCannon") && (!CountInv ("ArgGaussCannonMod1Enabled") || !CountInv ("ArgGaussCannonMod2Enabled")))
             {
                 if (!CountInv ("ArgGaussCannonMod1Enabled"))
                 {
@@ -155,14 +155,15 @@ ACTOR ArgModPack : CustomInventory replaces Backpack
                     A_Log ("Acquired Precision Scope!");
                     return state("Done");
                 }
+/*
                 else if (!CountInv ("ArgGaussCannonMod2Enabled"))
                 {
                     A_GiveInventory ("ArgGaussCannonMod2Enabled", 1);
                     A_Log ("Acquired Siege Mode!");
                     return state("Done");
                 }
-            }
 */
+            }
             return state("HaveAllMods");
         }
                 

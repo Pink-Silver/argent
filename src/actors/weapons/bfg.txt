@@ -30,7 +30,16 @@ ACTOR ArgBFG9000 : ArgWeapon replaces BFG9000
 		BFGG A 0 Bright
 		Goto DeselectLoop
 	Fire:
-		BFGG A 1 Bright A_PlaySound("weapons/bfg/fire", CHAN_AUTO)
+		BFGG A 1 Bright {
+			// overly complex ammo check function ohno
+			if((GetCvar("arg_bfgammotype") == false && GetCvar("arg_classicbfg") == true  && CountInv("Cell") < BFG_CLASSIC_AMMOUSE)
+			 ||(GetCvar("arg_bfgammotype") == false && GetCvar("arg_classicbfg") == false && CountInv("Cell") < BFG_MODERN_AMMOUSE )
+			 ||(GetCvar("arg_bfgammotype") == true  && CountInv("ArgBFGAmmo") < 1 )) {
+				A_SelectWeapon("None", SWF_SELECTPRIORITY);
+			} else {
+				A_PlaySound("weapons/bfg/fire", CHAN_AUTO);
+			}
+		}
 		BFGG B 1 Bright { A_WeaponOffset(frandom(-0.1, 0.1), frandom(-0.1, 0.1) + 32); A_Quake(1, 8, 0, 8, ""); }
 		BFGG C 1 Bright   A_WeaponOffset(frandom(-0.1, 0.1), frandom(-0.1, 0.1) + 32) 
 		BFGG D 1 Bright   A_WeaponOffset(frandom(-0.2, 0.2), frandom(-0.2, 0.2) + 32)

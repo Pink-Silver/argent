@@ -37,6 +37,7 @@ script "ArgentInit" enter {
  * Monitor script. Handles stuff that has to be triggered in a script loop.
  * Only updates once a second since none of this requires real-time stuffs.
  */
+/*
 script "ArgentMonitor" enter {
 
 	// statbar switching
@@ -57,6 +58,7 @@ script "ArgentMonitor" enter {
 	Delay(35);
 	Restart;
 }
+*/
 
 /*
  * Swaps the player's active weapon mod. This script just swaps the tokens;

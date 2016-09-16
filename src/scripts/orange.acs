@@ -189,15 +189,24 @@ script "Orange_ArgentSelect" (void)
     
     ArgentUpgradeSelector[Player]++;
     
-    if (ArgentUpgradeSelector[Player] == 1 && ArgentHealth[Player] >= 5)
-        ArgentUpgradeSelector[Player]++;
-    if (ArgentUpgradeSelector[Player] == 2 && ArgentArmor[Player] >= 5)
-        ArgentUpgradeSelector[Player]++;
-    if (ArgentUpgradeSelector[Player] == 3 && ArgentAmmo[Player] >= 5)
-        ArgentUpgradeSelector[Player]++;
-    
-    if (ArgentUpgradeSelector[Player] > 3)
-        ArgentUpgradeSelector[Player] = 1;
+    bool okay = false;
+    while (!okay)
+    {
+        if (ArgentUpgradeSelector[Player] == 1 && ArgentHealth[Player] >= 5)
+            ArgentUpgradeSelector[Player]++;
+        if (ArgentUpgradeSelector[Player] == 2 && ArgentArmor[Player] >= 5)
+            ArgentUpgradeSelector[Player]++;
+        if (ArgentUpgradeSelector[Player] == 3 && ArgentAmmo[Player] >= 5)
+            ArgentUpgradeSelector[Player]++;
+        
+        if (ArgentUpgradeSelector[Player] > 3)
+            ArgentUpgradeSelector[Player] = 1;
+        
+        if ((ArgentUpgradeSelector[Player] == 1 && ArgentHealth[Player] < 5) ||
+            (ArgentUpgradeSelector[Player] == 2 && ArgentArmor[Player] < 5) ||
+            (ArgentUpgradeSelector[Player] == 3 && ArgentAmmo[Player] < 5))
+            okay = true;
+    }
     
     ActivatorSound ("items/automap", 127);
 }
@@ -354,7 +363,7 @@ script "Orange_TaggedMonster" (void)
 {
     SetActivator (0, AAPTR_MASTER);
     
-    if (GetActorProperty (0, APROP_Health) > (GetActorProperty (0, APROP_SpawnHealth) / 4) && !CheckInventory ("ArgPistolTag"))
+    if (GetActorProperty (0, APROP_Health) > ((GetActorProperty (0, APROP_SpawnHealth) * 6) / 10) && !CheckInventory ("ArgPistolTag"))
         Terminate;
     
     if (!Random (0, 15) && !CheckFlag (0, "ALWAYSFAST"))

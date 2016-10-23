@@ -12,6 +12,10 @@ DoomEdNums
 	15001 = ArgChainsawFuel
 	15002 = ArgChaingun
 	15003 = ArgGaussCannon
+	15004 = ArgRegen
+	15005 = ArgHaste
+	15006 = ArgQuadDamage
+	15007 = ArgArgentCell
 }
 
 clearskills

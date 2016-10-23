@@ -6,7 +6,7 @@
 
 // -- Argent Cell --
 
-ACTOR ArgArgentCell : ArgPowerup replaces Berserk
+ACTOR ArgArgentCell : ArgPowerup
 {
 	Inventory.PickupMessage "$ARG_GOT_ARGCELL"
 	Inventory.PickupSound "items/powerup"

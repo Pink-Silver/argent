@@ -22,7 +22,7 @@ ACTOR ArgPowerBerserk : PowerDamage
     DamageFactor "ArgFist", 10.0
 	Inventory.Icon "ICONBZRK"
 	Powerup.Duration -30
-	Powerup.Colormap 1.0,0.2,0.0, 0.0,0.0,0.0
+	Powerup.Colormap 0.0,0.0,0.0, 1.0,0.0,0.0
 }
 
 ACTOR ArgPowerBerserkInvulnerable : PowerInvulnerable
@@ -36,7 +36,7 @@ ACTOR ArgPowerBerserkSpeed : PowerSpeed
 	Powerup.Duration -30
 }
 
-ACTOR ArgKILLTHEMALLWITHPUNCHING : Berserk replaces InvulnerabilitySphere
+ACTOR ArgBerserk : Berserk replaces Berserk
 {
 	Inventory.PickupMessage "$ARG_GOT_BERSERK"
 	Inventory.PickupSound "items/powerup"
@@ -66,7 +66,7 @@ ACTOR ArgPowerQuadDamage : PowerDamage
 	Powerup.Duration -45
 	Powerup.Color "AA00FF" 0.25
 }
-ACTOR ArgQuadDamage : ArgPowerup replaces BlurSphere
+ACTOR ArgQuadDamage : ArgPowerup
 {
 	Inventory.PickupMessage "$ARG_GOT_QUAD"
 	States
@@ -98,7 +98,7 @@ ACTOR ArgPowerHasteFiringSpeed : PowerDoubleFiringSpeed
 	// with something more clever at some point.
 	Powerup.Duration -45
 }
-ACTOR ArgHaste : ArgPowerup replaces Infrared
+ACTOR ArgHaste : ArgPowerup
 {
 	Inventory.PickupMessage "$ARG_GOT_HASTE"
 	States
@@ -142,22 +142,25 @@ ACTOR ArgRegen : ArgPowerup
 
 ACTOR ArgSoulsphere : Soulsphere replaces Soulsphere
 {
-    Inventory.MaxAmount 0
+    Inventory.Amount 200
+    Inventory.MaxAmount 200
 	Inventory.PickupSound "items/megahealth"
-	States
-	{
-	Spawn:
-		SOUL A 0 NoDelay A_JumpIf(GetCvar("arg_powerupregen"), "AltItem")
-		Goto Super::Spawn
-	AltItem:
-		SOUL A 0 A_SpawnItemEx("ArgRegen", 0, 0, 0, 0, 0, 0, 0, SXF_NOCHECKPOSITION, 0, tid)
-		SOUL A 0 Thing_Remove (0)
-		Stop
-	}
 }
 
 // -- Misc. edits, for sound's sake --
 
+ACTOR ArgInvulnerabilitySphere : InvulnerabilitySphere replaces InvulnerabilitySphere
+{
+	Inventory.PickupSound "items/powerups/berserk"
+}
+ACTOR ArgBlurSphere : BlurSphere replaces BlurSphere
+{
+	Inventory.PickupSound "items/powerups/regen"
+}
+ACTOR ArgInfrared : Infrared replaces Infrared
+{
+	Inventory.PickupSound "items/automap"
+}
 ACTOR ArgAutomap : Allmap replaces Allmap
 {
 	Inventory.PickupSound "items/automap"

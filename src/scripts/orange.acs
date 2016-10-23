@@ -399,7 +399,8 @@ script "Orange_TaggedMonster" (void)
         {
             if (!ACS_NamedExecuteWithResult ("Orange_CheckForPistolKill") && !ACS_NamedExecuteWithResult ("Orange_CheckForInfighting"))
             {
-                int HealthDrops = Random (2, 4);
+                int HealthDrops = Random (1, 3);
+                int ArmorDrops = Random (1, 3);
                 if (ACS_NamedExecuteWithResult ("Orange_CheckForLudicrousHealth"))
                     HealthDrops *= 3;
                 
@@ -410,6 +411,11 @@ script "Orange_TaggedMonster" (void)
                 {
                     DropItem (0, "ArgHealthBonusDropped", -1, 256);
                     HealthDrops--;
+                }
+                while (ArmorDrops > 0)
+                {
+                    DropItem (0, "ArgArmorBonusDropped", -1, 256);
+                    ArmorDrops--;
                 }
                 
                 if (GetCVar ("arg_tagweapons"))

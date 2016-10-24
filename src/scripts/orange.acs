@@ -9,11 +9,11 @@
 
 #define MAXPLAYERS 64
 
-global bool 1:Initialized;
-global int 1:ArgentHealth[];
-global int 2:ArgentArmor[];
-global int 3:ArgentAmmo[];
-global int 4:ArgentUpgradeSelector[];
+global bool 16:Initialized;
+global int 16:ArgentHealth[];
+global int 17:ArgentArmor[];
+global int 18:ArgentAmmo[];
+global int 19:ArgentUpgradeSelector[];
 
 /*
  * For the pistol, give it bars to indicate its' charge status.
@@ -105,8 +105,8 @@ script "Orange_HUD" enter
             {
                 
                 int Alpha = 0.25;
-                if (CheckInventory ("ChainsawFuel") >= (ammo - 1) * 35) Alpha = 0.25 + FixedMul (FixedDiv (((CheckInventory ("ChainsawFuel") - ((ammo - 1) * 35)) * 1.0), 35.0), 0.75);
-                if (ammo * 35 > GetAmmoCapacity ("ChainsawFuel")) Alpha = 0.0;
+                if (CheckInventory ("ChainsawFuel") >= (ammo - 1) * 8) Alpha = 0.25 + FixedMul (FixedDiv (((CheckInventory ("ChainsawFuel") - ((ammo - 1) * 8)) * 1.0), 8.0), 0.75);
+                if (ammo * 8 > GetAmmoCapacity ("ChainsawFuel")) Alpha = 0.0;
                 HudMessage (s:"A"; HUDMSG_PLAIN | HUDMSG_ALPHA, 200 + ammo, CR_UNTRANSLATED, 28.1 + (22.0 * (ammo - 1)), 401.0, 0.03, Alpha);
             }
         }
@@ -269,7 +269,7 @@ script "Orange_SetArgentMaxes" enter
     SetAmmoCapacity ("Cell", 100 + (50 * ArgentAmmo[Player]));
     
     SetAmmoCapacity ("BFGCell", 2 + ArgentAmmo[Player]);
-    SetAmmoCapacity ("ChainsawFuel", 70 + (35 * ArgentAmmo[Player]));
+    SetAmmoCapacity ("ChainsawFuel", 16 + (8 * ArgentAmmo[Player]));
 }
 
 script "Orange_GiveArmor" (int amount)
@@ -439,7 +439,7 @@ script "Orange_TaggedMonster" (void)
                 DropItem (0, "ArgRocketAmmoDropped", 1, 64);
                 DropItem (0, "ArgCellDropped", 20, 64);
                     
-                if (ACS_NamedExecuteWithResult ("Orange_CheckForWeapon", 0)) DropItem (0, "ArgChainsawFuelDropped", 1, 16);
+                if (ACS_NamedExecuteWithResult ("Orange_CheckForWeapon", 0)) DropItem (0, "ArgChainsawFuelDropped", 8, 16);
                 if (ACS_NamedExecuteWithResult ("Orange_CheckForWeapon", 1)) DropItem (0, "ArgBFGCellDropped", 1, 16);
             }
             

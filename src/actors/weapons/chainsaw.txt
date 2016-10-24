@@ -12,7 +12,7 @@ ACTOR ArgChainsaw : ArgWeapon replaces Chainsaw
 	Inventory.PickupMessage "$ARG_GOT_CHAINSAW"
 	Weapon.AmmoType1 "ChainsawFuel"
 	Weapon.AmmoUse1 1
-	Weapon.AmmoGive1 35
+	Weapon.AmmoGive1 8
 	Obituary "$ARG_OB_CHAINSAW"
 	Tag "$ARG_TAG_CHAINSAW"
 	DamageType "ArgChainsaw"
@@ -49,23 +49,17 @@ ACTOR ArgChainsaw : ArgWeapon replaces Chainsaw
 		SAWG D 1   A_WeaponOffset( 0.0, 32.0 +  8)
 	Hold:
 		SAWG C 1 {
-		    A_Saw("", "effects/gibs", 15, "ArgChainsawPuff", SF_NORANDOM | SF_NOUSEAMMOMISS);
+		    A_Saw("", "effects/gibs", 60, "ArgChainsawPuff", SF_NORANDOM | SF_NOUSEAMMOMISS);
 		    A_AlertMonsters;
 		    A_WeaponOffset(frandom(-1.0, 1.0), 32.0 + frandom(-1.0, 1.0));
 	    }
 		SAWG C 1 {
-		    A_Saw("", "effects/gibs", 15, "ArgChainsawPuff", SF_NORANDOM | SF_NOUSEAMMOMISS);
-		    A_AlertMonsters;
 		    A_WeaponOffset(frandom(-1.0, 1.0), 32.0 + frandom(-1.0, 1.0));
 	    }
 		SAWG D 1 {
-		    A_Saw("", "effects/gibs", 15, "ArgChainsawPuff", SF_NORANDOM | SF_NOUSEAMMOMISS);
-		    A_AlertMonsters;
 		    A_WeaponOffset(frandom(-2.0, 2.0), 32.0 + frandom(-2.0, 2.0));
 	    }
 		SAWG D 1 {
-		    A_Saw("", "effects/gibs", 15, "ArgChainsawPuff", SF_NORANDOM | SF_NOUSEAMMOMISS);
-		    A_AlertMonsters;
 		    A_WeaponOffset(frandom(-2.0, 2.0), 32.0 + frandom(-2.0, 2.0));
 	    }
 		SAWG D 0 {

@@ -16,10 +16,10 @@ ACTOR BFGCell : Ammo
 
 ACTOR ChainsawFuel : Ammo
 {
-    Inventory.Amount 35
-    Inventory.MaxAmount 105
+    Inventory.Amount 8
+    Inventory.MaxAmount 24
     Ammo.BackpackAmount 0
-    Ammo.BackpackMaxAmount 105
+    Ammo.BackpackMaxAmount 24
     Inventory.Icon "CSAWFUEL"
 }
 

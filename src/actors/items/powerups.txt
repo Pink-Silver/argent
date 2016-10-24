@@ -65,6 +65,8 @@ ACTOR ArgPowerQuadDamage : PowerDamage
 	DamageFactor "Normal", 4
 	Powerup.Duration -45
 	Powerup.Color "AA00FF" 0.25
+	
+	+INVENTORY.ALWAYSPICKUP
 }
 ACTOR ArgQuadDamage : ArgPowerup
 {
@@ -90,6 +92,8 @@ ACTOR ArgPowerHasteSpeed : PowerSpeed
 	Powerup.Colormap 0.1,0.075,0.0, 1.0,0.8,0.0
 	Inventory.Icon "ICONHSTE"
 	Speed 1.5
+	
+	+INVENTORY.ALWAYSPICKUP
 }
 ACTOR ArgPowerHasteFiringSpeed : PowerDoubleFiringSpeed
 {
@@ -97,6 +101,8 @@ ACTOR ArgPowerHasteFiringSpeed : PowerDoubleFiringSpeed
 	// animations use 1-tic animations everywhere. I'll have to come up
 	// with something more clever at some point.
 	Powerup.Duration -45
+	
+	+INVENTORY.ALWAYSPICKUP
 }
 ACTOR ArgHaste : ArgPowerup
 {
@@ -122,6 +128,8 @@ ACTOR ArgPowerRegen : PowerRegeneration
 	Powerup.Strength 2
 	Powerup.Color "0080FF" 0.25
 	Inventory.Icon "ICONREGN"
+	
+	+INVENTORY.ALWAYSPICKUP
 }
 ACTOR ArgRegen : ArgPowerup
 {
@@ -138,7 +146,7 @@ ACTOR ArgRegen : ArgPowerup
 	}
 }
 
-// -- Classic powerups w/cvar-controlled spawners --
+// -- Misc. edits, for sound's sake --
 
 ACTOR ArgSoulsphere : Soulsphere replaces Soulsphere
 {
@@ -146,8 +154,6 @@ ACTOR ArgSoulsphere : Soulsphere replaces Soulsphere
     Inventory.MaxAmount 200
 	Inventory.PickupSound "items/megahealth"
 }
-
-// -- Misc. edits, for sound's sake --
 
 ACTOR ArgInvulnerabilitySphere : InvulnerabilitySphere replaces InvulnerabilitySphere
 {

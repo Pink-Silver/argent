@@ -99,6 +99,7 @@ ACTOR ArgChainsawPuff : ArgBulletPuff
     +PUFFGETSOWNER
     +PUFFONACTORS
     +ALWAYSPUFF
+    +FORCEPAIN
 	
 	States
 	{

@@ -23,17 +23,23 @@ ACTOR ArgPowerBerserk : PowerDamage
 	Inventory.Icon "ICONBZRK"
 	Powerup.Duration -30
 	Powerup.Colormap 0.0,0.0,0.0, 1.0,0.0,0.0
+	
+	+INVENTORY.ALWAYSPICKUP
 }
 
 ACTOR ArgPowerBerserkInvulnerable : PowerInvulnerable
 {
 	Powerup.Duration -30
+	
+	+INVENTORY.ALWAYSPICKUP
 }
 
 ACTOR ArgPowerBerserkSpeed : PowerSpeed
 {
     Speed 1.5
 	Powerup.Duration -30
+	
+	+INVENTORY.ALWAYSPICKUP
 }
 
 ACTOR ArgBerserk : Berserk replaces Berserk
@@ -41,6 +47,8 @@ ACTOR ArgBerserk : Berserk replaces Berserk
 	Inventory.PickupMessage "$ARG_GOT_BERSERK"
 	Inventory.PickupSound "items/powerup"
 	
+    +INVENTORY.BIGPOWERUP
+
 	States
 	{
 	Spawn:
@@ -68,9 +76,13 @@ ACTOR ArgPowerQuadDamage : PowerDamage
 	
 	+INVENTORY.ALWAYSPICKUP
 }
+
 ACTOR ArgQuadDamage : ArgPowerup
 {
 	Inventory.PickupMessage "$ARG_GOT_QUAD"
+
+    +INVENTORY.BIGPOWERUP
+
 	States
 	{
 	Spawn:
@@ -95,6 +107,7 @@ ACTOR ArgPowerHasteSpeed : PowerSpeed
 	
 	+INVENTORY.ALWAYSPICKUP
 }
+
 ACTOR ArgPowerHasteFiringSpeed : PowerDoubleFiringSpeed
 {
 	// [XA] at the moment this doesn't really do much since the weapon
@@ -104,6 +117,7 @@ ACTOR ArgPowerHasteFiringSpeed : PowerDoubleFiringSpeed
 	
 	+INVENTORY.ALWAYSPICKUP
 }
+
 ACTOR ArgHaste : ArgPowerup
 {
 	Inventory.PickupMessage "$ARG_GOT_HASTE"
@@ -131,6 +145,7 @@ ACTOR ArgPowerRegen : PowerRegeneration
 	
 	+INVENTORY.ALWAYSPICKUP
 }
+
 ACTOR ArgRegen : ArgPowerup
 {
 	Inventory.PickupMessage "$ARG_GOT_REGEN"
@@ -155,14 +170,63 @@ ACTOR ArgSoulsphere : Soulsphere replaces Soulsphere
 	Inventory.PickupSound "items/megahealth"
 }
 
-ACTOR ArgInvulnerabilitySphere : InvulnerabilitySphere replaces InvulnerabilitySphere
+ACTOR InvulnerabilityEffect : PowerupGiver
 {
-	Inventory.PickupSound "items/powerups/berserk"
+    Inventory.MaxAmount 0
+    Powerup.Type "Invulnerable"
+    Powerup.Color InverseMap
+
+    +INVENTORY.AUTOACTIVATE
+    +INVENTORY.ALWAYSPICKUP
 }
-ACTOR ArgBlurSphere : BlurSphere replaces BlurSphere
+
+ACTOR ArgInvuln : ArgPowerup replaces InvulnerabilitySphere
 {
-	Inventory.PickupSound "items/powerups/regen"
+	Inventory.PickupMessage "$GOTINVUL"
+
+    +INVENTORY.BIGPOWERUP
+
+	States
+	{
+	Spawn:
+		PINV ABCDCB 6 Bright
+		Loop
+	Pickup:
+		TNT1 A 0 A_PlaySound("items/powerups/berserk", CHAN_7)
+		TNT1 A 0 A_GiveInventory("InvulnerabilityEffect")
+		Stop
+	}
 }
+
+ACTOR BlurEffect : PowerupGiver
+{
+    Inventory.MaxAmount 0
+    Powerup.Type "Invisibility"
+
+    +INVENTORY.AUTOACTIVATE
+    +INVENTORY.ALWAYSPICKUP
+}
+
+ACTOR ArgBlurSphere : ArgPowerup replaces BlurSphere
+{
+    RenderStyle Translucent
+	Inventory.PickupMessage "$GOTINVIS"
+
+    +INVENTORY.BIGPOWERUP
+    +VISIBILITYPULSE
+
+	States
+	{
+	Spawn:
+		PINS ABCDCB 6 Bright
+		Loop
+	Pickup:
+		TNT1 A 0 A_PlaySound("items/powerups/regen", CHAN_7)
+		TNT1 A 0 A_GiveInventory("BlurEffect")
+		Stop
+	}
+}
+
 ACTOR ArgInfrared : Infrared replaces Infrared
 {
 	Inventory.PickupSound "items/automap"

@@ -40,8 +40,16 @@ object ArgPistolPuff
 //Cells
 pointlight CELL
 {
+    offset 0 16 0
 	color 0.1 0.1 0.6
 	size 16
+}
+
+pointlight CELLPACK
+{
+    offset 0 16 0
+	color 0.3 0.3 1.0
+	size 48
 }
 
 object ArgCell
@@ -49,9 +57,14 @@ object ArgCell
 	frame CELLA { light CELL }
 }
 
+object ArgCellDropped
+{
+	frame CELLA { light CELL }
+}
+
 object ArgCellpack
 {
-	frame CELPA { light CELP }
+	frame CELPA { light CELLPACK }
 }
 
 pulselight BFGCELL
@@ -69,6 +82,12 @@ object ArgBFGCell
 	frame BFGCC { light BFGCELL }
 }
 
+object ArgBFGCellDropped
+{
+	frame BFGCB { light BFGCELL }
+	frame BFGCC { light BFGCELL }
+}
+
 //Health
 object ArgHealthBonus
 {
@@ -80,12 +99,32 @@ object ArgHealthBonusDropped
 	frame BON1 { light HEALTHPOTION }
 }
 
+pulselight SELECTOR
+{
+	color 0.6 0.0 0.0
+	size 20
+	secondarySize 24
+	interval 2.0
+	offset 0 8 0
+}
+
+object ArgArgentSelector
+{
+	frame ASEL { light SELECTOR }
+}
+
+object ArgArgentSelectorDropped
+{
+	frame ASEL { light SELECTOR }
+}
+
 pulselight STIMPACK
 {
 	color 0.0 0.0 0.6
 	size 20
 	secondarySize 24
 	interval 2.0
+	offset 0 8 0
 }
 
 object ArgStimpack
@@ -99,10 +138,16 @@ pulselight MEDIKIT
 	size 24
 	secondarySize 26
 	interval 2.0
+	offset 0 16 0
 }
 
 //Armor
 object ArgArmorBonus
+{
+	frame BON2A { light ARMORBONUS }
+}
+
+object ArgArmorBonusDropped
 {
 	frame BON2A { light ARMORBONUS }
 }
@@ -154,13 +199,32 @@ object ArgRedSkull
 }
 
 //Spheres
+pulselight BERSERK
+{
+	color 1.0 0.25 0.0
+	size 40
+	secondarySize 42
+	interval 2.0
+	offset 0 32 0
+}
+
+object ArgBerserk
+{
+	frame BZRK { light BERSERK }
+}
+
+object ArgArgentCell
+{
+	frame ARGN { light BERSERK }
+}
+
 pulselight QUADDDAMAGE
 {
 	color 0.3 0.0 1.0
 	size 40
 	secondarySize 42
 	interval 2.0
-	offset 0 16 0
+	offset 0 32 0
 }
 
 object ArgQuadDamage
@@ -174,7 +238,7 @@ pulselight HASTEPOWER
 	size 40
 	secondarySize 42
 	interval 2.0
-	offset 0 16 0
+	offset 0 32 0
 }
 
 object ArgHaste
@@ -188,7 +252,7 @@ pulselight REGENPOWER
 	size 40
 	secondarySize 42
 	interval 2.0
-	offset 0 16 0
+	offset 0 32 0
 }
 
 object ArgRegen
@@ -452,4 +516,539 @@ object ArgGaussPuff
 	frame GAUPD { light GAUSS_X1 }
 	frame GAUPE { light GAUSS_X4 }
 	frame GAUPF { light GAUSS_X5 }
+}
+
+// Enemies
+
+// Zombies
+flickerlight2 ZOMBIEATK
+{
+    color 1.0 0.8 0.2
+    size 48
+    secondarySize 56
+    interval 0.011428571428571429
+    offset 0 40 0
+}
+
+object ArgZombieMan
+{
+    frame POSSF { light ZOMBIEATK }
+}
+
+object ArgShotgunGuy
+{
+    frame SPOSF { light ZOMBIEATK }
+}
+
+object ArgChaingunGuy
+{
+    frame CPOSE { light ZOMBIEATK }
+    frame CPOSF { light ZOMBIEATK }
+}
+
+object ArgPlayer
+{
+    frame PLAYF { light ZOMBIEATK }
+}
+
+
+// Doom Imp Fireball
+pointlight IMPBALL
+{
+    color 1.0 0.5 0.0
+    size 64
+}
+
+// Doom imp fireball explosion
+flickerlight IMPBALL_X1
+{
+    color 0.7 0.2 0.0
+    size 80
+    secondarySize 88
+    chance 0.25
+}
+
+flickerlight IMPBALL_X2
+{
+    color 0.4 0.0 0.0
+    size 96
+    secondarySize 104
+    chance 0.25
+}
+
+flickerlight IMPBALL_X3
+{
+    color 0.2 0.0 0.0
+    size 112
+    secondarySize 120
+    chance 0.25
+}
+
+object DoomImpBall
+{
+    frame BAL1A { light IMPBALL    }
+    frame BAL1B { light IMPBALL    }
+
+    frame BAL1C { light IMPBALL_X1 }
+    frame BAL1D { light IMPBALL_X2 }
+    frame BAL1E { light IMPBALL_X3 }
+}
+
+pointlight SPECTRE
+{
+    color 0.5 0.5 0.5
+    size 48
+    offset 0 24 0
+    subtractive 1
+}
+
+object ArgSpectre
+{
+    frame SARG { light SPECTRE }
+}
+
+// Cacodemon fireball
+flickerlight CACOBALL
+{
+    color 1.0 0.2 0.6
+    size 56
+    secondarySize 64
+    chance 0.5
+}
+
+flickerlight CACOBALL_X1
+{
+    color 0.9 0.1 0.4
+    size 72
+    secondarySize 80
+    chance 0.25
+}
+
+flickerlight CACOBALL_X2
+{
+    color 0.6 0.0 0.1
+    size 88
+    secondarySize 96
+    chance 0.25
+}
+
+flickerlight CACOBALL_X3
+{
+    color 0.3 0.0 0.0
+    size 104
+    secondarySize 112
+    chance 0.25
+}
+
+object CacodemonBall
+{
+    frame BAL2A { light CACOBALL }
+    frame BAL2B { light CACOBALL }
+
+    frame BAL2C { light CACOBALL_X1 }
+    frame BAL2D { light CACOBALL_X2 }
+    frame BAL2E { light CACOBALL_X3 }
+}
+
+// Baron / Hell Knight fireball
+pointlight BARONBALL
+{
+    color 0.0 1.0 0.0
+    size 64
+}
+
+flickerlight BARONBALL_X1
+{
+    color 0.0 0.7 0.0
+    size 80
+    secondarySize 88
+    chance 0.25
+}
+
+flickerlight BARONBALL_X2
+{
+    color 0.0 0.4 0.0
+    size 96
+    secondarySize 104
+    chance 0.25
+}
+
+flickerlight BARONBALL_X3
+{
+    color 0.0 0.2 0.0
+    size 112
+    secondarySize 120
+    chance 0.25
+}
+
+object BaronBall
+{
+    frame BAL7A { light BARONBALL    }
+    frame BAL7B { light BARONBALL    }
+
+    frame BAL7C { light BARONBALL_X1 }
+    frame BAL7D { light BARONBALL_X2 }
+    frame BAL7E { light BARONBALL_X3 }
+}
+
+// Lost Soul
+flickerlight LOSTSOUL
+{
+    color 1.0 0.3 0.0
+    size 56
+    secondarysize 64
+    chance 0.1
+}
+
+flickerlight LOSTSOUL_X1
+{
+    color 0.8 0.3 0.0
+    size 72
+    secondarySize 80
+    chance 0.25
+}
+
+flickerlight LOSTSOUL_X2
+{
+    color 0.6 0.2 0.0
+    size 88
+    secondarySize 96
+    chance 0.25
+}
+
+flickerlight LOSTSOUL_X3
+{
+    color 0.4 0.1 0.0
+    size 104
+    secondarySize 112
+    chance 0.25
+}
+
+flickerlight LOSTSOUL_X4
+{
+    color 0.2 0.0 0.0
+    size 112
+    secondarySize 120
+    chance 0.25
+}
+
+object ArgSoul
+{
+    frame SKULA { light LOSTSOUL    }
+    frame SKULB { light LOSTSOUL    }
+    frame SKULC { light LOSTSOUL    }
+    frame SKULD { light LOSTSOUL    }
+    frame SKULE { light LOSTSOUL    }
+    frame SKULF { light LOSTSOUL    }
+    frame SKULG { light LOSTSOUL    }
+
+    frame SKULH { light LOSTSOUL_X1 }
+    frame SKULI { light LOSTSOUL_X2 }
+    frame SKULJ { light LOSTSOUL_X3 }
+    frame SKULK { light LOSTSOUL_X4 }
+}
+
+// Mancubus Fireball
+object ArgMancubus
+{
+    frame FATTH { light ZOMBIEATK }
+}
+
+object FatShot
+{
+    frame MANFA { light IMPBALL   }
+    frame MANFB { light IMPBALL   }
+
+    frame MISLB { light ROCKET_X1 }
+    frame MISLC { light ROCKET_X2 }
+    frame MISLD { light ROCKET_X3 }
+}
+
+// Arachnotron Fireball
+object ArgArachnotron
+{
+    frame BSPIG { light ZOMBIEATK }
+    frame BSPIH { light ZOMBIEATK }
+}
+
+pointlight ARACHPLAS
+{
+    color 0.6 1.0 0.0
+    size 56
+}
+
+flickerlight ARACHPLAS_X1
+{
+    color 0.4 0.8 0.0
+    size 72
+    secondarySize 80
+    chance 0.3
+}
+
+flickerlight ARACHPLAS_X2
+{
+    color 0.6 0.6 0.0
+    size 88
+    secondarySize 96
+    chance 0.3
+}
+
+flickerlight ARACHPLAS_X3
+{
+    color 0.4 0.4 0.0
+    size 48
+    secondarySize 32
+    chance 0.3
+}
+
+flickerlight ARACHPLAS_X4
+{
+    color 0.2 0.2 0.0
+    size 24
+    secondarySize 16
+    chance 0.3
+}
+
+object ArachnotronPlasma
+{
+    frame APLSA { light ARACHPLAS }
+    frame APLSB { light ARACHPLAS }
+
+    frame APBXA { light ARACHPLAS_X1 }
+    frame APBXB { light ARACHPLAS_X2 }
+    frame APBXC { light ARACHPLAS_X2 }
+    frame APBXD { light ARACHPLAS_X3 }
+    frame APBXE { light ARACHPLAS_X4 }
+}
+
+// Revenant tracer
+object ArgRevenant
+{
+    frame SKELJ { light ZOMBIEATK }
+}
+
+pointlight TRACER
+{
+    color 1.0 0.3 0.0
+    size 48
+}
+
+flickerlight TRACER_X1
+{
+    color 1.0 0.2 0.0
+    size 64
+    secondarySize 72
+    chance 0.25
+}
+
+flickerlight TRACER_X2
+{
+    color 0.6 0.0 0.0
+    size 80
+    secondarySize 88
+    chance 0.25
+}
+
+flickerlight TRACER_X3
+{
+    color 0.3 0.0 0.0
+    size 96
+    secondarySize 104
+    chance 0.25
+}
+
+object RevenantTracer
+{
+    frame FATBA { light TRACER    }
+    frame FATBB { light TRACER    }
+
+    frame FBXPA { light TRACER_X1 }
+    frame FBXPB { light TRACER_X2 }
+    frame FBXPC { light TRACER_X3 }
+}
+
+// Arch Vile Fire
+flickerlight ARCHFIRE1
+{
+    color 1.0 1.0 0.0
+    size 24
+    secondarySize 32
+    chance 0.3
+    offset 0 8 0
+}
+
+flickerlight ARCHFIRE2
+{
+    color 1.0 1.0 0.0
+    size 40
+    secondarySize 48
+    chance 0.3
+    offset 0 24 0
+}
+
+flickerlight ARCHFIRE3
+{
+    color 1.0 1.0 0.0
+    size 64
+    secondarySize 72
+    chance 0.3
+    offset 0 32 0
+}
+
+flickerlight ARCHFIRE4
+{
+    color 0.8 0.8 0.0
+    size 64
+    secondarySize 72
+    chance 0.3
+    offset 0 40 0
+}
+
+flickerlight ARCHFIRE5
+{
+    color 0.8 0.8 0.0
+    size 64
+    secondarySize 72
+    chance 0.3
+    offset 0 48 0
+}
+
+flickerlight ARCHFIRE6
+{
+    color 0.6 0.6 0.0
+    size 48
+    secondarySize 56
+    chance 0.3
+    offset 0 64 0
+}
+
+flickerlight ARCHFIRE7
+{
+    color 0.4 0.4 0.0
+    size 32
+    secondarySize 40
+    chance 0.3
+    offset 0 72 0
+}
+
+flickerlight ARCHFIRE8
+{
+    color 0.2 0.2 0.0
+    size 16
+    secondarySize 24
+    chance 0.3
+    offset 0 80 0
+}
+
+object ArchvileFire
+{
+    frame FIREA { light ARCHFIRE1 }
+    frame FIREB { light ARCHFIRE2 }
+    frame FIREC { light ARCHFIRE3 }
+    frame FIRED { light ARCHFIRE4 }
+    frame FIREE { light ARCHFIRE5 }
+    frame FIREF { light ARCHFIRE6 }
+    frame FIREG { light ARCHFIRE7 }
+    frame FIREH { light ARCHFIRE8 }
+}
+
+// Arch-vile
+flickerlight ARCHATK1
+{
+    color 1.0 1.0 0.0
+    size 32
+    secondarySize 48
+    chance 0.3
+    offset 0 80 0
+}
+
+flickerlight ARCHATK2
+{
+    color 1.0 1.0 0.0
+    size 56
+    secondarySize 64
+    chance 0.3
+    offset 0 80 0
+}
+
+flickerlight ARCHATK3
+{
+    color 1.0 1.0 0.0
+    size 56
+    secondarySize 64
+    chance 0.3
+    offset 0 64 0
+}
+
+flickerlight ARCHATK4
+{
+    color 1.0 1.0 0.0
+    size 64
+    secondarySize 72
+    chance 0.3
+    offset 0 48 0
+}
+
+flickerlight ARCHATK5
+{
+    color 1.0 1.0 0.0
+    size 80
+    secondarySize 88
+    chance 0.3
+    offset 0 40 0
+}
+
+flickerlight ARCHATK6
+{
+    color 0.7 0.7 0.0
+    size 96
+    secondarySize 104
+    chance 0.3
+    offset 0 40 0
+}
+
+flickerlight ARCHATK7
+{
+    color 0.3 0.3 0.0
+    size 104
+    secondarySize 112
+    chance 0.3
+    offset 0 40 0
+}
+
+pulselight ARCHRES
+{
+    color 0.6 0.0 0.0
+    size 64
+    secondarySize 70
+    interval 0.5
+    offset 0 36 0
+}
+
+object ArgVile
+{
+    frame VILEH { light ARCHATK1 }
+    frame VILEI { light ARCHATK2 }
+    frame VILEJ { light ARCHATK3 }
+    frame VILEK { light ARCHATK4 }
+    frame VILEL { light ARCHATK4 }
+    frame VILEM { light ARCHATK4 }
+    frame VILEN { light ARCHATK5 }
+    frame VILEO { light ARCHATK6 }
+    frame VILEP { light ARCHATK7 }
+
+    frame VILE[ { light ARCHRES }
+    frame VILE\ { light ARCHRES }
+    frame VILE] { light ARCHRES }
+}
+
+object ArgCyberDAMN
+{
+    frame CYBRF { light ZOMBIEATK }
+}
+
+object ArgSPIDARS_AAAH_KILL_IT_WITH_FIRE
+{
+    frame SPIDG { light ZOMBIEATK }
+    frame SPIDH { light ZOMBIEATK }
 }

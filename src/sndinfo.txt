@@ -43,6 +43,7 @@ $random weapons/shotgun/fire    { weapons/shotgun/fire1 weapons/shotgun/fire2 we
 
 weapons/ssg/fire1          "sounds/weapons/ssg/fire1.flac"
 weapons/ssg/fire2          "sounds/weapons/ssg/fire2.flac"
+weapons/ssg/firelast       "sounds/weapons/ssg/firelast.flac"
 weapons/ssg/aimup          "sounds/weapons/ssg/aimup.flac"
 weapons/ssg/aimdown        "sounds/weapons/ssg/aimdown.flac"
 $random weapons/ssg/fire    { weapons/ssg/fire1 weapons/ssg/fire2 }
@@ -143,6 +144,8 @@ weapons/bfg/spray          "sounds/weapons/gauss/impact.flac"
 $rolloff weapons/bfg/explode 400 2400
 
 enemies/gibbitude          DSSLOP
+
+enemies/cyberdemon/attack  DSRLAUNC
 
 effects/impact1            "sounds/effects/impact1.flac"
 effects/impact2            "sounds/effects/impact2.flac"

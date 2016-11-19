@@ -9,6 +9,7 @@
 #include "actors/items/ammo.txt"
 #include "actors/items/powerups.txt"
 #include "actors/items/upgrades.txt"
+#include "actors/items/modkit.txt"
 
 #include "actors/effects/puffs.txt"
 #include "actors/effects/blood.txt"

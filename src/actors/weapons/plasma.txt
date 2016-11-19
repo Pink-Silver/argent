@@ -5,7 +5,7 @@
 // --------------------------------------------------------------------------
 
 CONST int PLASMA_MOD1_AMMOUSE  =   0; // pointless, but may as well be explicit. shit.
-CONST int PLASMA_MOD2_AMMOUSE  =  10;
+CONST int PLASMA_MOD2_AMMOUSE  =   0; // used to be 10; changed it to make stun viable.
 CONST int PLASMA_MOD_COOLDOWN  = 200;
 CONST int PLASMA_MOD_CHARGE    = 120;
 CONST int PLASMA_MOD_CHARGE_UP =   3;
@@ -92,12 +92,12 @@ ACTOR ArgPlasmaRifle : ArgModWeapon replaces PlasmaRifle
 		PL1S K 1 A_WeaponOffset(-12.0, 40.0)
 		PL1S K 1 A_WeaponOffset(-10.0, 38.0)
 		PL1S K 1 A_WeaponOffset(- 8.0, 36.0)
-		PL1S K 1 A_WeaponOffset(- 6.0, 35.0)
-		PL1S K 1 A_WeaponOffset(- 4.0, 34.0)
-		PL1S K 1 A_WeaponOffset(- 2.0, 33.0)
-		PL1S K 1 A_WeaponOffset(- 1.0, 32.0)
-		PL1S K 6 A_WeaponOffset(  0.0, 32.0)
-		PL1S LMNO 2
+		PL1S L 1 A_WeaponOffset(- 6.0, 35.0)
+		PL1S M 1 A_WeaponOffset(- 4.0, 34.0)
+		PL1S N 1 A_WeaponOffset(- 2.0, 33.0)
+		PL1S O 1 A_WeaponOffset(- 1.0, 32.0)
+		PL1S O 6 A_WeaponOffset(  0.0, 32.0)
+		PL1S PQRS 2
 		PL1G AAAAAAAAAAAA 1 A_WeaponReady(WRF_ALLOWRELOAD)
 		PL1A GGGFFFEEEDDDBBBCCCDDDEEEFFFGGG 1 A_WeaponReady(WRF_ALLOWRELOAD)
 	Mod1Ready:
@@ -204,20 +204,23 @@ ACTOR ArgPlasmaRifle : ArgModWeapon replaces PlasmaRifle
 		PL2S K 1 A_WeaponOffset(- 8.0, 36.0)
 		PL2S L 1 A_WeaponOffset(-10.0, 38.0)
 		PL2S L 1 A_WeaponOffset(-12.0, 40.0)
-		PL2S L 1 A_WeaponOffset(-13.0, 41.0)
-		PL2S L 1 A_WeaponOffset(-13.0, 41.0)
-		PL2S L 1 A_WeaponOffset(-12.0, 40.0)
-		PL2S L 1 A_WeaponOffset(-10.0, 38.0)
-		PL2S L 1 A_WeaponOffset(- 8.0, 36.0)
-		PL2S L 1 A_WeaponOffset(- 6.0, 35.0)
-		PL2S L 1 A_WeaponOffset(- 4.0, 34.0)
-		PL2S L 1 A_WeaponOffset(- 2.0, 33.0)
-		PL2S L 1 A_WeaponOffset(- 1.0, 32.0)
-		PL2S L 6 A_WeaponOffset(  0.0, 32.0)
-		PL2S MNOP 2
+		PL2S M 1 A_WeaponOffset(-13.0, 41.0)
+		PL2S N 1 A_WeaponOffset(-13.0, 41.0)
+		PL2S O 1 A_WeaponOffset(-12.0, 40.0)
+		PL2S P 1 A_WeaponOffset(-10.0, 38.0)
+		PL2S Q 1 A_WeaponOffset(- 8.0, 36.0)
+		PL2S Q 1 A_WeaponOffset(- 6.0, 35.0)
+		PL2S Q 1 A_WeaponOffset(- 4.0, 34.0)
+		PL2S Q 1 A_WeaponOffset(- 2.0, 33.0)
+		PL2S Q 1 A_WeaponOffset(- 1.0, 32.0)
+		PL2S Q 6 A_WeaponOffset(  0.0, 32.0)
+		PL2S RSTU 2
 	Mod2Ready:
 		PL2G A 1 A_WeaponReady(WRF_ALLOWRELOAD)
 		PL2G D 1 {
+			if(CountInv("ArgPlasmaRifleModCooldown") == 1) {
+				A_PlaySound("weapons/plasma/mod2ready", CHAN_AUTO);
+			}
 			return A_JumpIfInventory("ArgPlasmaRifleModCooldown", 1, "Mod2Ready");
 		}
 		PL2G DEEFFFFFFFFEEDDA 1 A_WeaponReady(WRF_ALLOWRELOAD)
@@ -231,19 +234,20 @@ ACTOR ArgPlasmaRifle : ArgModWeapon replaces PlasmaRifle
 			A_AlertMonsters;
 			A_PlaySound("weapons/plasma/mod2fire", CHAN_6);
 			A_FireCustomMissile("ArgStunBomb", 0, 0, 0, 0, FPF_AIMATANGLE , 5);
-			A_TakeInventory("Cell", PLASMA_MOD2_AMMOUSE, TIF_NOTAKEINFINITE);
+//			A_TakeInventory("Cell", PLASMA_MOD2_AMMOUSE, TIF_NOTAKEINFINITE);
 			A_GiveInventory("ArgPlasmaRifleModCooldown", PLASMA_MOD_COOLDOWN);
 		}
 		PL2G A 1 A_WeaponOffset( 5.0,  5.0 + 32.0)
-		PL2G A 1 A_WeaponOffset(12.0, 12.0 + 32.0)
-		PL2G A 1 A_WeaponOffset(15.0, 15.0 + 32.0)
-		PL2G A 1 A_WeaponOffset(16.0, 16.0 + 32.0)
-		PL2G A 1 A_WeaponOffset(14.0, 14.0 + 32.0)
-		PL2G A 1 A_WeaponOffset(11.0, 11.0 + 32.0)
-		PL2G A 1 A_WeaponOffset( 8.0,  8.0 + 32.0)
-		PL2G A 1 A_WeaponOffset( 4.0,  4.0 + 32.0)
-		PL2G A 1 A_WeaponOffset( 1.0,  1.0 + 33.0)
-		PL2G A 1 A_WeaponOffset( 0.0,  0.0 + 32.0)
+		PL2G G 1 A_WeaponOffset(12.0, 12.0 + 32.0)
+		PL2G G 1 A_WeaponOffset(15.0, 15.0 + 32.0)
+		PL2G H 1 A_WeaponOffset(16.0, 16.0 + 32.0)
+		PL2G H 1 A_WeaponOffset(14.0, 14.0 + 32.0)
+		PL2G I 1 A_WeaponOffset(11.0, 11.0 + 32.0)
+		PL2G I 1 A_WeaponOffset( 8.0,  8.0 + 32.0)
+		PL2G I 1 A_WeaponOffset( 4.0,  4.0 + 32.0)
+		PL2G I 1 A_WeaponOffset( 1.0,  1.0 + 33.0)
+		PL2G J 2 A_WeaponOffset( 0.0,  0.0 + 32.0)
+		PL2G KLIHG 2
 		Goto Cooldown
 	}
 }
@@ -356,4 +360,27 @@ ACTOR ArgStunner : CustomInventory
 		TNT1 A 1 ACS_NamedExecuteAlways("NeuralStunner")
 		Stop
 	}
+}
+
+ACTOR ArgStunEffect : ArgTrailNoPhysics
+{
+	Scale 0.5
+	States
+	{
+	Spawn:
+		STUN A 0 Bright NoDelay A_SetScale(scaleX*(random(0,1)*2-1), scaleY*(random(0,1)*2-1)) // randomly flip x and y
+		STUN ABCDEF 2 Bright
+		STUN GGHHII 1 Bright A_FadeOut(0.2)
+		Stop
+	}
+}
+
+ACTOR ArgStunEffectLarge : ArgStunEffect
+{
+	Scale 1.0
+}
+
+ACTOR ArgStunEffectHuge : ArgStunEffect
+{
+	Scale 1.5
 }

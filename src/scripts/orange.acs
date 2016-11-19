@@ -15,6 +15,12 @@ global int 17:ArgentArmor[];
 global int 18:ArgentAmmo[];
 global int 19:ArgentUpgradeSelector[];
 
+script "PointActor" (int angle, int pitch)
+{
+    SetActorAngle (0, FixedDiv (angle * 1.0, 360.0));
+    SetActorPitch (0, FixedDiv (pitch * 1.0, 360.0));
+}
+
 /*
  * For the pistol, give it bars to indicate its' charge status.
  */
@@ -96,6 +102,12 @@ script "Orange_HUD" enter
     
     while (TRUE)
     {
+        if (GetCVar ("screenblocks") > 11)
+        {
+            Delay (1);
+            continue;
+        }
+        
         /* BFG Cells & Chainsaw Fuel */
         
         if (CheckInventory ("ArgChainsaw"))
@@ -126,7 +138,7 @@ script "Orange_HUD" enter
         /* Argent Cell Stats */
         
         SetFont ("REDBASE");
-        HudMessage (s:"A"; HUDMSG_PLAIN, 288, CR_UNTRANSLATED, 28.1, 360.0, 0);
+        HudMessage (s:"A"; HUDMSG_PLAIN, 288, CR_UNTRANSLATED, 28.1, 360.0, 0.03);
         
         for (int bar = 1; bar <= 3; bar++)
         {
@@ -143,7 +155,7 @@ script "Orange_HUD" enter
                 SetFont ("SREDBAR1");
                 if (i > upgrades) Alpha = 0.25;
                 
-                HudMessage (s:"A"; HUDMSG_PLAIN | HUDMSG_ALPHA, 252 + (6 * (bar - 1)) + i, CR_UNTRANSLATED, 32.1 + (8.0 * (i - 1)), 340.0 + (20.0 * (bar - 1)), 0, Alpha);
+                HudMessage (s:"A"; HUDMSG_PLAIN | HUDMSG_ALPHA, 252 + (6 * (bar - 1)) + i, CR_UNTRANSLATED, 32.1 + (8.0 * (i - 1)), 340.0 + (20.0 * (bar - 1)), 0.03, Alpha);
             }
             
             int textcolor = CR_ORANGE;
@@ -151,8 +163,8 @@ script "Orange_HUD" enter
                 textcolor = CR_GOLD;
             
             SetFont ("ArgFont");
-            HudMessage (s:barlabel; HUDMSG_PLAIN | HUDMSG_ALPHA, 252 + (6 * (bar - 1)), textcolor, 76.1, 340.0 + (20.0 * (bar - 1)), 0, 0.5 + FixedMul(Sin(FixedDiv(Timer() * 1.0, 70.0)), 0.5));
-            HudMessage (s:barlabel; HUDMSG_PLAIN, 270 + (6 * (bar - 1)), CR_ORANGE, 76.1, 340.0 + (20.0 * (bar - 1)), 0);
+            HudMessage (s:barlabel; HUDMSG_PLAIN | HUDMSG_ALPHA, 252 + (6 * (bar - 1)), textcolor, 76.1, 340.0 + (20.0 * (bar - 1)), 0.03, 0.5 + FixedMul(Sin(FixedDiv(Timer() * 1.0, 70.0)), 0.5));
+            HudMessage (s:barlabel; HUDMSG_PLAIN, 270 + (6 * (bar - 1)), CR_ORANGE, 76.1, 340.0 + (20.0 * (bar - 1)), 0.03);
         }
         
         Delay (1);

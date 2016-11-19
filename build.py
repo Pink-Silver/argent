@@ -27,11 +27,14 @@ def makepkg ():
     filelist = []
     for path, dirs, files in os.walk (SRC_DIR):
         for file in files:
+            if file[0] == '.':
+                continue
+            
             # Remove "src/"
             splitpath = path.split(os.sep)[1:]
             splitpath.append (file)
             name = os.path.join (*splitpath)
-
+            
             filelist.append ((os.path.join (path, file), name,))
 
     distzip = zipfile.ZipFile (destination, "w", zipfile.ZIP_DEFLATED)

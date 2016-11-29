@@ -185,7 +185,7 @@ ACTOR ArgRocketLauncher : ArgModWeapon replaces RocketLauncher
 		Goto ReadyLoop
 	Mod2Up:
 		RK2G A 1 {
-			if(CountInv("ArgRocketAmmo") < ROCKET_MOD2_AMMOUSE) { return state("Ready"); }
+			if(CountInv("RocketAmmo") < ROCKET_MOD2_AMMOUSE) { return state("Ready"); }
 			return A_JumpIfTargetInLOS("Mod2LockStart", 0, JLOSF_COMBATANTONLY);
 		}
 		RK2G A 0 A_Refire
@@ -220,10 +220,10 @@ ACTOR ArgRocketLauncher : ArgModWeapon replaces RocketLauncher
 		Goto Ready
 	Mod2Fire:
 		RK2G C 1 Bright {
-			if(CountInv("ArgRocketAmmo") < ROCKET_MOD2_AMMOUSE) { return state("Ready"); }
+			if(CountInv("RocketAmmo") < ROCKET_MOD2_AMMOUSE) { return state("Ready"); }
 			A_TakeInventory("ArgRocketLauncherModCharge");
 			A_GunFlash;
-			A_TakeInventory("ArgRocketAmmo", 1, TIF_NOTAKEINFINITE);
+			A_TakeInventory("RocketAmmo", 1, TIF_NOTAKEINFINITE);
 			A_FireCustomMissile("ArgRocketLockOn", 0, 0, 4.0 + frandom(-2.50, 0.50), frandom(-2.50, 0.50));
 			A_PlaySound("weapons/rocket/fire", CHAN_5);
 			A_AlertMonsters;
@@ -235,7 +235,7 @@ ACTOR ArgRocketLauncher : ArgModWeapon replaces RocketLauncher
 		RK2G F 1 A_WeaponOffset(20.0, 10.0 + 32)
 		RK2G D 1 Bright {
 			A_GunFlash;
-			A_TakeInventory("ArgRocketAmmo", 1, TIF_NOTAKEINFINITE);
+			A_TakeInventory("RocketAmmo", 1, TIF_NOTAKEINFINITE);
 			A_FireCustomMissile("ArgRocketLockOn", 0, 0, 4.0 + frandom(-2.50, 0.50), frandom(-2.50, 0.50));
 			A_PlaySound("weapons/rocket/altfire", CHAN_6);
 			A_AlertMonsters;
@@ -246,7 +246,7 @@ ACTOR ArgRocketLauncher : ArgModWeapon replaces RocketLauncher
 		RK2G G 1 A_WeaponOffset(22.0, 11.0 + 32)
 		RK2G B 1 Bright {
 			A_GunFlash;
-			A_TakeInventory("ArgRocketAmmo", 1, TIF_NOTAKEINFINITE);
+			A_TakeInventory("RocketAmmo", 1, TIF_NOTAKEINFINITE);
 			A_FireCustomMissile("ArgRocketLockOn", 0, 0, 4.0 + frandom(-2.50, 0.50), frandom(-2.50, 0.50));
 			A_PlaySound("weapons/rocket/fire", CHAN_5);
 			A_AlertMonsters;

@@ -24,6 +24,7 @@ ACTOR ArgBFG9000 : ArgWeapon replaces BFG9000
 		BFGG A 1 Bright A_WeaponReady
 		Loop
 	Select:
+	    BFGG A 0 Bright
 		Goto SelectLoop
 	Deselect:
 		BFGG A 0 Bright

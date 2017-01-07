@@ -7,7 +7,6 @@
 #include "zscript/argent/items/armor.txt"
 #include "zscript/argent/items/keys.txt"
 #include "zscript/argent/items/ammo.txt"
-#include "zscript/argent/items/powerups.txt"
 #include "zscript/argent/items/upgrades.txt"
 #include "zscript/argent/items/modkit.txt"
 
@@ -28,3 +27,4 @@
 #include "zscript/argent/weapons/plasma.txt"
 #include "zscript/argent/weapons/gauss.txt"
 #include "zscript/argent/weapons/bfg.txt"
+#include "zscript/argent/items/powerups.txt"

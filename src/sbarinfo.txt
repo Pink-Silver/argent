@@ -32,10 +32,12 @@ statusbar fullscreen, forcescaled
     }
     
     // icons
-    WeaponAmmo "Clip"       { DrawImage "graphics/hud/icon-bullets.png", 478, 423; }
-    WeaponAmmo "Shell"      { DrawImage "graphics/hud/icon-shells.png" , 478, 423; }
-    WeaponAmmo "RocketAmmo" { DrawImage "graphics/hud/icon-rockets.png", 478, 423; }
-    WeaponAmmo "Cell"       { DrawImage "graphics/hud/icon-cells.png"  , 478, 423; }
+	WeaponAmmo "Clip"          { DrawImage "graphics/hud/icon-bullets.png", -162, -57; }
+	WeaponAmmo "Shell"         { DrawImage "graphics/hud/icon-shells.png" , -162, -57; }
+	WeaponAmmo "ArgRocketAmmo" { DrawImage "graphics/hud/icon-rockets.png", -162, -57; }
+	WeaponAmmo "Cell"          { DrawImage "graphics/hud/icon-cells.png"  , -162, -57; }
+	WeaponAmmo "BFGCell"       { DrawImage "graphics/hud/icon-bfgammo.png", -162, -57; }
+	// [XA] Remind me to draw an icon for ChainsawFuel so we can put it here. :P
     
     // weapon
     DrawImage weaponicon, 545, 421;

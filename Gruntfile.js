@@ -6,7 +6,7 @@ module.exports = function (grunt) {
 	});
 	
 	var config = {
-		name: 'xa-argen',
+		name: 'xaks-argent-orange',
 		dir: {
 			src: 'src',
 			dest: 'dist',
@@ -14,6 +14,7 @@ module.exports = function (grunt) {
 		},
 		scripts: [
 			'argent.acs'
+		,	'orange.acs'
 		],
 		pkg: require('./package.json')
 	};

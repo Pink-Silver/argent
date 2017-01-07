@@ -4,53 +4,55 @@
 //
 // --------------------------------------------------------------------------
 
-ACTOR ArgChainsaw : ArgWeapon replaces Chainsaw
+class ArgChainsaw : ArgWeapon replaces Chainsaw
 {
-	Weapon.Kickback 0
-	Weapon.SelectionOrder 8
-	Inventory.Icon "graphics/hud/weapon-chainsaw.png"
-	Inventory.PickupMessage "$ARG_GOT_CHAINSAW"
-	Weapon.AmmoType1 "ChainsawFuel"
-	Weapon.AmmoUse1 1
-	Weapon.AmmoGive1 8
-	Obituary "$ARG_OB_CHAINSAW"
-	Tag "$ARG_TAG_CHAINSAW"
-	DamageType "ArgChainsaw"
+	Default
+	{
+		Weapon.Kickback 0;
+		Weapon.SelectionOrder 8;
+		Inventory.Icon "graphics/hud/weapon-chainsaw.png";
+		Inventory.PickupMessage "$ARG_GOT_CHAINSAW";
+		Weapon.AmmoType1 "ChainsawFuel";
+		Weapon.AmmoUse1 1;
+		Weapon.AmmoGive1 8;
+		Obituary "$ARG_OB_CHAINSAW";
+		Tag "$ARG_TAG_CHAINSAW";
+		DamageType "ArgChainsaw";
 	
-	+WEAPON.MELEEWEAPON
-	
+		+WEAPON.MELEEWEAPON
+	}
 	States
 	{
 	Spawn:
-		CSAW A -1
-		Stop
+		CSAW A -1;
+		Stop;
 	Ready:
-		SAWG AABB 1 A_WeaponReady
-		Loop
+		SAWG AABB 1 A_WeaponReady;
+		Loop;
 	Select:
-		SAWG A 0 A_Raise
-		SAWG A 1 A_Raise
-		SAWG A 0 A_PlaySound("weapons/chainsaw/idle", CHAN_5, 1.0, 1)
-		Goto SelectLoop
+		SAWG A 0 A_Raise;
+		SAWG A 1 A_Raise;
+		SAWG A 0 A_PlaySound("weapons/chainsaw/idle", CHAN_5, 1.0, 1);
+		Goto SelectLoop;
 	Deselect:
-		SAWG A 0 A_PlaySound("weapons/chainsaw/off", CHAN_5)
-		Goto DeselectLoop
+		SAWG A 0 A_PlaySound("weapons/chainsaw/off", CHAN_5);
+		Goto DeselectLoop;
 	Fire:
 		SAWF A 1 { A_WeaponOffset( 0.0, 32.0 +  8); A_PlaySound("weapons/chainsaw/up", CHAN_5); }
-		SAWF B 1   A_WeaponOffset(-1.0, 32.0 + 16)
-		SAWF C 1   A_WeaponOffset(-2.0, 32.0 + 24)
-		SAWF D 1   A_WeaponOffset(-3.0, 32.0 + 32)
-		SAWF E 1   A_WeaponOffset(-4.0, 32.0 + 40)
-		SAWG D 1   A_WeaponOffset(-5.0, 32.0 + 48)
-		SAWG D 1   A_WeaponOffset(-4.0, 32.0 + 40)
-		SAWG C 1   A_WeaponOffset(-3.0, 32.0 + 32)
-		SAWG C 1   A_WeaponOffset(-2.0, 32.0 + 24)
-		SAWG D 1   A_WeaponOffset(-1.0, 32.0 + 16)
-		SAWG D 1   A_WeaponOffset( 0.0, 32.0 +  8)
+		SAWF B 1   A_WeaponOffset(-1.0, 32.0 + 16);
+		SAWF C 1   A_WeaponOffset(-2.0, 32.0 + 24);
+		SAWF D 1   A_WeaponOffset(-3.0, 32.0 + 32);
+		SAWF E 1   A_WeaponOffset(-4.0, 32.0 + 40);
+		SAWG D 1   A_WeaponOffset(-5.0, 32.0 + 48);
+		SAWG D 1   A_WeaponOffset(-4.0, 32.0 + 40);
+		SAWG C 1   A_WeaponOffset(-3.0, 32.0 + 32);
+		SAWG C 1   A_WeaponOffset(-2.0, 32.0 + 24);
+		SAWG D 1   A_WeaponOffset(-1.0, 32.0 + 16);
+		SAWG D 1   A_WeaponOffset( 0.0, 32.0 +  8);
 	Hold:
 		SAWG C 1 {
 		    A_Saw("", "effects/gibs", 60, "ArgChainsawPuff", SF_NORANDOM | SF_NOUSEAMMOMISS);
-		    A_AlertMonsters;
+		    A_AlertMonsters();
 		    A_WeaponOffset(frandom(-1.0, 1.0), 32.0 + frandom(-1.0, 1.0));
 	    }
 		SAWG C 1 {
@@ -67,49 +69,52 @@ ACTOR ArgChainsaw : ArgWeapon replaces Chainsaw
 			if(CountInv("ArgChainsawStabbyToken") == 13) {
 				A_PlaySound("weapons/chainsaw/loop", CHAN_5, 1.0, 1);
 			}
-			return A_ReFire;
+			return A_ReFire();
 		}
 	Down:
 		SAWG A 0 {
 			A_PlaySound("weapons/chainsaw/down", CHAN_5);
 			A_TakeInventory("ArgChainsawStabbyToken");
 		}
-		SAWG C 1 A_WeaponOffset( 0.0, 32.0 +  8)
-		SAWG C 1 A_WeaponOffset(-1.0, 32.0 + 16)
-		SAWG D 1 A_WeaponOffset(-2.0, 32.0 + 24)
-		SAWG D 1 A_WeaponOffset(-3.0, 32.0 + 32)
-		SAWG C 1 A_WeaponOffset(-4.0, 32.0 + 40)
-		SAWG C 1 A_WeaponOffset(-5.0, 32.0 + 48)
-		SAWF E 1 A_WeaponOffset( 0.0, 32.0 + 16)
-		SAWF D 1 A_WeaponOffset( 0.0, 32.0 +  8)
-		SAWF C 1 A_WeaponOffset( 0.0, 32.0     )
-		SAWF BA 1
-		SAWG AABBAABBAABBAABBAABBAABBAABBAABBAABB 1 A_WeaponReady
-		SAWG A 0 A_PlaySound("weapons/chainsaw/idle", CHAN_5, 1.0, 1)
-		Goto Ready
+		SAWG C 1 A_WeaponOffset( 0.0, 32.0 +  8);
+		SAWG C 1 A_WeaponOffset(-1.0, 32.0 + 16);
+		SAWG D 1 A_WeaponOffset(-2.0, 32.0 + 24);
+		SAWG D 1 A_WeaponOffset(-3.0, 32.0 + 32);
+		SAWG C 1 A_WeaponOffset(-4.0, 32.0 + 40);
+		SAWG C 1 A_WeaponOffset(-5.0, 32.0 + 48);
+		SAWF E 1 A_WeaponOffset( 0.0, 32.0 + 16);
+		SAWF D 1 A_WeaponOffset( 0.0, 32.0 +  8);
+		SAWF C 1 A_WeaponOffset( 0.0, 32.0     );
+		SAWF BA 1;
+		SAWG AABBAABBAABBAABBAABBAABBAABBAABBAABB 1 A_WeaponReady();
+		SAWG A 0 A_PlaySound("weapons/chainsaw/idle", CHAN_5, 1.0, 1);
+		Goto Ready;
 	}
 }
-ACTOR ArgChainsawStabbyToken : ArgToken { Inventory.MaxAmount 20 } // extra token for sound control
+class ArgChainsawStabbyToken : ArgToken { Default { Inventory.MaxAmount 20; } } // extra token for sound control
 
-ACTOR ArgChainsawPuff : ArgBulletPuff
+class ArgChainsawPuff : ArgBulletPuff
 {
-	DamageType "ArgChainsaw"
-	+EXTREMEDEATH
-    +HITMASTER
-    +PUFFGETSOWNER
-    +PUFFONACTORS
-    +ALWAYSPUFF
-    +FORCEPAIN
-	
+	Default
+	{
+		DamageType "ArgChainsaw";
+
+		+EXTREMEDEATH
+		+HITMASTER
+		+PUFFGETSOWNER
+		+PUFFONACTORS
+		+ALWAYSPUFF
+		+FORCEPAIN
+	}
 	States
 	{
 	XDeath:
-		TNT1 A 0 ACS_NamedExecuteWithResult ("Orange_AmmoShower")
-		Stop
+		TNT1 A 0 ACS_NamedExecuteWithResult ("Orange_AmmoShower");
+		Stop;
 	Spawn:
-	    TNT1 A 0
-	    Stop
-    Death:
-        Goto Super::Spawn
+		TNT1 A 0;
+		Stop;
+	Death:
+		Goto Super::Spawn;
 	}
 }

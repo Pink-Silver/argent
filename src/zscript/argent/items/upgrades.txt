@@ -6,45 +6,49 @@
 
 // -- Argent Cell --
 
-ACTOR ArgArgentCell : ArgPowerup
+class ArgArgentCell : ArgPowerup
 {
-	Inventory.PickupMessage "$ARG_GOT_ARGCELL"
-	Inventory.PickupSound "items/powerup"
-    
+	Default
+	{
+		Inventory.PickupMessage "$ARG_GOT_ARGCELL";
+		Inventory.PickupSound "items/powerup";
+    }
 	States
 	{
 	Spawn:
-		ARGN ABCD 6 Bright
-		Loop
+		ARGN ABCD 6 Bright;
+		Loop;
 	Pickup:
-		TNT1 A 0 ACS_NamedExecuteWithResult("Orange_ArgentCell")
-		Stop
+		TNT1 A 0 ACS_NamedExecuteWithResult("Orange_ArgentCell");
+		Stop;
 	}
 }
 
-ACTOR ArgArgentSelector : CustomInventory
+class ArgArgentSelector : CustomInventory
 {
-	Inventory.PickupMessage "$ARG_GOT_ARGSEL"
-	Inventory.PickupSound "" // The script this executes plays a sound already
-    
+	Default
+	{
+		Inventory.PickupMessage "$ARG_GOT_ARGSEL";
+		Inventory.PickupSound ""; // The script this executes plays a sound already
+    }
 	States
 	{
 	Spawn:
-		ASEL A 30
-		ASEL A 5 BRIGHT
-		Loop
+		ASEL A 30;
+		ASEL A 5 BRIGHT;
+		Loop;
 	Pickup:
-		TNT1 A 0 ACS_NamedExecuteWithResult("Orange_ArgentSelect")
-		Stop
+		TNT1 A 0 ACS_NamedExecuteWithResult("Orange_ArgentSelect");
+		Stop;
 	}
 }
 
-ACTOR ArgArgentSelectorDropped : ArgArgentSelector
+class ArgArgentSelectorDropped : ArgArgentSelector
 {
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
-        Goto Super::Spawn
+        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem");
+        Goto Super::Spawn;
     }
 }

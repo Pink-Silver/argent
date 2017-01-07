@@ -4,53 +4,59 @@
 //
 // --------------------------------------------------------------------------
 
-ACTOR ArgBarrel : ExplosiveBarrel replaces ExplosiveBarrel
+class ArgBarrel : ExplosiveBarrel replaces ExplosiveBarrel
 {
-	+EXTREMEDEATH
+	Default
+	{ 
+		+EXTREMEDEATH
+	}
 }
 
-ACTOR ArgMakeFaster : CustomInventory
+class ArgMakeFaster : CustomInventory
 {
     States
     {
     Pickup:
-        TNT1 A 0 A_ChangeFlag ("ALWAYSFAST", 1)
-        Stop
+        TNT1 A 0 A_ChangeFlag ("ALWAYSFAST", 1);
+        Stop;
     }
 }
 
-ACTOR ArgMakeSlower : CustomInventory
+class ArgMakeSlower : CustomInventory
 {
     States
     {
     Pickup:
-        TNT1 A 0 A_ChangeFlag ("ALWAYSFAST", 0)
-        Stop
+        TNT1 A 0 A_ChangeFlag ("ALWAYSFAST", 0);
+        Stop;
     }
 }
 
-ACTOR ArgMakeFullbright : CustomInventory
+class ArgMakeFullbright : CustomInventory
 {
     States
     {
     Pickup:
-        TNT1 A 0 A_ChangeFlag ("BRIGHT", 1)
-        Stop
+        TNT1 A 0 A_ChangeFlag ("BRIGHT", 1);
+        Stop;
     }
 }
 
-ACTOR ArgMakeUnFullbright : CustomInventory
+class ArgMakeUnFullbright : CustomInventory
 {
     States
     {
     Pickup:
-        TNT1 A 0 A_ChangeFlag ("BRIGHT", 0)
-        Stop
+        TNT1 A 0 A_ChangeFlag ("BRIGHT", 0);
+        Stop;
     }
 }
 
-ACTOR PowerArgExecution : PowerProtection
+class PowerArgExecution : PowerProtection
 {
-    Powerup.Duration 0x7FFFFFFF
-    DamageFactor "ArgFist", 4.0
+	Default
+	{ 
+		Powerup.Duration 0x7FFFFFFF;
+		DamageFactor "ArgFist", 4.0;
+	}
 }

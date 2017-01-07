@@ -5,145 +5,198 @@
 // --------------------------------------------------------------------------
 
 /* Base Items */
-ACTOR BFGCell : Ammo
+
+class BFGCell : Ammo
 {
-    Inventory.Amount 1
-    Inventory.MaxAmount 3
-    Ammo.BackpackAmount 0
-    Ammo.BackpackMaxAmount 3
-    Inventory.Icon "BFGCELL"
+	Default
+	{
+		Inventory.Amount 1;
+		Inventory.MaxAmount 3;
+		Ammo.BackpackAmount 0;
+		Ammo.BackpackMaxAmount 3;
+		Inventory.Icon "BFGCELL";
+	}
 }
 
-ACTOR ChainsawFuel : Ammo
+class ChainsawFuel : Ammo
 {
-    Inventory.Amount 8
-    Inventory.MaxAmount 24
-    Ammo.BackpackAmount 0
-    Ammo.BackpackMaxAmount 24
-    Inventory.Icon "CSAWFUEL"
+	Default
+	{
+		Inventory.Amount 8;
+		Inventory.MaxAmount 24;
+		Ammo.BackpackAmount 0;
+		Ammo.BackpackMaxAmount 24;
+		Inventory.Icon "CSAWFUEL";
+	}
 }
 
 /* Pickups */
-ACTOR ArgClip       : Clip       replaces Clip       { Inventory.PickupSound "items/ammo" Scale 0.66 }
-ACTOR ArgClipBox    : ClipBox    replaces ClipBox    { Inventory.PickupSound "items/ammo" Scale 0.66 }
-ACTOR ArgShell      : Shell      replaces Shell      { Inventory.PickupSound "items/ammo" Scale 0.66 }
-ACTOR ArgShellBox   : ShellBox   replaces ShellBox   { Inventory.PickupSound "items/ammo" Scale 0.66 }
-ACTOR ArgRocketAmmo : RocketAmmo replaces RocketAmmo { Inventory.PickupSound "items/ammo" Scale 0.66 }
-ACTOR ArgRocketBox  : RocketBox  replaces RocketBox  { Inventory.PickupSound "items/ammo" Scale 0.50 }
-ACTOR ArgCell       : Cell       replaces Cell       { Inventory.PickupSound "items/ammo" Scale 0.75 }
-ACTOR ArgCellPack   : CellPack   replaces CellPack   { Inventory.PickupSound "items/ammo" Scale 0.75 }
 
-ACTOR ArgBFGCell : CustomInventory
+class ArgClip       : Clip       replaces Clip       { Default { Inventory.PickupSound "items/ammo"; Scale 0.66; } }
+class ArgClipBox    : ClipBox    replaces ClipBox    { Default { Inventory.PickupSound "items/ammo"; Scale 0.66; } }
+class ArgShell      : Shell      replaces Shell      { Default { Inventory.PickupSound "items/ammo"; Scale 0.66; } }
+class ArgShellBox   : ShellBox   replaces ShellBox   { Default { Inventory.PickupSound "items/ammo"; Scale 0.66; } }
+class ArgCell       : Cell       replaces Cell       { Default { Inventory.PickupSound "items/ammo"; Scale 0.75; } }
+class ArgCellPack   : CellPack                       { Default { Inventory.PickupSound "items/ammo"; Scale 0.75; } }
+
+class ArgRocketAmmo : Ammo replaces RocketAmmo
 {
-	Inventory.PickupSound "items/ammo"
-	Inventory.PickupMessage "$ARG_GOT_BFGCELL"
-	Scale 0.66
-	+FLOATBOB
+	Default
+	{
+		Inventory.PickupSound "items/ammo";
+		Inventory.PickupMessage "$GOTROCKET";
+		Inventory.Amount 1;
+		Inventory.MaxAmount 30;
+		Ammo.BackpackAmount 1;
+		Ammo.BackpackMaxAmount 60;
+		Inventory.Icon "ROCKA0";
+		Scale 0.66;
+	}
 	States
 	{
 	Spawn:
-		BFGC BC 5 Bright 
-		Loop
-	Pickup:
-		TNT1 A 0 A_GiveInventory("BFGCell", 1)
-		Stop
+		ROCK A -1;
+		Stop;
 	}
 }
 
-ACTOR ArgBFGCellSpawner
+class ArgRocketBox : ArgRocketAmmo replaces RocketBox
 {
-	Scale 0.66
-	+FORCEYBILLBOARD
+	Default
+	{
+		Inventory.PickupMessage "$GOTROCKBOX";
+		Inventory.Amount 5;
+		Scale 0.5;
+	}
 	States
 	{
 	Spawn:
-		BFGC A 0 NoDelay A_SpawnItemEx("ArgBFGCell",0,0,0,0,0,0,0,SXF_ISTRACER|SXF_TRANSFERSPECIAL)
+		BROK A -1;
+		Stop;
+	}
+}
+
+class ArgBFGCell : CustomInventory
+{
+	Default
+	{
+		Inventory.PickupSound "items/ammo";
+		Inventory.PickupMessage "$ARG_GOT_BFGCELL";
+		Scale 0.66;
+
+		+FLOATBOB
+	}
+	States
+	{
+	Spawn:
+		BFGC BC 5 Bright;
+		Loop;
+	Pickup:
+		TNT1 A 0 A_GiveInventory("BFGCell", 1);
+		Stop;
+	}
+}
+
+class ArgBFGCellSpawner : Actor
+{
+	Default
+	{
+		Scale 0.66;
+		+FORCEYBILLBOARD
+	}
+	States
+	{
+	Spawn:
+		BFGC A 0 NoDelay A_SpawnItemEx("ArgBFGCell",0,0,0,0,0,0,0,SXF_ISTRACER|SXF_TRANSFERSPECIAL);
 	Idle:
-		BFGC A 1
+		BFGC A 1;
 		BFGC A 1 {
 			if(IsPointerEqual(AAPTR_TRACER, AAPTR_NULL)) {
-				return state("Vanish");
+				return ResolveState("Vanish");
 			}
-			return state(0);
+			return ResolveState(null);
 		}
-		Wait
+		Wait;
 	Vanish:
-		TNT1 A 0
-		Stop
+		TNT1 A 0;
+		Stop;
 	}
 }
 
-ACTOR ArgChainsawFuel : ChainsawFuel
+class ArgChainsawFuel : ChainsawFuel
 {
-    Inventory.PickupMessage "$ARG_GOT_CSAWFUEL"
-    Inventory.PickupSound "items/ammo"
-    Scale 0.75
+	Default
+	{
+		Inventory.PickupMessage "$ARG_GOT_CSAWFUEL";
+		Inventory.PickupSound "items/ammo";
+		Scale 0.75;
+	}
     States
     {
     Spawn:
-        FUEL A -1
-        Stop
+        FUEL A -1;
+        Stop;
     }
 }
 
 /* Temporary dropped versions for tagged monsters */
 
-ACTOR ArgClipDropped : ArgClip
+class ArgClipDropped : ArgClip
 {
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
-        Goto Super::Spawn
+        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem");
+        Goto Super::Spawn;
     }
 }
 
-ACTOR ArgShellDropped : ArgShell
+class ArgShellDropped : ArgShell
 {
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
-        Goto Super::Spawn
+        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem");
+        Goto Super::Spawn;
     }
 }
 
-ACTOR ArgRocketAmmoDropped : ArgRocketAmmo
+class ArgRocketAmmoDropped : ArgRocketAmmo
 {
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
-        Goto Super::Spawn
+        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem");
+        Goto Super::Spawn;
     }
 }
 
-ACTOR ArgCellDropped : ArgCell
+class ArgCellDropped : ArgCell
 {
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
-        Goto Super::Spawn
+        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem");
+        Goto Super::Spawn;
     }
 }
 
-ACTOR ArgBFGCellDropped : ArgBFGCell
+class ArgBFGCellDropped : ArgBFGCell
 {
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
-        Goto Super::Spawn
+        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem");
+        Goto Super::Spawn;
     }
 }
 
-ACTOR ArgChainsawFuelDropped : ArgChainsawFuel
+class ArgChainsawFuelDropped : ArgChainsawFuel
 {
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
-        Goto Super::Spawn
+        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem");
+        Goto Super::Spawn;
     }
 }

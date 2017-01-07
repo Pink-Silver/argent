@@ -4,80 +4,92 @@
 //
 // --------------------------------------------------------------------------
 
-ACTOR ArgArmor : BasicArmorBonus
+class ArgArmor : BasicArmorBonus
 {
-	Inventory.Icon "BON2B0"
-	Armor.Savepercent 50
-	Armor.Saveamount 1
-	Armor.Maxsaveamount 150
-}
-
-ACTOR ArgArmorBonus : CustomInventory replaces ArmorBonus
-{
-	Radius 20
-	Height 16
-	Scale 0.66
-	Inventory.PickupSound "items/shard"
-	Inventory.Pickupmessage "$GOTARMBONUS"
-	+RANDOMIZE
-	States
+	Default
 	{
-	Spawn:
-		BON2 A 30
-		BON2 A 5 BRIGHT
-		loop
-	Pickup:
-	    TNT1 A 0 ACS_NamedExecuteWithResult("Orange_GiveArmor", 5)
-	    Stop
+		Inventory.Icon "BON2B0";
+		Armor.Savepercent 50;
+		Armor.Saveamount 1;
+		Armor.Maxsaveamount 150;
 	}
 }
 
-ACTOR ArgArmorBonusDropped : ArgArmorBonus
+class ArgArmorBonus : CustomInventory replaces ArmorBonus
+{
+	Default
+	{
+		Radius 20;
+		Height 16;
+		Scale 0.66;
+		Inventory.PickupSound "items/shard";
+		Inventory.Pickupmessage "$GOTARMBONUS";
+		+RANDOMIZE
+	}
+	States
+	{
+	Spawn:
+		BON2 A 30;
+		BON2 A 5 BRIGHT;
+		loop;
+	Pickup:
+	    TNT1 A 0 ACS_NamedExecuteWithResult("Orange_GiveArmor", 5);
+	    Stop;
+	}
+}
+
+class ArgArmorBonusDropped : ArgArmorBonus
 {
     States
     {
     Spawn:
-        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem")
-        Goto Super::Spawn
+        TNT1 A 0 NoDelay ACS_NamedExecuteWithResult ("Orange_TemporaryItem");
+        Goto Super::Spawn;
     }
 }
 
-ACTOR ArgArmorGreen : CustomInventory replaces GreenArmor
+class ArgArmorGreen : CustomInventory replaces GreenArmor
 {
-	Radius 20
-	Height 16
-	Scale 0.66
-	+RANDOMIZE
-	Inventory.PickupSound "items/armor"
-	Inventory.Pickupmessage "$GOTARMOR"
+	Default
+	{
+		Radius 20;
+		Height 16;
+		Scale 0.66;
+		+RANDOMIZE
+		Inventory.PickupSound "items/armor";
+		Inventory.Pickupmessage "$GOTARMOR";
+	}
 	States
 	{
 	Spawn:
-		ARM1 A 30
-		ARM1 A 5 bright
-		loop
+		ARM1 A 30;
+		ARM1 A 5 bright;
+		loop;
 	Pickup:
-	    TNT1 A 0 ACS_NamedExecuteWithResult("Orange_GiveArmor", 50)
-	    Stop
+	    TNT1 A 0 ACS_NamedExecuteWithResult("Orange_GiveArmor", 50);
+	    Stop;
 	}
 }
 
-ACTOR ArgArmorBlue : CustomInventory replaces BlueArmor
+class ArgArmorBlue : CustomInventory replaces BlueArmor
 {
-	Radius 20
-	Height 16
-	Scale 0.66
-	+RANDOMIZE
-	Inventory.PickupSound "items/armor"
-	Inventory.Pickupmessage "$GOTMEGA"
+	Default
+	{
+		Radius 20;
+		Height 16;
+		Scale 0.66;
+		+RANDOMIZE;
+		Inventory.PickupSound "items/armor";
+		Inventory.Pickupmessage "$GOTMEGA";
+	}
 	States
 	{
 	Spawn:
-		ARM2 A 30
-		ARM2 A 5 bright
-		loop
+		ARM2 A 30;
+		ARM2 A 5 bright;
+		loop;
 	Pickup:
-	    TNT1 A 0 ACS_NamedExecuteWithResult("Orange_GiveArmor", 100)
-	    Stop
+	    TNT1 A 0 ACS_NamedExecuteWithResult("Orange_GiveArmor", 100);
+	    Stop;
 	}
 }

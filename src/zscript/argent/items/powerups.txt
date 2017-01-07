@@ -4,238 +4,294 @@
 //
 // --------------------------------------------------------------------------
 
-ACTOR ArgPowerup : CustomInventory
+class ArgPowerup : CustomInventory
 {
-	Inventory.PickupSound "items/powerup"
-	Inventory.MaxAmount 0
+	Default
+	{
+		Inventory.PickupSound "items/powerup";
+		Inventory.MaxAmount 0;
 
-	+COUNTITEM
-	+INVENTORY.ALWAYSPICKUP
-	+INVENTORY.AUTOACTIVATE
-	+INVENTORY.FANCYPICKUPSOUND
+		+COUNTITEM
+		+INVENTORY.ALWAYSPICKUP
+		+INVENTORY.AUTOACTIVATE
+		+INVENTORY.FANCYPICKUPSOUND
+	}
 }
 
 // -- Berserk --
 
-ACTOR ArgPowerBerserk : PowerDamage
+class ArgPowerBerserk : PowerDamage
 {
-    DamageFactor "ArgFist", 10.0
-	Inventory.Icon "ICONBZRK"
-	Powerup.Duration -30
-	Powerup.Colormap 0.0,0.0,0.0, 1.0,0.0,0.0
+	Default
+	{
+		DamageFactor "ArgFist", 10.0;
+		Inventory.Icon "ICONBZRK";
+		Powerup.Duration -30;
+		Powerup.Colormap 0.0,0.0,0.0, 1.0,0.0,0.0;
 	
-	+INVENTORY.ALWAYSPICKUP
+		+INVENTORY.ALWAYSPICKUP
+	}
 }
 
-ACTOR ArgPowerBerserkInvulnerable : PowerInvulnerable
+class ArgPowerBerserkInvulnerable : PowerInvulnerable
 {
-	Powerup.Duration -30
+	Default
+	{
+		Powerup.Duration -30;
 	
-	+INVENTORY.ALWAYSPICKUP
+		+INVENTORY.ALWAYSPICKUP
+	}
 }
 
-ACTOR ArgPowerBerserkSpeed : PowerSpeed
+class ArgPowerBerserkSpeed : PowerSpeed
 {
-    Speed 1.5
-	Powerup.Duration -30
+	Default
+	{
+		Speed 1.5;
+		Powerup.Duration -30;
 	
-	+INVENTORY.ALWAYSPICKUP
+		+INVENTORY.ALWAYSPICKUP
+	}
 }
 
-ACTOR ArgBerserk : Berserk replaces Berserk
+class ArgBerserk : Berserk replaces Berserk
 {
-	Inventory.PickupMessage "$ARG_GOT_BERSERK"
-	Inventory.PickupSound "items/powerup"
+	Default
+	{
+		Inventory.PickupMessage "$ARG_GOT_BERSERK";
+		Inventory.PickupSound "items/powerup";
 	
-    +INVENTORY.BIGPOWERUP
-
+		+INVENTORY.BIGPOWERUP
+	}
 	States
 	{
 	Spawn:
-		BZRK ABCDEFEDCB 3 Bright
-		Loop
+		BZRK ABCDEFEDCB 3 Bright;
+		Loop;
 	Pickup:
-		TNT1 A 0 A_PlaySound("items/powerups/berserk", CHAN_7)
-		TNT1 A 0 A_GiveInventory("ArgPowerBerserk")
-		TNT1 A 0 A_GiveInventory("ArgPowerBerserkInvulnerable")
-		TNT1 A 0 A_GiveInventory("ArgPowerBerserkSpeed")
-		TNT1 A 0 HealThing(100, 0)
-		TNT1 A 0 A_SelectWeapon("ArgFist")
-		Stop
+		TNT1 A 0 A_PlaySound("items/powerups/berserk", CHAN_7);
+		TNT1 A 0 A_GiveInventory("ArgPowerBerserk");
+		TNT1 A 0 A_GiveInventory("ArgPowerBerserkInvulnerable");
+		TNT1 A 0 A_GiveInventory("ArgPowerBerserkSpeed");
+		TNT1 A 0 HealThing(100, 0);
+		TNT1 A 0 A_SelectWeapon("ArgFist");
+		Stop;
 	}
 }
 
 // -- Quad --
 
-ACTOR ArgPowerQuadDamage : PowerDamage
+class ArgPowerQuadDamage : PowerDamage
 {
-	Inventory.Icon "ICONQUAD"
-	DamageFactor "Normal", 4
-	Powerup.Duration -45
-	Powerup.Color "AA00FF" 0.25
+	Default
+	{
+		Inventory.Icon "ICONQUAD";
+		DamageFactor "Normal", 4;
+		Powerup.Duration -45;
+		Powerup.Color "AA00FF", 0.25;
 	
-	+INVENTORY.ALWAYSPICKUP
+		+INVENTORY.ALWAYSPICKUP
+	}
 }
 
-ACTOR ArgQuadDamage : ArgPowerup
+class ArgQuadDamage : ArgPowerup
 {
-	Inventory.PickupMessage "$ARG_GOT_QUAD"
+	Default
+	{
+		Inventory.PickupMessage "$ARG_GOT_QUAD";
 
-    +INVENTORY.BIGPOWERUP
-
+		+INVENTORY.BIGPOWERUP
+	}
 	States
 	{
 	Spawn:
-		QUAD ABCDEFEDCB 3 Bright
-		Loop
+		QUAD ABCDEFEDCB 3 Bright;
+		Loop;
 	Pickup:
-		TNT1 A 0 A_PlaySound("items/powerups/quad", CHAN_7)
-		TNT1 A 0 A_GiveInventory("ArgPowerQuadDamage")
-		Stop
+		TNT1 A 0 A_PlaySound("items/powerups/quad", CHAN_7);
+		TNT1 A 0 A_GiveInventory("ArgPowerQuadDamage");
+		Stop;
 	}
 }
 
 // -- Haste --
 
-ACTOR ArgPowerHasteSpeed : PowerSpeed
+class ArgPowerHasteSpeed : PowerSpeed
 {
-	Powerup.Duration -45
-	Powerup.Color "FFCC00" 0.25
-	Powerup.Colormap 0.1,0.075,0.0, 1.0,0.8,0.0
-	Inventory.Icon "ICONHSTE"
-	Speed 1.5
+	Default
+	{
+		Powerup.Duration -45;
+		Powerup.Color "FFCC00", 0.25;
+		Powerup.Colormap 0.1,0.075,0.0, 1.0,0.8,0.0;
+		Inventory.Icon "ICONHSTE";
+		Speed 1.5;
 	
-	+INVENTORY.ALWAYSPICKUP
+		+INVENTORY.ALWAYSPICKUP
+	}
 }
 
-ACTOR ArgPowerHasteFiringSpeed : PowerDoubleFiringSpeed
+class ArgPowerHasteFiringSpeed : PowerDoubleFiringSpeed
 {
-	// [XA] at the moment this doesn't really do much since the weapon
-	// animations use 1-tic animations everywhere. I'll have to come up
-	// with something more clever at some point.
-	Powerup.Duration -45
+	Default
+	{
+		// [XA] at the moment this doesn't really do much since the weapon
+		// animations use 1-tic animations everywhere. I'll have to come up
+		// with something more clever at some point.
+		Powerup.Duration -45;
 	
-	+INVENTORY.ALWAYSPICKUP
+		+INVENTORY.ALWAYSPICKUP
+	}
 }
 
-ACTOR ArgHaste : ArgPowerup
+class ArgHaste : ArgPowerup
 {
-	Inventory.PickupMessage "$ARG_GOT_HASTE"
+	Default
+	{
+		Inventory.PickupMessage "$ARG_GOT_HASTE";
+	}
 	States
 	{
 	Spawn:
-		HSTE ABCDEFEDCB 3 Bright
-		Loop
+		HSTE ABCDEFEDCB 3 Bright;
+		Loop;
 	Pickup:
-		TNT1 A 0 A_PlaySound("items/powerups/haste", CHAN_7)
-		TNT1 A 0 A_GiveInventory("ArgPowerHasteSpeed")
-		TNT1 A 0 A_GiveInventory("ArgPowerHasteFiringSpeed")
-		Stop
+		TNT1 A 0 A_PlaySound("items/powerups/haste", CHAN_7);
+		TNT1 A 0 A_GiveInventory("ArgPowerHasteSpeed");
+		TNT1 A 0 A_GiveInventory("ArgPowerHasteFiringSpeed");
+		Stop;
 	}
 }
 
 // -- Regen --
 
-ACTOR ArgPowerRegen : PowerRegeneration
+class ArgPowerRegen : PowerRegeneration
 {
-	Powerup.Duration -60
-	Powerup.Strength 2
-	Powerup.Color "0080FF" 0.25
-	Inventory.Icon "ICONREGN"
+	Default
+	{
+		Powerup.Duration -60;
+		Powerup.Strength 2;
+		Powerup.Color "0080FF", 0.25;
+		Inventory.Icon "ICONREGN";
 	
-	+INVENTORY.ALWAYSPICKUP
+		+INVENTORY.ALWAYSPICKUP
+	}
 }
 
-ACTOR ArgRegen : ArgPowerup
+class ArgRegen : ArgPowerup
 {
-	Inventory.PickupMessage "$ARG_GOT_REGEN"
+	Default
+	{
+		Inventory.PickupMessage "$ARG_GOT_REGEN";
+	}
 	States
 	{
 	Spawn:
-		REGN ABCDEFEDCB 3 Bright
-		Loop
+		REGN ABCDEFEDCB 3 Bright;
+		Loop;
 	Pickup:
-		TNT1 A 0 A_PlaySound("items/powerups/regen", CHAN_7)
-		TNT1 A 0 A_GiveInventory("ArgPowerRegen")
-		Stop
+		TNT1 A 0 A_PlaySound("items/powerups/regen", CHAN_7);
+		TNT1 A 0 A_GiveInventory("ArgPowerRegen");
+		Stop;
 	}
 }
 
 // -- Misc. edits, for sound's sake --
 
-ACTOR ArgSoulsphere : Soulsphere replaces Soulsphere
+class ArgSoulsphere : Soulsphere replaces Soulsphere
 {
-    Inventory.Amount 200
-    Inventory.MaxAmount 200
-	Inventory.PickupSound "items/megahealth"
-}
-
-ACTOR InvulnerabilityEffect : PowerupGiver
-{
-    Inventory.MaxAmount 0
-    Powerup.Type "Invulnerable"
-    Powerup.Color InverseMap
-
-    +INVENTORY.AUTOACTIVATE
-    +INVENTORY.ALWAYSPICKUP
-}
-
-ACTOR ArgInvuln : ArgPowerup replaces InvulnerabilitySphere
-{
-	Inventory.PickupMessage "$GOTINVUL"
-
-    +INVENTORY.BIGPOWERUP
-
-	States
+	Default
 	{
-	Spawn:
-		PINV ABCDCB 6 Bright
-		Loop
-	Pickup:
-		TNT1 A 0 A_PlaySound("items/powerups/berserk", CHAN_7)
-		TNT1 A 0 A_GiveInventory("InvulnerabilityEffect")
-		Stop
+		Inventory.Amount 200;
+		Inventory.MaxAmount 200;
+		Inventory.PickupSound "items/megahealth";
 	}
 }
 
-ACTOR BlurEffect : PowerupGiver
+class InvulnerabilityEffect : PowerupGiver
 {
-    Inventory.MaxAmount 0
-    Powerup.Type "Invisibility"
-
-    +INVENTORY.AUTOACTIVATE
-    +INVENTORY.ALWAYSPICKUP
-}
-
-ACTOR ArgBlurSphere : ArgPowerup replaces BlurSphere
-{
-    RenderStyle Translucent
-	Inventory.PickupMessage "$GOTINVIS"
-
-    +INVENTORY.BIGPOWERUP
-    +VISIBILITYPULSE
-
-	States
+	Default
 	{
-	Spawn:
-		PINS ABCDCB 6 Bright
-		Loop
-	Pickup:
-		TNT1 A 0 A_PlaySound("items/powerups/regen", CHAN_7)
-		TNT1 A 0 A_GiveInventory("BlurEffect")
-		Stop
+		Inventory.MaxAmount 0;
+		Powerup.Type "PowerInvulnerable";
+		Powerup.Color 'InverseMap';
+
+		+INVENTORY.AUTOACTIVATE
+		+INVENTORY.ALWAYSPICKUP
 	}
 }
 
-ACTOR ArgInfrared : Infrared replaces Infrared
+class ArgInvuln : ArgPowerup replaces InvulnerabilitySphere
 {
-	Inventory.PickupSound "items/automap"
+	Default
+	{
+		Inventory.PickupMessage "$GOTINVUL";
+
+		+INVENTORY.BIGPOWERUP
+	}
+	States
+	{
+	Spawn:
+		PINV ABCDCB 6 Bright;
+		Loop;
+	Pickup:
+		TNT1 A 0 A_PlaySound("items/powerups/berserk", CHAN_7);
+		TNT1 A 0 A_GiveInventory("InvulnerabilityEffect");
+		Stop;
+	}
 }
-ACTOR ArgAutomap : Allmap replaces Allmap
+
+class BlurEffect : PowerupGiver
 {
-	Inventory.PickupSound "items/automap"
+	Default
+	{
+		Inventory.MaxAmount 0;
+		Powerup.Type "PowerInvisibility";
+
+		+INVENTORY.AUTOACTIVATE
+		+INVENTORY.ALWAYSPICKUP
+	}
 }
-ACTOR ArgRadsuit : Radsuit replaces Radsuit
+
+class ArgBlurSphere : ArgPowerup replaces BlurSphere
 {
-	Inventory.PickupSound "items/powerup"
+	Default
+	{
+		RenderStyle 'Translucent';
+		Inventory.PickupMessage "$GOTINVIS";
+
+		+INVENTORY.BIGPOWERUP
+		+VISIBILITYPULSE
+	}
+	States
+	{
+	Spawn:
+		PINS ABCDCB 6 Bright;
+		Loop;
+	Pickup:
+		TNT1 A 0 A_PlaySound("items/powerups/regen", CHAN_7);
+		TNT1 A 0 A_GiveInventory("BlurEffect");
+		Stop;
+	}
+}
+
+class ArgInfrared : Infrared replaces Infrared
+{
+	Default
+	{
+		Inventory.PickupSound "items/automap";
+	}
+}
+class ArgAutomap : Allmap replaces Allmap
+{
+	Default
+	{
+		Inventory.PickupSound "items/automap";
+	}
+}
+class ArgRadsuit : Radsuit replaces Radsuit
+{
+	Default
+	{
+		Inventory.PickupSound "items/powerup";
+	}
 }

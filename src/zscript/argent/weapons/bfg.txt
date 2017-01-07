@@ -102,10 +102,14 @@ class ArgBFG9000 : ArgWeapon replaces BFG9000
 	action state Arg_A_FireBFG() {
 		// [XA] simplified function for Orange
 		A_ZoomFactor(0.90, ZOOM_INSTANT|ZOOM_NOSCALETURNING);
-		A_FireCustomMissile("ArgIveGotBallsOfSteel", 0, 1);
+		A_FireProjectile("ArgIveGotBallsOfSteel", 0, 1);
 		return A_Jump(64, "Fire2");
 	}
 }
+
+// [XA] leaving this in for warning prevention -- I'll take this out
+//      at a later date upstream once ACS gets a certain planned feature.
+class ArgBFG9000AmmoToken : ArgToken {}
 
 // classic mode
 

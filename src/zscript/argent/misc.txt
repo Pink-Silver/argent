@@ -17,7 +17,7 @@ class ArgMakeFaster : CustomInventory
     States
     {
     Pickup:
-        TNT1 A 0 A_ChangeFlag ("ALWAYSFAST", 1);
+        TNT1 A 0 { bALWAYSFAST = true; }
         Stop;
     }
 }
@@ -27,7 +27,7 @@ class ArgMakeSlower : CustomInventory
     States
     {
     Pickup:
-        TNT1 A 0 A_ChangeFlag ("ALWAYSFAST", 0);
+        TNT1 A 0 { bALWAYSFAST = false; }
         Stop;
     }
 }
@@ -37,7 +37,7 @@ class ArgMakeFullbright : CustomInventory
     States
     {
     Pickup:
-        TNT1 A 0 A_ChangeFlag ("BRIGHT", 1);
+        TNT1 A 0 { bBRIGHT = true; }
         Stop;
     }
 }
@@ -47,7 +47,7 @@ class ArgMakeUnFullbright : CustomInventory
     States
     {
     Pickup:
-        TNT1 A 0 A_ChangeFlag ("BRIGHT", 0);
+        TNT1 A 0 { bBRIGHT = false; }
         Stop;
     }
 }

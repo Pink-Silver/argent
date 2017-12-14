@@ -96,7 +96,7 @@ class ArgPistol : ArgWeapon replaces Pistol
 	 */
 	action void Arg_A_PistolFire() {
 		Arg_A_GunFlash('Flash', "weapons/pistol/fire", ARG_GF_ALTSOUND | ARG_GF_BOB);
-		A_FireBullets(1.5, 1, 1, 5, "ArgPistolPuff");
+		A_FireBullets(1.5, 1, 1, 8, "ArgPistolPuff", FBF_NORANDOM);
 	}
 	
 	/*

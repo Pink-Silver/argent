@@ -6,6 +6,10 @@
 
 class ArgZombieman : Zombieman replaces Zombieman
 {
+	Default
+	{
+		DropItem "";
+	}
 	States
 	{
 	Death:
@@ -27,6 +31,10 @@ class ArgZombieman : Zombieman replaces Zombieman
 
 class ArgShotgunGuy : ShotgunGuy replaces ShotgunGuy
 {
+	Default
+	{
+		DropItem "";
+	}
 	States
 	{
 	Death:
@@ -48,6 +56,10 @@ class ArgShotgunGuy : ShotgunGuy replaces ShotgunGuy
 
 class ArgChaingunGuy : ChaingunGuy replaces ChaingunGuy
 {
+	Default
+	{
+		DropItem "";
+	}
 	States
 	{
 	Death:
@@ -433,6 +445,7 @@ class ArgSPIDARS_AAAH_KILL_IT_WITH_FIRE : SpiderMastermind replaces SpiderMaster
 		DropItem "ArgChaingun";
 		DamageFactor "ArgPlayerRocket", 0.66;
 		DamageFactor "ArgCyberRocket" , 0.5;
+		Radius 80;
 	
 		-NORADIUSDMG
 	}
@@ -460,6 +473,10 @@ class ArgSPIDARS_AAAH_KILL_IT_WITH_FIRE : SpiderMastermind replaces SpiderMaster
 
 class ArgNazi : WolfensteinSS replaces WolfensteinSS
 {
+	Default
+	{
+		DropItem "";
+	}
 	States
 	{
 	Death:

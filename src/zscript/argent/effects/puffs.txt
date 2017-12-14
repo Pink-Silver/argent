@@ -79,6 +79,7 @@ class ArgFistPuff : ArgBulletPuff
 	Default
 	{
 		Scale 0.5;
+		DamageType "ArgFist";
 	}
 	States
 	{

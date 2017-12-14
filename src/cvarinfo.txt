@@ -8,3 +8,4 @@ server bool arg_powerupregen = false;
 server bool arg_tagweapons   = true;
 
 user bool arg_classichud = false;
+user bool arg_classicssg = false;

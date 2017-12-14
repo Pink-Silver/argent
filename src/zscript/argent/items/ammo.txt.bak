@@ -213,7 +213,7 @@ class ArgCellDropped : ArgCell
     }
 }
 
-class ArgBFGAmmoPickupDropped : ArgBFGAmmoPickup
+class ArgBFGCellDropped : ArgBFGCell
 {
     States
     {

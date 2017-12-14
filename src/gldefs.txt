@@ -76,13 +76,13 @@ pulselight BFGCELL
 	offset 0 32 0
 }
 
-object ArgBFGCell
+object ArgBFGAmmoPickup
 {
 	frame BFGCB { light BFGCELL }
 	frame BFGCC { light BFGCELL }
 }
 
-object ArgBFGCellDropped
+object ArgBFGAmmoPickupDropped
 {
 	frame BFGCB { light BFGCELL }
 	frame BFGCC { light BFGCELL }

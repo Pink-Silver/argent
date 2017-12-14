@@ -2,6 +2,8 @@ gameinfo
 {
 	playerclasses = "ArgPlayer"
 	norandomplayerclass = true
+	statusbarclass = "ArgStatusBar"
+	addeventhandlers = "ArgEventHandler"
 	intermissionmusic = "music/inter.mid"
 	titlemusic = "music/title.mid"
 	finalemusic = "music/finale.mid"
@@ -9,7 +11,7 @@ gameinfo
 
 DoomEdNums
 {
-	15000 = ArgBFGCellSpawner
+	15000 = ArgBFGAmmoPickup
 	15001 = ArgChainsawFuel
 	15002 = ArgChaingun
 	15003 = ArgGaussCannon

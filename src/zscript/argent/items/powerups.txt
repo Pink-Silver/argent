@@ -93,14 +93,11 @@ class ArgPowerQuadDamage : PowerDamage
 		+INVENTORY.ALWAYSPICKUP
 	}
 }
-
 class ArgQuadDamage : ArgPowerup
 {
 	Default
 	{
 		Inventory.PickupMessage "$ARG_GOT_QUAD";
-
-		+INVENTORY.BIGPOWERUP
 	}
 	States
 	{
@@ -129,20 +126,15 @@ class ArgPowerHasteSpeed : PowerSpeed
 		+INVENTORY.ALWAYSPICKUP
 	}
 }
-
 class ArgPowerHasteFiringSpeed : PowerDoubleFiringSpeed
 {
 	Default
 	{
-		// [XA] at the moment this doesn't really do much since the weapon
-		// animations use 1-tic animations everywhere. I'll have to come up
-		// with something more clever at some point.
 		Powerup.Duration -45;
-	
+
 		+INVENTORY.ALWAYSPICKUP
 	}
 }
-
 class ArgHaste : ArgPowerup
 {
 	Default
@@ -176,7 +168,6 @@ class ArgPowerRegen : PowerRegeneration
 		+INVENTORY.ALWAYSPICKUP
 	}
 }
-
 class ArgRegen : ArgPowerup
 {
 	Default

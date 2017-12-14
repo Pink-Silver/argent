@@ -1,6 +1,6 @@
 // --------------------------------------------------------------------------
 //
-// ARGENT: Basic Actors & Stuff
+// ARGENT: Base Actors
 //
 // --------------------------------------------------------------------------
 
@@ -139,6 +139,8 @@ class ArgRocketTrail : ArgTrail
  * maximum; also includes a special "end" value that can be set higher than
  * the max to allow for "over-max" -- this is often used in argent to control
  * a looping sound after the charge has already hit its theoretical maximum.
+ *
+ * [XA] I may deprecate and remove this, since it's pretty over-engineered.
  */
 struct ArgCounter
 {

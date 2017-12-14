@@ -1,0 +1,326 @@
+// --------------------------------------------------------------------------
+//
+// ARGENT: Status Bar
+//
+// --------------------------------------------------------------------------
+
+class ArgStatusBar : DoomStatusBar
+{
+	HUDFont ArgLargeFont;
+	HUDFont ArgSmallFont;
+	HUDFont ArgTextFont;
+
+	ArgMerch emptyMod;
+
+	const ARG_HUD_WIDTH      = 480;
+	const ARG_HUD_HEIGHT     = 360;
+	const ARG_MERCH_WIDTH    = 640;
+	const ARG_MERCH_HEIGHT   = 360;
+	const ARG_MERCH_FADETICS =   7;
+	const ARG_INV_BOXWIDTH   =  32;
+
+	int merchTic; // show modscreen menu until level.totaltime == merchTic. for fadeouts, etc.
+
+	/*
+	 * Init Fonts n' stuff.
+	 */
+	override void Init()
+	{
+		Super.Init();
+
+		self.ArgLargeFont = self.Arg_CreateFont("hudfont-large");
+		self.ArgSmallFont = self.Arg_CreateFont("hudfont-small");
+		self.ArgTextFont  = self.Arg_CreateFont("ARGFONT", false);
+		
+		self.emptyMod = new('ArgMerch');
+		self.emptyMod.tag         = "No Mods Available";
+		self.emptyMod.description = "No mods available for this weapon.";
+		self.emptyMod.pic         = "graphics/hud/mod-pic-nope.png";
+	}
+
+	/*
+	 * Create Font shortcut, for niceness' sake.
+	 */
+	HUDFont Arg_CreateFont(Font font, bool monospace = true)
+	{
+		int width = monospace ? font.getCharWidth("0") : 0;
+		return HUDFont.Create(font, width, monospace);
+	}
+
+	/*
+	 * Draw entry point. This inherits from Doom's status bar so we can show the
+	 * classic HUD if the use opts for it.
+	 */ 
+	override void Draw(int state, double TicFrac)
+	{
+		CVar cv = CVar.FindCvar("arg_classicHUD");
+		int useClassicHUD = (cv) ? cv.GetInt() : false;
+		
+		// Allow inventory usage at all times.
+		CPlayer.inventoryTics = 0;
+
+		// Classic: just pass through to Doom's base status bar drawer. 'Nuff said.
+		if(useClassicHUD) {
+			Super.Draw(state, TicFrac);
+
+		// ARGENT "Modern" Statsubar -- [TODO] make; for now, just show the classic one.
+		} else if (state == HUD_StatusBar) {
+			Super.Draw(state, TicFrac);
+
+		// ARGENT "Modern" HUD.
+		} else if (state == HUD_Fullscreen) {
+			Super.Draw(HUD_None, TicFrac); // handles crosshair n' whatnot.
+			self.DrawArgentHUD(state, ticFrac);
+		}
+
+		// Draw the mod kit UI if we're currently using the item.
+		let modkit = ArgModKit(CPlayer.mo.FindInventory("ArgModKit"));
+		if(modkit && modkit.active) {
+			// extend the mod UI's lifespan a bit
+			self.merchTic = level.totaltime + ARG_MERCH_FADETICS;
+		}
+		if(modkit && level.totaltime <= self.merchTic) {
+			// show the mod UI if it's alive
+			self.DrawArgentMerchUI(state, ticFrac, modkit);
+		}
+	}
+
+	/*
+	 * ARGENT "Modern" HUD.
+	 */
+	protected void DrawArgentHUD(int state, double TicFrac)
+	{
+		self.BeginHUD(1.0, false, ARG_HUD_WIDTH, ARG_HUD_HEIGHT);
+
+		DrawImage("graphics/hud/base-left.png" ,(  24, -62), DI_ITEM_OFFSETS);
+		DrawImage("graphics/hud/base-right.png",(-167, -62), DI_ITEM_OFFSETS);
+
+		// health
+		int health = self.CPlayer.health;
+		DrawString(self.ArgLargeFont, FormatNumber(health, 3), (64, -43), DI_TEXT_ALIGN_RIGHT);
+		DrawBar("graphics/hud/bar-health-1.png", "graphics/hud/bar-health-1x.png", health, 100, (79, -41), 0, SHADER_HORZ, DI_ITEM_OFFSETS);
+		DrawBar("graphics/hud/bar-health-2.png", "graphics/hud/bar-health-2x.png", health, 200, ( 0, -41), 0, SHADER_HORZ, DI_ITEM_OFFSETS);
+
+		// armor
+		int armor = GetArmorAmount();
+		bool hasBlueArmor = (self.GetArmorSavePercent() >= 50);
+		DrawImage(hasBlueArmor ? "graphics/hud/armor-blue.png" : "graphics/hud/armor-green.png",(68, -57), DI_ITEM_OFFSETS);
+		DrawString(self.ArgSmallFont, FormatNumber(armor, 3), (64, -55), DI_TEXT_ALIGN_RIGHT);
+		DrawBar("graphics/hud/bar-armor-1.png", "graphics/hud/bar-armor-1x.png", armor, 100, (79, -55), 0, SHADER_HORZ, DI_ITEM_OFFSETS);
+		DrawBar("graphics/hud/bar-armor-2.png", "graphics/hud/bar-armor-2x.png", armor, 200, ( 0, -55), 0, SHADER_HORZ, DI_ITEM_OFFSETS);
+
+		// ammo
+		let ammo = Ammo(GetCurrentAmmo());
+		if(ammo) {
+			DrawString(self.ArgLargeFont, FormatNumber(ammo.Amount, 3), (-96, -58), DI_TEXT_ALIGN_RIGHT);
+//			DrawInventoryIcon(ammo, (-162, -57), DI_ITEM_OFFSETS); // [TODO] this properly, instead of HUD hacks.
+			let backpack = CPlayer.mo.FindInventory("BackpackItem", true);
+			if(backpack) {
+				DrawBar("graphics/hud/bar-ammo-1a.png", "graphics/hud/bar-ammo-1xa.png", ammo.Amount, ammo.MaxAmount        , (-228, -41), 0, SHADER_HORZ | SHADER_REVERSE, DI_ITEM_OFFSETS);
+				DrawBar("graphics/hud/bar-ammo-2.png" , "graphics/hud/bar-ammo-2x.png" , ammo.Amount, ammo.BackpackMaxAmount, (-162, -41), 0, SHADER_HORZ | SHADER_REVERSE, DI_ITEM_OFFSETS);
+			} else {
+				DrawBar("graphics/hud/bar-ammo-1.png", "graphics/hud/bar-ammo-1x.png", ammo.Amount, ammo.MaxAmount, (-162, -41), 0, SHADER_HORZ | SHADER_REVERSE, DI_ITEM_OFFSETS);
+			}
+		}
+
+		// ammo icons -- [TODO] replace this legacy jank-hack with a real thing.
+		if(Clip         (GetCurrentAmmo())) { DrawImage("graphics/hud/icon-bullets.png", (-162, -57), DI_ITEM_OFFSETS); }
+		if(Shell        (GetCurrentAmmo())) { DrawImage("graphics/hud/icon-shells.png" , (-162, -57), DI_ITEM_OFFSETS); }
+		if(ArgRocketAmmo(GetCurrentAmmo())) { DrawImage("graphics/hud/icon-rockets.png", (-162, -57), DI_ITEM_OFFSETS); }
+		if(Cell         (GetCurrentAmmo())) { DrawImage("graphics/hud/icon-cells.png"  , (-162, -57), DI_ITEM_OFFSETS); }
+		if(ArgBFGAmmo   (GetCurrentAmmo())) { DrawImage("graphics/hud/icon-bfgammo.png", (-162, -57), DI_ITEM_OFFSETS); }
+
+		// [TODO] mod icons at some point -- these will sit next to the ammo icons.
+
+		// weapon icon
+		let weapon = ArgWeapon(CPlayer.ReadyWeapon);
+		if(weapon) {
+			DrawInventoryIcon(weapon, (-95, -59), DI_ITEM_OFFSETS);
+		}
+
+		// inventory n' equipment
+		DrawArgentInventory((-204, -46), 3, DI_ITEM_OFFSETS);
+
+		// keys -- uggo copypasta since I guess that's how we do this now
+		Vector2 keypos = (28, -71);
+		for(let i = CPlayer.mo.Inv; i != null; i = i.Inv) {
+			if (i is "Key" && i.Icon.IsValid()) {
+				DrawTexture(i.Icon, keypos, DI_ITEM_OFFSETS);
+				Vector2 size = TexMan.GetScaledSize(i.Icon);
+				keypos.X += size.X + 2;
+			}
+		}
+	}
+
+	/*
+	 * ARGENT Inventory Bar
+	 */
+	protected void DrawArgentInventory(Vector2 position, int numfields, int flags = 0)
+	{
+		Vector2 boxofs  = (ARG_INV_BOXWIDTH, 0);
+		Vector2 itemPos = position;
+		Vector2 numPos  = itemPos + boxofs + (3, 15); // TODO constant-ify this
+
+		// start at selected inventory, then draw the rest in order until we run out.
+		Inventory item = CPlayer.mo.InvSel;
+		Inventory firstInv = CPlayer.mo.FirstInv();
+		float iconAlpha = 1.0;
+
+		// draw up to 'numfields' inventory items, or until we run out of 'em.
+		for(int i = 0; item && i < numfields; i++) {
+
+			// show the inventory amount and (if we've got a piece of equipment
+			// selected) the recharge meter via fancy box graphic-ness.
+			if(item == CPlayer.mo.InvSel) {
+				let equipment = ArgEquipment(item);
+				if(!equipment) {
+					DrawImage("graphics/hud/equip-box-selected.png" ,itemPos, flags);
+				} else if (equipment.Amount < equipment.rechargeAmount) {
+					DrawBar("graphics/hud/equip-box-maxed.png", "graphics/hud/equip-box.png", equipment.rechargeTics, equipment.Arg_RechargeDelayTics(), itemPos, 0, SHADER_VERT | SHADER_REVERSE, flags);
+				} else {
+					DrawImage("graphics/hud/equip-box-maxed.png" ,itemPos, flags);
+				}
+				DrawString(self.ArgSmallFont, FormatNumber(item.Amount, 3), numPos, DI_TEXT_ALIGN_RIGHT);
+
+			} else {
+				// draw a regular ol' box for non-selected inventory.
+				DrawImage("graphics/hud/equip-box.png" ,itemPos, flags);
+				iconAlpha = 0.5;
+			}
+
+			// drawl it
+			DrawInventoryIcon(item, itemPos, flags, iconAlpha);
+
+			// now cycle forward and draw the next item.
+			// if we hit the 'end' of the inventory chain, loop around.
+			item = item.NextInv();
+			if(!item) {
+				item = firstInv;
+			}
+			itemPos = itemPos - boxofs;
+
+			// if we're back at the start (selected inventory) again, abort
+			// early so we don't draw a duplicate.
+			if(item == CPlayer.mo.InvSel) {
+				item = null;
+			}
+		}
+	}
+
+	/*
+	 * ARGENT Merch (Mod-Kit) Interface
+	 */
+	protected void DrawArgentMerchUI(int state, double ticFrac, ArgModKit modkit)
+	{
+		self.BeginHUD(1.0, false, ARG_MERCH_WIDTH, ARG_MERCH_HEIGHT);
+
+		// set virtual offsets
+		let scalevec = GetHUDScale();
+		int scale = int(scalevec.X);
+		int vwidth = screen.GetWidth() / scale;
+		int vheight = screen.GetHeight() / scale;
+
+		Vector2 oldDrawOffset = self.drawOffset;
+		self.drawOffset = ((vwidth-ARG_MERCH_WIDTH)/2, (vheight-ARG_MERCH_HEIGHT)/2);
+
+		// determine translucency by lerping merchTic-level.totaltime (for fadeout effect)
+		double alpha = clamp(0.0, (self.merchTic - level.totaltime - TicFrac + 1) / double(ARG_MERCH_FADETICS), 1.0);
+
+		// figure out if we've got a moddable weapon; we'll need that later.
+		let modWeapon = ArgModWeapon(CPlayer.ReadyWeapon);
+		
+		// either show the selected merch or mods, depending on what page we're on.
+		if(modkit.merchPage > 0) {
+			// draw merch panels
+			ArgMerch leftMerch  = modkit.common.MerchForPage(modkit.merchPage, 1);
+			ArgMerch rightMerch = modkit.common.MerchForPage(modkit.merchPage, 2);
+			if(rightMerch) {
+				self.DrawArgentMerchPanel(  0, leftMerch , "+attack"   , alpha);
+				self.DrawArgentMerchPanel(320, rightMerch, "+altattack", alpha);
+			} else if (leftMerch) {
+				self.DrawArgentMerchPanel(160, leftMerch , "+attack"   , alpha);
+			}
+
+		} else if(modWeapon) {
+			// draw mod panels, allowing for selection and stuff.
+			self.DrawArgentMerchPanel(  0, modWeapon.mod1, "+attack"   , alpha);
+			self.DrawArgentMerchPanel(320, modWeapon.mod2, "+altattack", alpha);
+
+		} else {
+			// weapon isn't moddable; display this onscreen.
+			self.DrawArgentMerchPanel(160, self.emptyMod, "", alpha);
+		}
+
+		// Draw footer with instructions n' such.
+		self.DrawArgentMerchFooter("Switch weapons to browse mods.", "Press '" .. self.GetKeyName("+use") .. "' to exit.", alpha);
+		
+		// Also draw a header because those are cool too.
+		int currentPage = modkit.merchPage + 1;
+		int pageCount = modkit.common.MerchPageCount() + 1;
+		self.DrawArgentMerchHeader("Page " .. currentPage .." of " .. pageCount ..".", "Press '" .. self.GetKeyName("+reload") .. "' to cycle pages.", alpha);
+
+		// clear virtual offset
+		self.drawOffset = oldDrawOffset;
+	}
+
+	protected void DrawArgentMerchPanel(int x, ArgMerch merch, string key, double alpha)
+	{
+		// determine text color & installation instructions
+		string instructions = "";
+		int textColor = Font.CR_UNTRANSLATED;
+		double picAlpha = 1.0;
+
+		// grey out the box if we're maxed out.
+		let mod = ArgMod(merch);
+		let equipment = ArgEquipment(CPlayer.mo.FindInventory(merch.giveclass));
+
+		if(mod && mod.enabled) {
+			instructions = "This mod is already installed.";
+			textColor = Font.CR_BLACK;
+			picAlpha = 0.333;
+
+		} else if (equipment && equipment.rechargeAmount == equipment.MaxAmount) {
+			instructions = "This item is already maxed out.";
+			textColor = Font.CR_BLACK;
+			picAlpha = 0.333;
+
+		} else if (key != "") {
+			instructions = "'" .. self.GetKeyName(key) .. "' to " .. (mod ? "install" : "purchase");
+		}
+
+		// draw background n' icon
+		DrawImage("graphics/hud/mod-base.png" ,(x, 0), DI_ITEM_OFFSETS, alpha);
+		DrawImage(merch.pic,(x + 160, 136), DI_ITEM_CENTER, picAlpha * alpha);
+
+		// draw some strings, because we support that theory i guess
+		DrawString(self.ArgTextFont, merch.tag        , (x + 160,  58), DI_ITEM_HCENTER|DI_TEXT_ALIGN_CENTER, textColor  , alpha);
+		DrawString(self.ArgTextFont, merch.description, (x + 160, 202), DI_ITEM_HCENTER|DI_TEXT_ALIGN_CENTER, textColor  , alpha, 320);
+		DrawString(self.ArgTextFont, instructions     , (x + 160, 292), DI_ITEM_HCENTER|DI_TEXT_ALIGN_CENTER, Font.CR_RED, alpha);
+	}
+
+	protected void DrawArgentMerchHeader(string text1, string text2, double alpha)
+	{
+		// dynamite headdy box
+		DrawImage("graphics/hud/mod-header.png" ,(320, 0), DI_ITEM_HCENTER|DI_ITEM_VOFFSET, alpha);
+		DrawString(self.ArgTextFont, text1, (320, 6 ), DI_ITEM_HCENTER|DI_TEXT_ALIGN_CENTER, Font.CR_GOLD, alpha);
+		DrawString(self.ArgTextFont, text2, (320, 22), DI_ITEM_HCENTER|DI_TEXT_ALIGN_CENTER, Font.CR_RED , alpha);
+	}
+
+	protected void DrawArgentMerchFooter(string text1, string text2, double alpha)
+	{
+		// australian rules footy box
+		DrawImage("graphics/hud/mod-footer.png" ,(320, 318), DI_ITEM_HCENTER|DI_ITEM_VOFFSET, alpha);
+		DrawString(self.ArgTextFont, text1, (320, 324), DI_ITEM_HCENTER|DI_TEXT_ALIGN_CENTER, Font.CR_UNTRANSLATED, alpha);
+		DrawString(self.ArgTextFont, text2, (320, 340), DI_ITEM_HCENTER|DI_TEXT_ALIGN_CENTER, Font.CR_RED         , alpha);
+	}
+
+	/*
+	 * Quick function to get a key name from a command.
+	 */
+	protected string GetKeyName(string command)
+	{
+		int k1, k2;
+		[k1, k2] = Bindings.GetKeysForCommand(command);
+		return KeyBindings.NameKeys(k1, k2);
+	}
+}
